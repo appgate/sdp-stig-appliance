@@ -1,0 +1,37 @@
+#!/bin/bash
+
+#load shared vars
+BASE_DIR="$(cd "$(dirname "$0")"; pwd)";
+source "${BASE_DIR}/data/settings.config"
+
+os_ver=$(grep "^PRETTY_NAME=\"${expected_os}\"" /etc/os-release)
+if [ -z "$os_ver" ]; then
+	echo "${error_message}"
+	exit 1
+fi
+
+#https://www.stigviewer.com/stig/canonical_ubuntu_18.04_lts/2021-06-16/finding/V-219212 
+systemctl mask ctrl-alt-del.target
+systemctl daemon-reload
+
+#https://www.stigviewer.com/stig/canonical_ubuntu_18.04_lts/2021-06-16/finding/V-219156
+cat > /etc/apt/apt.conf.d/50unattended-upgrades <<- EOM
+Unattended-Upgrade::Remove-Unused-Dependencies "true";
+Unattended-Upgrade::Remove-Unused-Kernel-Packages "true";
+EOM
+
+#https://www.stigviewer.com/stig/canonical_ubuntu_18.04_lts/2021-06-16/finding/V-219181
+echo minlen=15 > /etc/security/pwquality.conf
+
+#https://www.stigviewer.com/stig/canonical_ubuntu_18.04_lts/2021-06-16/finding/V-219184
+echo dictcheck=1 >> /etc/security/pwquality.conf
+
+#https://www.stigviewer.com/stig/canonical_ubuntu_18.04_lts/2021-06-16/finding/V-219303
+sed -i "s:1800:900:g" /etc/profile.d/autologout.sh
+
+#https://www.stigviewer.com/stig/canonical_ubuntu_18.04_lts/2021-06-16/finding/V-219328
+sed -i "s:K 027:K 077:g" /etc/login.defs
+
+#https://www.stigviewer.com/stig/canonical_ubuntu_18.04_lts/2021-06-16/finding/V-219339
+echo install usb-storage /bin/true > /etc/modprobe.d/DISASTIG.conf
+echo blacklist usb-storage >> /etc/modprobe.d/DISASTIG.conf
