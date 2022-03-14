@@ -10,28 +10,86 @@ if [ -z "$os_ver" ]; then
 	exit 1
 fi
 
-#https://www.stigviewer.com/stig/canonical_ubuntu_18.04_lts/2021-06-16/finding/V-219212 
+# https://www.stigviewer.com/stig/canonical_ubuntu_18.04_lts/2021-06-16/finding/V-219156
+cat << E0F > /etc/apt/apt.conf.d/50unattended-upgrades 
+Unattended-Upgrade::Remove-Unused-Dependencies "true";
+Unattended-Upgrade::Remove-Unused-Kernel-Packages "true";
+E0F
+
+# https://www.stigviewer.com/stig/canonical_ubuntu_18.04_lts/2021-06-16/finding/V-219170
+cat << E0F > /etc/issue
+You are accessing a U.S. Government (USG) Information System (IS) that is provided for USG-authorized use only.
+
+By using this IS (which includes any device attached to this IS), you consent to the following conditions:
+
+-The USG routinely intercepts and monitors communications on this IS for purposes including, but not limited to, penetration testing, COMSEC monitoring, network operations and defense, personnel misconduct (PM), law enforcement (LE), and counterintelligence (CI) investigations.
+
+-At any time, the USG may inspect and seize data stored on this IS.
+
+-Communications using, or data stored on, this IS are not private, are subject to routine monitoring, interception, and search, and may be disclosed or used for any USG-authorized purpose.
+
+-This IS includes security measures (e.g., authentication and access controls) to protect USG interests--not for your personal benefit or privacy.
+
+-Notwithstanding the above, using this IS does not constitute consent to PM, LE or CI investigative searching or monitoring of the content of privileged communications, or work product, related to personal representation or services by attorneys, psychotherapists, or clergy, and their assistants. Such communications and work product are private and confidential. See User Agreement for details.
+E0F
+cp /etc/issue /etc/issue.net
+
+# https://www.stigviewer.com/stig/canonical_ubuntu_18.04_lts/2021-11-29/finding/V-219172
+echo ucredit=-1 > /etc/security/pwquality.conf
+
+# https://www.stigviewer.com/stig/canonical_ubuntu_18.04_lts/2021-11-29/finding/V-219173
+echo lcredit=-1 >> /etc/security/pwquality.conf
+
+# https://www.stigviewer.com/stig/canonical_ubuntu_18.04_lts/2021-11-29/finding/V-219174
+echo dcredit=-1 >> /etc/security/pwquality.conf
+
+# https://www.stigviewer.com/stig/canonical_ubuntu_18.04_lts/2021-11-29/finding/V-219175
+echo difok=8 >> /etc/security/pwquality.conf
+
+# https://www.stigviewer.com/stig/canonical_ubuntu_18.04_lts/2021-11-29/finding/V-219178
+sed 's/^PASS_MIN_DAYS.*/PASS_MIN_DAYS 1/g' -i /etc/login.defs
+
+# https://www.stigviewer.com/stig/canonical_ubuntu_18.04_lts/2021-11-29/finding/V-219179
+sed 's/^PASS_MAX_DAYS.*/PASS_MAX_DAYS 60/g' -i /etc/login.defs
+
+# https://www.stigviewer.com/stig/canonical_ubuntu_18.04_lts/2021-06-16/finding/V-219181
+echo minlen=15 >> /etc/security/pwquality.conf
+
+# https://www.stigviewer.com/stig/canonical_ubuntu_18.04_lts/2021-06-16/finding/V-219184
+echo dictcheck=1 >> /etc/security/pwquality.conf
+
+# https://www.stigviewer.com/stig/canonical_ubuntu_18.04_lts/2021-06-16/finding/V-219212 
 systemctl mask ctrl-alt-del.target
 systemctl daemon-reload
 
-#https://www.stigviewer.com/stig/canonical_ubuntu_18.04_lts/2021-06-16/finding/V-219156
-cat > /etc/apt/apt.conf.d/50unattended-upgrades <<- EOM
-Unattended-Upgrade::Remove-Unused-Dependencies "true";
-Unattended-Upgrade::Remove-Unused-Kernel-Packages "true";
-EOM
-
-#https://www.stigviewer.com/stig/canonical_ubuntu_18.04_lts/2021-06-16/finding/V-219181
-echo minlen=15 > /etc/security/pwquality.conf
-
-#https://www.stigviewer.com/stig/canonical_ubuntu_18.04_lts/2021-06-16/finding/V-219184
-echo dictcheck=1 >> /etc/security/pwquality.conf
-
-#https://www.stigviewer.com/stig/canonical_ubuntu_18.04_lts/2021-06-16/finding/V-219303
+# https://www.stigviewer.com/stig/canonical_ubuntu_18.04_lts/2021-06-16/finding/V-219303
 sed -i "s:1800:900:g" /etc/profile.d/autologout.sh
 
-#https://www.stigviewer.com/stig/canonical_ubuntu_18.04_lts/2021-06-16/finding/V-219328
+# https://www.stigviewer.com/stig/canonical_ubuntu_18.04_lts/2021-11-29/finding/V-219307
+# THIS SETTING DECREASES SECURITY by removing GCM ciphers
+sed 's/^Ciphers.*/Ciphers aes256-ctr,aes192-ctr,aes128-ctr/g' -i /etc/ssh/sshd_config
+
+# https://www.stigviewer.com/stig/canonical_ubuntu_18.04_lts/2021-11-29/finding/V-219309
+sed 's/^UsePAM.*/UsePAM yes/g' -i /etc/ssh/sshd_config
+
+# https://www.stigviewer.com/stig/canonical_ubuntu_18.04_lts/2021-11-29/finding/V-219310
+# THIS SETTING DECREASES SECURITY by increasing count from 0 to 1
+sed 's/^ClientAliveCountMax.*/ClientAliveCountMax 1/g' -i /etc/ssh/sshd_config
+
+# https://www.stigviewer.com/stig/canonical_ubuntu_18.04_lts/2021-11-29/finding/V-219311
+# THIS SETTING DECREASES SECURITY by increasing auto-logout time from 3 minutes to 5 minutes
+sed 's/^ClientAliveInterval.*/ClientAliveInterval 600/g' -i /etc/ssh/sshd_config
+
+# https://www.stigviewer.com/stig/canonical_ubuntu_18.04_lts/2021-11-29/finding/V-219312
+# THIS SETTING DECREASES SECURITY
+sed 's/^MACs.*/MACs hmac-sha2-512,hmac-sha2-256/g' -i /etc/ssh/sshd_config
+
+# https://www.stigviewer.com/stig/canonical_ubuntu_18.04_lts/2021-06-16/finding/V-219328
 sed -i "s:K 027:K 077:g" /etc/login.defs
 
-#https://www.stigviewer.com/stig/canonical_ubuntu_18.04_lts/2021-06-16/finding/V-219339
+# https://www.stigviewer.com/stig/canonical_ubuntu_18.04_lts/2021-06-16/finding/V-219339
 echo install usb-storage /bin/true > /etc/modprobe.d/DISASTIG.conf
 echo blacklist usb-storage >> /etc/modprobe.d/DISASTIG.conf
+
+# Restart sshd to have changes take effect
+systemctl restart sshd
