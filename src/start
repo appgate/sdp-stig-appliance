@@ -23,6 +23,7 @@ cp "$BASE_DIR/10-base-config.rules" /etc/audit/rules.d/
 cp "$BASE_DIR/30-stig.rules" /etc/audit/rules.d/
 cp "$BASE_DIR/99-finalize.rules" /etc/audit/rules.d/
 apt update
+# V-238298 install auditd
 apt install -y auditd
 
 
