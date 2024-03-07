@@ -22,9 +22,16 @@ mkdir -p /etc/audit/rules.d/
 cp "$BASE_DIR/10-base-config.rules" /etc/audit/rules.d/
 cp "$BASE_DIR/30-stig.rules" /etc/audit/rules.d/
 cp "$BASE_DIR/99-finalize.rules" /etc/audit/rules.d/
-apt update
-# V-238298 install auditd
-apt install -y auditd
+
+if dpkg -l | grep \ auditd\  > /dev/null ; then
+    # If auditd is installed it is disabled by default
+    touch /etc/cz_stig
+    service auditd start
+else
+    apt update
+    # V-238298 install auditd
+    apt install -y auditd
+fi
 
 # V-238208
 # Require password for sudo, only if cz has a password set
