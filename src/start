@@ -19,6 +19,7 @@ while [[ $status == "busy" ]]; do
 done
 
 mkdir -p /etc/audit/rules.d/
+echo "" > /etc/audit/rules.d/audit.rules
 cp "$BASE_DIR/data/10-base-config.rules" /etc/audit/rules.d/
 cp "$BASE_DIR/data/30-stig.rules" /etc/audit/rules.d/
 cp "$BASE_DIR/data/99-finalize.rules" /etc/audit/rules.d/
