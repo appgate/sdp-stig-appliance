@@ -23,6 +23,9 @@ cp "$BASE_DIR/data/10-base-config.rules" /etc/audit/rules.d/
 cp "$BASE_DIR/data/30-stig.rules" /etc/audit/rules.d/
 cp "$BASE_DIR/data/99-finalize.rules" /etc/audit/rules.d/
 
+# V-238249
+chmod -R 0640 /etc/audit/audit*.{rules,conf} /etc/audit/rules.d/*
+
 if dpkg -l | grep \ auditd\  > /dev/null ; then
     # If auditd is installed it is disabled by default
     touch /etc/cz_stig
