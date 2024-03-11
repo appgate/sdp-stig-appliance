@@ -43,6 +43,11 @@ if grep '^cz:\$' < /etc/shadow > /dev/null; then
     sed -i "s/NOPASSWD://g" /etc/sudoers
 fi
 
+# V-238201
+# FIXME we don't use smart card authentication
+mkdir -p /etc/pam_pkcs11/
+echo "use_mappers=pwent" > /etc/pam_pkcs11/pam_pkcs11.conf
+
 # V-238337
 chmod o-r /var/log/* /var/log/apt/*
 
