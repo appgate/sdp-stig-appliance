@@ -96,13 +96,33 @@ systemctl reload sshd.service
 #Consent Banner before granting access to the operating system via an SSH logon
 echo "$dod_consent_banner" > /etc/issue.net
 
+#https://www.stigviewer.com/stig/canonical_ubuntu_20.04_lts/2022-09-07/finding/V-238221
+echo "ucredit=-1" >> /etc/security/pwquality.conf
+
+#https://www.stigviewer.com/stig/canonical_ubuntu_20.04_lts/2022-09-07/finding/V-238222
+echo "lcredit=-1" >> /etc/security/pwquality.conf
+
+#https://www.stigviewer.com/stig/canonical_ubuntu_20.04_lts/2022-09-07/finding/V-238223
+echo "dcredit=-1" >> /etc/security/pwquality.conf
+
+#https://www.stigviewer.com/stig/canonical_ubuntu_20.04_lts/2022-09-07/finding/V-238224
+echo "difok=8" >> /etc/security/pwquality.conf
+
 #https://www.stigviewer.com/stig/canonical_ubuntu_20.04_lts/2022-09-07/finding/V-238225
 #Verify the pwquality configuration file enforces a minimum 15-character password length
-echo minlen=15 > /etc/security/pwquality.conf
+echo minlen=15 >> /etc/security/pwquality.conf
+
+#https://www.stigviewer.com/stig/canonical_ubuntu_20.04_lts/2022-09-07/finding/V-238226
+echo "ocredit=-1" >> /etc/security/pwquality.conf
+
 
 #https://www.stigviewer.com/stig/canonical_ubuntu_20.04_lts/2022-09-07/finding/V-238227
 #Verify the Ubuntu operating system uses the "cracklib" library to prevent the use of dictionary words
 echo dictcheck=1 >> /etc/security/pwquality.conf
+
+#https://www.stigviewer.com/stig/canonical_ubuntu_20.04_lts/2022-09-07/finding/V-238228
+echo enforcing=1 >> /etc/security/pwquality.conf
+echo "password requisite pam_pwquality.so retry=3" >> /etc/pam.d/common-password
 
 #https://www.stigviewer.com/stig/canonical_ubuntu_20.04_lts/2022-09-07/finding/V-238370
 #Verify is configured to remove all software components after updated versions have been installed
