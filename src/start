@@ -34,7 +34,7 @@ if dpkg -l | grep \ auditd\  > /dev/null ; then
 else
     apt update
     # V-238298 install auditd
-    apt install -y auditd
+    apt install -o DPkg::Options::="--force-confold" -y auditd
 fi
 
 # V-238208
