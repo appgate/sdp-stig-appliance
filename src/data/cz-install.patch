@@ -1,0 +1,33 @@
+diff --git a/cz-install b/cz-install
+index 175c96153..03cf305ca 100755
+--- a/cz-install
++++ b/cz-install
+@@ -808,8 +808,27 @@ def bootmenu_func(args):
+         log_debug(menu)
+         grubcfg = os.path.join(boot_dir, 'grub', 'grub.cfg')
+         log_info('Writing GRUB2 menu on %s...' % grubcfg)
++
+         with open(grubcfg, mode='wt') as f: # type: ignore
+-            f.write(menu) # type: ignore
++            f.write('\n'.join(secure_grub(menu.split('\n')))) # type: ignore
++
++
++def secure_grub(content):
++    has_superusers = False
++
++    for line, i in enumerate(content):
++        if i == 'set superusers=""':
++            has_superusers == True
++            continue
++
++        if i.startswith('menuentry') and '--unrestricted' not in i and i.strip().endswith('{'):
++            index = i.index('{')
++            content[line] = i[0:index] + ' --unrestricted ' + i[index:]
++
++    if not has_superusers:
++        content.insert(0, 'set superusers=""')
++
++    return content
+
+
+ def deactivate_func(args):
