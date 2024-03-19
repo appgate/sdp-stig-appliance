@@ -18,6 +18,15 @@ while [[ $status == "busy" ]]; do
 	status=$(cz-config status | jq -r .roles.appliance.status)
 done
 
+# V-238204
+pushd /usr/sbin
+if ! test -e .patched_cz_install; then
+    patch -p1 < "$BASE_DIR/data/cz-install.patch"
+    touch .patched_cz_install
+fi
+popd
+cz-install bootmenu `cat /mnt/state/volume-number`
+
 mkdir -p /etc/audit/rules.d/
 echo "" > /etc/audit/rules.d/audit.rules
 cp "$BASE_DIR/data/10-base-config.rules" /etc/audit/rules.d/
