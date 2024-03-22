@@ -146,3 +146,6 @@ blacklist usb-storage
 install usb-storage /bin/true
 EOM
 chmod 644 /etc/modprobe.d/blacklist-usb.conf
+if  ! cz-config get kernel/cmdlineOptions | grep module_blacklist=usb_storage > /dev/null; then
+    cz-config set kernel/cmdlineOptions "$(cz-config get kernel/cmdlineOptions) module_blacklist=usb_storage"
+fi
