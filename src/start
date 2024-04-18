@@ -133,6 +133,12 @@ echo dictcheck=1 >> /etc/security/pwquality.conf
 echo enforcing=1 >> /etc/security/pwquality.conf
 echo "password requisite pam_pwquality.so retry=3" >> /etc/pam.d/common-password
 
+if ! dpkg -l | grep libpam-pwquality > /dev/null ; then
+    apt update
+    # V-238228 install libpam-pwquality
+    apt install -o DPkg::Options::="--force-confold" -y libpam-pwquality
+fi
+
 #https://www.stigviewer.com/stig/canonical_ubuntu_20.04_lts/2022-09-07/finding/V-238370
 #Verify is configured to remove all software components after updated versions have been installed
 cat > /etc/apt/apt.conf.d/50unattended-upgrades <<- EOM
