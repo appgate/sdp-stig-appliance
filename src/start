@@ -39,12 +39,16 @@ chmod -R 0640 /etc/audit/audit*.{rules,conf} /etc/audit/rules.d/*
 if dpkg -l | grep \ auditd\  > /dev/null ; then
     # If auditd is installed it is disabled by default
     touch /etc/cz_stig
-    service auditd start
 else
     apt update
     # V-238298 install auditd
     apt install -o DPkg::Options::="--force-confold" -y auditd
 fi
+
+# V-238244
+sed -i "s/disk_full_action = SUSPEND/disk_full_action = HALT/g" /etc/audit/auditd.conf
+sed -i "s/disk_error_action = SUSPEND/disk_error_action = HALT/g" /etc/audit/auditd.conf
+service auditd restart
 
 # V-238208
 # Require password for sudo, only if cz has a password set
