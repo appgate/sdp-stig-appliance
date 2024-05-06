@@ -83,12 +83,6 @@ sed -i "s:UMASK.*:UMASK 077:g" /etc/login.defs
 #after a period of inactivity.
 sed -i "s:ClientAliveCountMax 0:ClientAliveCountMax 1:g" /etc/ssh/sshd_config
 
-#https://www.stigviewer.com/stig/canonical_ubuntu_20.04_lts/2022-09-07/finding/V-238213
-#Verify that all network connections associated with SSH traffic are automatically
-#terminated at the end of the session or after 10 minutes of inactivity.
-#This increases the timeout from the default of 3 minutes to 10 minutes
-sed -i "s:ClientAliveInterval 180:ClientAliveInterval 600:g" /etc/ssh/sshd_config
-
 #https://www.stigviewer.com/stig/canonical_ubuntu_20.04_lts/2022-09-07/finding/V-238216
 #Verify the SSH daemon is configured to only use MACs that employ FIPS 140-2 approved ciphers
 sed -i "s:MACs .*:MACs hmac-sha2-512,hmac-sha2-256:g" /etc/ssh/sshd_config
