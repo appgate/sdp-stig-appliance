@@ -1,7 +1,7 @@
 # sdp-stig-appliance
 
 ## Description:
-Written to apply STIG related configuration changes for the Appgate appliances using an [appliance customization](https://sdphelp.appgate.com/adminguide/appliance-customization-configure.html). 
+Written to apply STIG related configuration changes for the Appgate appliances using an [appliance customization](https://sdphelp.appgate.com/adminguide/appliance-customizations-configure.html). 
 
 ## Usage:
 - Navigate to the Appgate admin portal
