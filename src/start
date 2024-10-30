@@ -62,9 +62,6 @@ fi
 mkdir -p /etc/pam_pkcs11/
 echo "use_mappers=pwent" > /etc/pam_pkcs11/pam_pkcs11.conf
 
-# V-238373
-sed  -i '1i session required pam_lastlog.so showfailed' /etc/pam.d/login
-
 #https://www.stigviewer.com/stig/canonical_ubuntu_20.04_lts/2022-09-07/finding/V-238207
 #Verify the operating system automatically terminates a user session after inactivity timeouts have expired.
 #This decreases timeout from 20 minutes to 10 minutes
@@ -160,6 +157,9 @@ cat > /etc/apt/apt.conf.d/50unattended-upgrades <<- EOM
 Unattended-Upgrade::Remove-Unused-Dependencies "true";
 Unattended-Upgrade::Remove-Unused-Kernel-Packages "true";
 EOM
+
+# V-238373
+sed  -i '1i session required pam_lastlog.so showfailed' /etc/pam.d/login
 
 # V-251504 - The Ubuntu operating system must not allow accounts configured 
 # with blank or null passwords
