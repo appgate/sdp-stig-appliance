@@ -65,10 +65,6 @@ echo "use_mappers=pwent" > /etc/pam_pkcs11/pam_pkcs11.conf
 # V-238373
 sed  -i '1i session required pam_lastlog.so showfailed' /etc/pam.d/login
 
-
-# V-238337
-chmod o-r /var/log/* /var/log/apt/*
-
 #https://www.stigviewer.com/stig/canonical_ubuntu_20.04_lts/2022-09-07/finding/V-238207
 #Verify the operating system automatically terminates a user session after inactivity timeouts have expired.
 #This decreases timeout from 20 minutes to 10 minutes
@@ -152,6 +148,11 @@ echo "auth    required                        pam_faildelay.so delay=4000000" >>
 # V-238323 - The Ubuntu operating system must limit the number of concurrent 
 # sessions to ten for all accounts and/or account types.
 echo '* hard maxlogins 10' >> /etc/security/limits.conf
+
+# V-238337 - The Ubuntu operating system must generate error messages that 
+# provide information necessary for corrective actions without revealing 
+# information that could be exploited by adversaries.
+chmod o-r /var/log/* /var/log/apt/*
 
 #https://www.stigviewer.com/stig/canonical_ubuntu_20.04_lts/2022-09-07/finding/V-238370
 #Verify is configured to remove all software components after updated versions have been installed
