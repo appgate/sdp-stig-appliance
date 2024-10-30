@@ -1,6 +1,6 @@
 #!/bin/bash
-# Updated 2023-09-26 for Appgate 6.2.2 scanned with
-# Ubuntu 20.04 LTS STIG for Ansible - Ver 1, Rel 9 released 2023-07-20
+# Updated 2024-10-30 for Appgate 6.3.5 scanned with
+# Canonical Ubuntu 20.04 LTS STIG SCAP Benchmark Release: 1.10 Benchmark Date: 24 Jul 2024
 #load shared vars
 BASE_DIR="$(cd "$(dirname "$0")"; pwd)";
 source "${BASE_DIR}/data/settings.config"
