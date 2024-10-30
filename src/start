@@ -146,7 +146,11 @@ echo "password requisite pam_pwquality.so retry=3" >> /etc/pam.d/common-password
 
 # V-238237 - The Ubuntu operating system must enforce a delay of at least 4 
 # seconds between logon prompts following a failed logon attempt.
+echo "auth    required                        pam_faildelay.so delay=4000000" >> /etc/pam.d/common-auth
 
+# V-238323 - The Ubuntu operating system must limit the number of concurrent 
+# sessions to ten for all accounts and/or account types.
+echo '* hard maxlogins 10' >> /etc/security/limits.conf
 
 #https://www.stigviewer.com/stig/canonical_ubuntu_20.04_lts/2022-09-07/finding/V-238370
 #Verify is configured to remove all software components after updated versions have been installed
