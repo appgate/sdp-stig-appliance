@@ -78,6 +78,11 @@ sed -i "s:TMOUT=1800:TMOUT=600:g" /etc/profile.d/autologout.sh
 #users in such a way that the user can read and modify only their own files.
 sed -i "s:UMASK.*:UMASK 077:g" /etc/login.defs
 
+# V-238202 - The Ubuntu operating system must enforce 24 hours/1 day as the 
+# minimum password lifetime. Passwords for new users must have a 
+# 24 hours/1 day minimum password lifetime restriction.
+sed -i 's/^PASS_MIN_DAYS\s*0$/PASS_MIN_DAYS   1/g' /etc/login.defs
+
 #https://www.stigviewer.com/stig/canonical_ubuntu_20.04_lts/2022-09-07/finding/V-238212
 #Verify that all network connections associated with SSH traffic automatically terminate
 #after a period of inactivity.
@@ -145,6 +150,10 @@ cat > /etc/apt/apt.conf.d/50unattended-upgrades <<- EOM
 Unattended-Upgrade::Remove-Unused-Dependencies "true";
 Unattended-Upgrade::Remove-Unused-Kernel-Packages "true";
 EOM
+
+# V-251504 - The Ubuntu operating system must not allow accounts configured 
+# with blank or null passwords
+sed -i /s/nullok//g' /etc/pam.d/common-auth
 
 #https://www.stigviewer.com/stig/canonical_ubuntu_20.04_lts/2022-09-07/finding/V-251505
 cat > /etc/modprobe.d/blacklist-usb.conf <<- EOM
