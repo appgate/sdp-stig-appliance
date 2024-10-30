@@ -1,6 +1,8 @@
 #!/bin/bash
-# Updated 2024-10-30 for Appgate 6.3.5 scanned with
+# Updated 2024-10-30 for Appgate 6.3.5 scanned with SCAP Compliance Checker 5.8 using
 # Canonical Ubuntu 20.04 LTS STIG SCAP Benchmark Version 2 Release 1 Benchmark Date: 24 Oct 2024
+# Expected STIG compliance with this customization is 83.49%
+# Several false positives are expected and should be resolve via manual checks
 
 #load shared vars
 BASE_DIR="$(cd "$(dirname "$0")"; pwd)";
