@@ -144,6 +144,10 @@ echo dictcheck=1 >> /etc/security/pwquality.conf
 echo enforcing=1 >> /etc/security/pwquality.conf
 echo "password requisite pam_pwquality.so retry=3" >> /etc/pam.d/common-password
 
+# V-238237 - The Ubuntu operating system must enforce a delay of at least 4 
+# seconds between logon prompts following a failed logon attempt.
+
+
 #https://www.stigviewer.com/stig/canonical_ubuntu_20.04_lts/2022-09-07/finding/V-238370
 #Verify is configured to remove all software components after updated versions have been installed
 cat > /etc/apt/apt.conf.d/50unattended-upgrades <<- EOM
@@ -153,7 +157,7 @@ EOM
 
 # V-251504 - The Ubuntu operating system must not allow accounts configured 
 # with blank or null passwords
-sed -i /s/nullok//g' /etc/pam.d/common-auth
+sed -i 's/nullok//g' /etc/pam.d/common-auth
 
 #https://www.stigviewer.com/stig/canonical_ubuntu_20.04_lts/2022-09-07/finding/V-251505
 cat > /etc/modprobe.d/blacklist-usb.conf <<- EOM
