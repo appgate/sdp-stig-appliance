@@ -18,7 +18,7 @@ while [[ $status == "busy" ]]; do
 	status=$(cz-config status | jq -r .roles.appliance.status)
 done
 
-# V-238204
+# V-238204 V-260470
 pushd /usr/sbin
 if ! test -e .patched_cz_install; then
     patch -p1 < "$BASE_DIR/data/cz-install.patch"
