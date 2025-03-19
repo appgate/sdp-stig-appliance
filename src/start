@@ -18,7 +18,7 @@ while [[ $status == "busy" ]]; do
 	status=$(cz-config status | jq -r .roles.appliance.status)
 done
 
-# V-238204
+# V-238204 V-260470
 pushd /usr/sbin
 if ! test -e .patched_cz_install; then
     patch -p1 < "$BASE_DIR/data/cz-install.patch"
@@ -152,4 +152,10 @@ EOM
 chmod 644 /etc/modprobe.d/blacklist-usb.conf
 if  ! cz-config get kernel/cmdlineOptions | grep module_blacklist=usb_storage > /dev/null; then
     cz-config set kernel/cmdlineOptions "$(cz-config get kernel/cmdlineOptions) module_blacklist=usb_storage"
+fi
+
+# V-260471
+# pass audit=1 to the kernel command line
+if  ! cz-config get kernel/cmdlineOptions | grep audit=1 > /dev/null; then
+    cz-config set kernel/cmdlineOptions "$(cz-config get kernel/cmdlineOptions) audit=1"
 fi
