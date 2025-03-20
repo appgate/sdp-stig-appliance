@@ -151,6 +151,12 @@ if ! dpkg -l | grep libpam-pwquality >/dev/null; then
     apt install -o DPkg::Options::="--force-confold" -y libpam-pwquality
 fi
 
+# V-260553 install vlock
+if ! dpkg -l | grep vlock >/dev/null; then
+    aptupdate
+    apt install -o DPkg::Options::="--force-confold" -y vlock
+fi
+
 #https://www.stigviewer.com/stig/canonical_ubuntu_20.04_lts/2022-09-07/finding/V-238370
 #Verify is configured to remove all software components after updated versions have been installed
 cat >/etc/apt/apt.conf.d/50unattended-upgrades <<-EOM
