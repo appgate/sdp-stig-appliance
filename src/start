@@ -2,33 +2,36 @@
 # Updated 2023-09-26 for Appgate 6.2.2 scanned with
 # Ubuntu 20.04 LTS STIG for Ansible - Ver 1, Rel 9 released 2023-07-20
 #load shared vars
-BASE_DIR="$(cd "$(dirname "$0")"; pwd)";
+BASE_DIR="$(
+    cd "$(dirname "$0")"
+    pwd
+)"
 source "${BASE_DIR}/data/settings.config"
 
 os_ver=$(grep "^PRETTY_NAME=\"${expected_os}\"" /etc/os-release)
 if [ -z "$os_ver" ]; then
-	echo "${error_message}"
-	exit 1
+    echo "${error_message}"
+    exit 1
 fi
 
 #Wait until appliance is not busy so that sshd_config is properly applied after reboot
 status=$(cz-config status | jq -r .roles.appliance.status)
 while [[ $status == "busy" ]]; do
-	sleep 5
-	status=$(cz-config status | jq -r .roles.appliance.status)
+    sleep 5
+    status=$(cz-config status | jq -r .roles.appliance.status)
 done
 
 # V-238204 V-260470
 pushd /usr/sbin
 if ! test -e .patched_cz_install; then
-    patch -p1 < "$BASE_DIR/data/cz-install.patch"
+    patch -p1 <"$BASE_DIR/data/cz-install.patch"
     touch .patched_cz_install
 fi
 popd
-cz-install bootmenu `cat /mnt/state/volume-number`
+cz-install bootmenu $(cat /mnt/state/volume-number)
 
 mkdir -p /etc/audit/rules.d/
-echo "" > /etc/audit/rules.d/audit.rules
+echo "" >/etc/audit/rules.d/audit.rules
 cp "$BASE_DIR/data/10-base-config.rules" /etc/audit/rules.d/
 cp "$BASE_DIR/data/30-stig.rules" /etc/audit/rules.d/
 cp "$BASE_DIR/data/99-finalize.rules" /etc/audit/rules.d/
@@ -36,7 +39,7 @@ cp "$BASE_DIR/data/99-finalize.rules" /etc/audit/rules.d/
 # V-238249
 chmod -R 0640 /etc/audit/audit*.{rules,conf} /etc/audit/rules.d/*
 
-if dpkg -l | grep \ auditd\  > /dev/null ; then
+if dpkg -l | grep \ auditd\  >/dev/null; then
     # If auditd is installed it is disabled by default
     touch /etc/cz_stig
 else
@@ -52,18 +55,17 @@ service auditd restart
 
 # V-238208
 # Require password for sudo, only if cz has a password set
-if grep '^cz:\$' < /etc/shadow > /dev/null; then
+if grep '^cz:\$' </etc/shadow >/dev/null; then
     sed -i "s/NOPASSWD://g" /etc/sudoers
 fi
 
 # V-238201
 # FIXME we don't use smart card authentication
 mkdir -p /etc/pam_pkcs11/
-echo "use_mappers=pwent" > /etc/pam_pkcs11/pam_pkcs11.conf
+echo "use_mappers=pwent" >/etc/pam_pkcs11/pam_pkcs11.conf
 
 # V-238373
-sed  -i '1i session required pam_lastlog.so showfailed' /etc/pam.d/login
-
+sed -i '1i session required pam_lastlog.so showfailed' /etc/pam.d/login
 
 # V-238337
 chmod o-r /var/log/* /var/log/apt/*
@@ -93,7 +95,7 @@ sed -i "s:Ciphers .*:Ciphers aes256-ctr,aes192-ctr,aes128-ctr:g" /etc/ssh/sshd_c
 
 #https://www.stigviewer.com/stig/canonical_ubuntu_20.04_lts/2022-09-07/finding/V-238220
 #Verify the SSH daemon prevents remote hosts from connecting to the proxy display.
-echo "X11UseLocalhost yes" >> /etc/ssh/sshd_config
+echo "X11UseLocalhost yes" >>/etc/ssh/sshd_config
 
 #Reload sshd daemon to enforce above changes
 systemctl reload sshd.service
@@ -101,37 +103,36 @@ systemctl reload sshd.service
 #https://www.stigviewer.com/stig/canonical_ubuntu_20.04_lts/2022-09-07/finding/V-238214
 #Verify the Ubuntu operating system displays the Standard Mandatory DoD Notice and
 #Consent Banner before granting access to the operating system via an SSH logon
-echo "$dod_consent_banner" > /etc/issue.net
+echo "$dod_consent_banner" >/etc/issue.net
 
 #https://www.stigviewer.com/stig/canonical_ubuntu_20.04_lts/2022-09-07/finding/V-238221
-echo "ucredit=-1" >> /etc/security/pwquality.conf
+echo "ucredit=-1" >>/etc/security/pwquality.conf
 
 #https://www.stigviewer.com/stig/canonical_ubuntu_20.04_lts/2022-09-07/finding/V-238222
-echo "lcredit=-1" >> /etc/security/pwquality.conf
+echo "lcredit=-1" >>/etc/security/pwquality.conf
 
 #https://www.stigviewer.com/stig/canonical_ubuntu_20.04_lts/2022-09-07/finding/V-238223
-echo "dcredit=-1" >> /etc/security/pwquality.conf
+echo "dcredit=-1" >>/etc/security/pwquality.conf
 
 #https://www.stigviewer.com/stig/canonical_ubuntu_20.04_lts/2022-09-07/finding/V-238224
-echo "difok=8" >> /etc/security/pwquality.conf
+echo "difok=8" >>/etc/security/pwquality.conf
 
 #https://www.stigviewer.com/stig/canonical_ubuntu_20.04_lts/2022-09-07/finding/V-238225
 #Verify the pwquality configuration file enforces a minimum 15-character password length
-echo minlen=15 >> /etc/security/pwquality.conf
+echo minlen=15 >>/etc/security/pwquality.conf
 
 #https://www.stigviewer.com/stig/canonical_ubuntu_20.04_lts/2022-09-07/finding/V-238226
-echo "ocredit=-1" >> /etc/security/pwquality.conf
-
+echo "ocredit=-1" >>/etc/security/pwquality.conf
 
 #https://www.stigviewer.com/stig/canonical_ubuntu_20.04_lts/2022-09-07/finding/V-238227
 #Verify the Ubuntu operating system uses the "cracklib" library to prevent the use of dictionary words
-echo dictcheck=1 >> /etc/security/pwquality.conf
+echo dictcheck=1 >>/etc/security/pwquality.conf
 
 #https://www.stigviewer.com/stig/canonical_ubuntu_20.04_lts/2022-09-07/finding/V-238228
-echo enforcing=1 >> /etc/security/pwquality.conf
-echo "password requisite pam_pwquality.so retry=3" >> /etc/pam.d/common-password
+echo enforcing=1 >>/etc/security/pwquality.conf
+echo "password requisite pam_pwquality.so retry=3" >>/etc/pam.d/common-password
 
-if ! dpkg -l | grep libpam-pwquality > /dev/null ; then
+if ! dpkg -l | grep libpam-pwquality >/dev/null; then
     apt update
     # V-238228 install libpam-pwquality
     apt install -o DPkg::Options::="--force-confold" -y libpam-pwquality
@@ -139,23 +140,23 @@ fi
 
 #https://www.stigviewer.com/stig/canonical_ubuntu_20.04_lts/2022-09-07/finding/V-238370
 #Verify is configured to remove all software components after updated versions have been installed
-cat > /etc/apt/apt.conf.d/50unattended-upgrades <<- EOM
+cat >/etc/apt/apt.conf.d/50unattended-upgrades <<-EOM
 Unattended-Upgrade::Remove-Unused-Dependencies "true";
 Unattended-Upgrade::Remove-Unused-Kernel-Packages "true";
 EOM
 
 #https://www.stigviewer.com/stig/canonical_ubuntu_20.04_lts/2022-09-07/finding/V-251505
-cat > /etc/modprobe.d/blacklist-usb.conf <<- EOM
+cat >/etc/modprobe.d/blacklist-usb.conf <<-EOM
 blacklist usb-storage
 install usb-storage /bin/true
 EOM
 chmod 644 /etc/modprobe.d/blacklist-usb.conf
-if  ! cz-config get kernel/cmdlineOptions | grep module_blacklist=usb_storage > /dev/null; then
+if ! cz-config get kernel/cmdlineOptions | grep module_blacklist=usb_storage >/dev/null; then
     cz-config set kernel/cmdlineOptions "$(cz-config get kernel/cmdlineOptions) module_blacklist=usb_storage"
 fi
 
 # V-260471
 # pass audit=1 to the kernel command line
-if  ! cz-config get kernel/cmdlineOptions | grep audit=1 > /dev/null; then
+if ! cz-config get kernel/cmdlineOptions | grep audit=1 >/dev/null; then
     cz-config set kernel/cmdlineOptions "$(cz-config get kernel/cmdlineOptions) audit=1"
 fi
