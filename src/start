@@ -2,6 +2,19 @@
 # Updated 2023-09-26 for Appgate 6.2.2 scanned with
 # Ubuntu 20.04 LTS STIG for Ansible - Ver 1, Rel 9 released 2023-07-20
 #load shared vars
+
+function aptupdate() {
+    # When called it runs apt update, but at most once every hour
+    # otherwise it is skipped.
+    SENTINEL=/var/tmp/aptupdate
+    if [ -e $SENTINEL ] && [ 3600 -gt $(expr $(date +%s) - $(stat -c %Y $SENTINEL)) ]; then
+        return
+    fi
+
+    apt update
+    touch $SENTINEL
+}
+
 BASE_DIR="$(
     cd "$(dirname "$0")"
     pwd
@@ -43,7 +56,7 @@ if dpkg -l | grep \ auditd\  >/dev/null; then
     # If auditd is installed it is disabled by default
     touch /etc/cz_stig
 else
-    apt update
+    aptupdate
     # V-238298 install auditd
     apt install -o DPkg::Options::="--force-confold" -y auditd
 fi
@@ -136,10 +149,16 @@ echo dictcheck=1 >>/etc/security/pwquality.conf
 echo enforcing=1 >>/etc/security/pwquality.conf
 echo "password requisite pam_pwquality.so retry=3" >>/etc/pam.d/common-password
 
+# V-238228 install libpam-pwquality
 if ! dpkg -l | grep libpam-pwquality >/dev/null; then
-    apt update
-    # V-238228 install libpam-pwquality
+    aptupdate
     apt install -o DPkg::Options::="--force-confold" -y libpam-pwquality
+fi
+
+# V-260553 install vlock
+if ! dpkg -l | grep vlock >/dev/null; then
+    aptupdate
+    apt install -o DPkg::Options::="--force-confold" -y vlock
 fi
 
 #https://www.stigviewer.com/stig/canonical_ubuntu_20.04_lts/2022-09-07/finding/V-238370
