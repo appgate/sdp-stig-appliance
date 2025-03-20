@@ -145,9 +145,9 @@ echo dictcheck=1 >>/etc/security/pwquality.conf
 echo enforcing=1 >>/etc/security/pwquality.conf
 echo "password requisite pam_pwquality.so retry=3" >>/etc/pam.d/common-password
 
+# V-238228 install libpam-pwquality
 if ! dpkg -l | grep libpam-pwquality >/dev/null; then
     aptupdate
-    # V-238228 install libpam-pwquality
     apt install -o DPkg::Options::="--force-confold" -y libpam-pwquality
 fi
 
