@@ -149,6 +149,12 @@ echo dictcheck=1 >>/etc/security/pwquality.conf
 echo enforcing=1 >>/etc/security/pwquality.conf
 echo "password requisite pam_pwquality.so retry=3" >>/etc/pam.d/common-password
 
+# V-260569
+cp -a /etc/pam.d/common-password /etc/pam.d/common-password.new
+grep -v pam_unix.so </etc/pam.d/common-password.new >/etc/pam.d/common-password
+echo "password [success=1 default=ignore] pam_unix.so obscure sha512 shadow remember=5 rounds=100000" >>/etc/pam.d/common-password
+rm /etc/pam.d/common-password.new
+
 # V-238228 install libpam-pwquality
 if ! dpkg -l | grep libpam-pwquality >/dev/null; then
     aptupdate
