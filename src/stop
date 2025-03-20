@@ -28,3 +28,7 @@ sed -i "s:K 077:K 027:g" /etc/login.defs
 
 #V-219339
 rm /etc/modprobe.d/DISASTIG.conf
+
+# V-260589
+rm /etc/rsyslog.d/55-auth.conf
+systemctl restart rsyslog
