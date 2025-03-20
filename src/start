@@ -160,3 +160,8 @@ fi
 if ! cz-config get kernel/cmdlineOptions | grep audit=1 >/dev/null; then
     cz-config set kernel/cmdlineOptions "$(cz-config get kernel/cmdlineOptions) audit=1"
 fi
+
+#https://www.stigviewer.com/stig/canonical_ubuntu_20.04_lts/2022-09-07/finding/V-260546
+#Ubuntu 22.04 LTS must enforce a 60-day maximum password lifetime restriction.
+#Passwords for new users must have a 60-day maximum password lifetime restriction.
+sed -i -r 's:(PASS_MAX_DAYS\s+)[0-9]+:\160:g' /etc/login.defs

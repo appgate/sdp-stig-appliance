@@ -23,8 +23,8 @@ rm /etc/security/pwquality.conf
 #V-219303
 sed -i "s:900:1800:g" /etc/profile.d/autologout.sh
 
-#V-219328
-sed -i "s:K 077:K 027:g" /etc/login.defs
+#V-219328 & V-260546
+cp /mnt/root-to/etc/login.defs /etc/login.defs
 
 #V-219339
 rm /etc/modprobe.d/DISASTIG.conf
