@@ -1,7 +1,7 @@
 #!/bin/bash
-# Updated 2023-09-26 for Appgate 6.2.2 scanned with
-# Ubuntu 20.04 LTS STIG for Ansible - Ver 1, Rel 9 released 2023-07-20
-#load shared vars
+# Updated 2025-03-21 for Appgate 6.3.5 scanned with SCAP Compliance Checker 5.10 using
+# Canonical Ubuntu 22.04 LTS STIG SCAP Benchmark Version 1 Release 2 Benchmark Date: 19 Feb 2025
+# False positives are expected and should be resolve via manual checks
 
 function aptupdate() {
     # When called it runs apt update, but at most once every hour
@@ -34,7 +34,16 @@ while [[ $status == "busy" ]]; do
     status=$(cz-config status | jq -r .roles.appliance.status)
 done
 
-# V-238204 V-260470
+######################################
+## START STIG CONFIGURATION SECTION ##
+######################################
+
+
+### CAT I STIGs ###
+
+
+# C1 V-260470 - Ubuntu 22.04 LTS, when booted, must require authentication upon booting into single-user and maintenance modes.
+# https://stigviewer.com/stig/canonical_ubuntu_22.04_lts/2024-11-25/finding/V-260469
 pushd /usr/sbin
 if ! test -e .patched_cz_install; then
     patch -p1 <"$BASE_DIR/data/cz-install.patch"
@@ -43,15 +52,47 @@ fi
 popd
 cz-install bootmenu $(cat /mnt/state/volume-number)
 
+# C1 V-260579 Ubuntu 22.04 LTS must map the authenticated identity to the user or group account for PKI-based authentication.
+# https://stigviewer.com/stig/canonical_ubuntu_22.04_lts/2024-11-25/finding/V-260579
+# Appgate does not use smart card authentication
+mkdir -p /etc/pam_pkcs11/
+echo "use_mappers=pwent;" >/etc/pam_pkcs11/pam_pkcs11.conf
+
+# C1 V-260570 Ubuntu 22.04 LTS must not allow accounts configured with blank or null passwords.
+# https://stigviewer.com/stig/canonical_ubuntu_22.04_lts/2024-11-25/finding/V-260570
+sed -i 's/nullok//g' /etc/pam.d/common-auth
+
+# V-260469 - Ubuntu 22.04 LTS must disable the x86 Ctrl-Alt-Delete key sequence.
+rm /etc/systemd/system/ctrl-alt-del.target
+ln -s /dev/null /etc/systemd/system/ctrl-alt-del.target
+
+
+### CAT II STIGs ###
+
+
+# C2 V-260473 - Ubuntu 22.04 LTS must disable kernel core dumps so that it can fail 
+# to a secure state if system initialization fails, shutdown fails or aborts fail.
+systemctl mask kdump-tools --now
+
+# C2 V-260604-260649 Ubuntu 22.04 LTS must generate audit records for privileged activities, 
+# nonlocal maintenance, diagnostic sessions and other system-level access.
+# https://stigviewer.com/stig/canonical_ubuntu_22.04_lts/2024-11-25/finding/V-260604
+# https://stigviewer.com/stig/canonical_ubuntu_22.04_lts/2024-11-25/finding/V-2606...
+# https://stigviewer.com/stig/canonical_ubuntu_22.04_lts/2024-11-25/finding/V-260649
 mkdir -p /etc/audit/rules.d/
 echo "" >/etc/audit/rules.d/audit.rules
 cp "$BASE_DIR/data/10-base-config.rules" /etc/audit/rules.d/
 cp "$BASE_DIR/data/30-stig.rules" /etc/audit/rules.d/
 cp "$BASE_DIR/data/99-finalize.rules" /etc/audit/rules.d/
 
-# V-238249
+# C2 V-260601 Ubuntu 22.04 LTS must be configured so that audit configuration files 
+# are not write-accessible by unauthorized users.
+# https://stigviewer.com/stig/canonical_ubuntu_22.04_lts/2024-11-25/finding/V-260601
 chmod -R 0640 /etc/audit/audit*.{rules,conf} /etc/audit/rules.d/*
 
+# C2 V-260590 Ubuntu 22.04 LTS must have the "auditd" package installed.
+# https://stigviewer.com/stig/canonical_ubuntu_22.04_lts/2024-11-25/finding/V-260590
+# auditd is installed in the base Appgate appliance, but disabled by default
 if dpkg -l | grep \ auditd\  >/dev/null; then
     # If auditd is installed it is disabled by default
     touch /etc/cz_stig
@@ -61,7 +102,9 @@ else
     apt install -o DPkg::Options::="--force-confold" -y auditd
 fi
 
-# V-238244
+# C2 V-260594 The Ubuntu operating system must shut down by default upon audit failure 
+# (unless availability is an overriding concern).
+# https://stigviewer.com/stig/canonical_ubuntu_22.04_lts/2024-11-25/finding/V-260594
 sed -i "s/disk_full_action = SUSPEND/disk_full_action = HALT/g" /etc/audit/auditd.conf
 sed -i "s/disk_error_action = SUSPEND/disk_error_action = HALT/g" /etc/audit/auditd.conf
 # V-26059
@@ -72,7 +115,8 @@ sed -i "s/log_group = adm/log_group = root/g" /etc/audit/auditd.conf
 
 service auditd restart
 
-# V-238208
+# C2 V-260558 Ubuntu 22.04 LTS must require users to reauthenticate for privilege escalation or when changing roles.
+# https://stigviewer.com/stig/canonical_ubuntu_22.04_lts/2024-11-25/finding/V-260558
 # Require password for sudo, only if cz has a password set
 if grep '^cz:\$' </etc/shadow >/dev/null; then
     sed -i "s/NOPASSWD://g" /etc/sudoers
@@ -86,21 +130,26 @@ echo "use_mappers=pwent" >/etc/pam_pkcs11/pam_pkcs11.conf
 # V-238373
 sed -i '1i session required pam_lastlog.so showfailed' /etc/pam.d/login
 
-# V-260490
+# C2 V-260490 Ubuntu 22.04 LTS must generate system journal entries without
+# revealing information that could be exploited by adversaries.
+# https://stigviewer.com/stig/canonical_ubuntu_22.04_lts/2024-11-25/finding/V-260490
 chmod 750 /run/log/journal
 chmod 750 /var/log/journal
 
-# V-238337
+# C2 V-260489 Ubuntu 22.04 LTS must generate error messages that provide information necessary 
+# for corrective actions without revealing information that could be exploited by adversaries.
+# https://stigviewer.com/stig/canonical_ubuntu_22.04_lts/2024-11-25/finding/V-260489
 chmod o-r /var/log/* /var/log/apt/*
 
-#https://www.stigviewer.com/stig/canonical_ubuntu_20.04_lts/2022-09-07/finding/V-238207
+# C2 V-260554 Ubuntu 22.04 LTS must automatically exit interactive command shell user sessions after 15 minutes of inactivity.
+# https://stigviewer.com/stig/canonical_ubuntu_22.04_lts/2024-11-25/finding/V-260554
 #Verify the operating system automatically terminates a user session after inactivity timeouts have expired.
-#This decreases timeout from 20 minutes to 10 minutes
-sed -i "s:TMOUT=1800:TMOUT=600:g" /etc/profile.d/autologout.sh
+#This decreases timeout from 20 minutes to 15 minutes
+sed -i "s:TMOUT=1800:TMOUT=900:g" /etc/profile.d/autologout.sh
 
-#https://www.stigviewer.com/stig/canonical_ubuntu_20.04_lts/2022-09-07/finding/V-238209
-#Verify the Ubuntu operating system defines default permissions for all authenticated
-#users in such a way that the user can read and modify only their own files.
+# C2 V-260555 Ubuntu 22.04 LTS must define default permissions for all authenticated 
+# users in such a way that the user can read and modify only their own files.
+# https://stigviewer.com/stig/canonical_ubuntu_22.04_lts/2024-11-25/finding/V-260555
 sed -i "s:UMASK.*:UMASK 077:g" /etc/login.defs
 
 # V-260545
@@ -108,65 +157,84 @@ grep -v ^PASS_MIN_DAYS < /etc/login.defs > /etc/login.defs.tmp
 cat /etc/login.defs.tmp > /etc/login.defs
 echo "PASS_MIN_DAYS 1" >> /etc/login.defs
 
-#https://www.stigviewer.com/stig/canonical_ubuntu_20.04_lts/2022-09-07/finding/V-238212
-#Verify that all network connections associated with SSH traffic automatically terminate
-#after a period of inactivity.
+# C2 V-260527 Ubuntu 22.04 LTS must be configured so that all network connections 
+# associated with SSH traffic terminate after becoming unresponsive.
+# https://stigviewer.com/stig/canonical_ubuntu_22.04_lts/2024-11-25/finding/V-260527
 sed -i "s:ClientAliveCountMax 0:ClientAliveCountMax 1:g" /etc/ssh/sshd_config
 
-#https://www.stigviewer.com/stig/canonical_ubuntu_20.04_lts/2022-09-07/finding/V-238216
-#Verify the SSH daemon is configured to only use MACs that employ FIPS 140-2 approved ciphers
-sed -i "s:MACs .*:MACs hmac-sha2-512,hmac-sha2-256:g" /etc/ssh/sshd_config
+# C2 V-260533 - Ubuntu 22.04 LTS SSH server must be configured to use only FIPS-validated key exchange algorithms.
+echo "KexAlgorithms ecdh-sha2-nistp256,ecdh-sha2-nistp384,ecdh-sha2-nistp521,diffie-hellman-group-exchange-sha256" >> /etc/ssh/sshd_config
 
-#https://www.stigviewer.com/stig/canonical_ubuntu_20.04_lts/2022-09-07/finding/V-238217
-#Verify the SSH daemon is configured to only implement FIPS-approved algorithms
+# C2 V-260532 Ubuntu 22.04 LTS must configure the SSH daemon to use Message Authentication 
+# Codes (MACs) employing FIPS 140-3-approved cryptographic hashes to prevent the unauthorized 
+# disclosure of information and/or detect changes to information during transmission.
+# https://stigviewer.com/stig/canonical_ubuntu_22.04_lts/2024-11-25/finding/V-260532
+sed -i "s:MACs .*:MACs hmac-sha2-512,hmac-sha2-512-etm@openssh.com,hmac-sha2-256,hmac-sha2-256-etm@openssh.com:g" /etc/ssh/sshd_config
+
+# C2 V-260531 Ubuntu 22.04 LTS must configure the SSH daemon to use FIPS 140-3-approved 
+# ciphers to prevent the unauthorized disclosure of information and/or detect changes 
+# to information during transmission.
+# https://stigviewer.com/stig/canonical_ubuntu_22.04_lts/2024-11-25/finding/V-260531
 sed -i "s:Ciphers .*:Ciphers aes256-ctr,aes192-ctr,aes128-ctr:g" /etc/ssh/sshd_config
 
-#https://www.stigviewer.com/stig/canonical_ubuntu_20.04_lts/2022-09-07/finding/V-238220
-#Verify the SSH daemon prevents remote hosts from connecting to the proxy display.
+# C2 V-260530 Ubuntu 22.04 LTS SSH daemon must prevent remote hosts from connecting to the proxy display.
+# https://stigviewer.com/stig/canonical_ubuntu_22.04_lts/2024-11-25/finding/V-260530
 echo "X11UseLocalhost yes" >>/etc/ssh/sshd_config
 
 #Reload sshd daemon to enforce above changes
 systemctl reload sshd.service
 
-#https://www.stigviewer.com/stig/canonical_ubuntu_20.04_lts/2022-09-07/finding/V-238214
-#Verify the Ubuntu operating system displays the Standard Mandatory DoD Notice and
-#Consent Banner before granting access to the operating system via an SSH logon
+# C2 V-260525 Ubuntu 22.04 LTS must display the Standard Mandatory DOD Notice 
+# and Consent Banner before granting any local or remote connection to the system.
+# https://stigviewer.com/stig/canonical_ubuntu_22.04_lts/2024-11-25/finding/V-260525
 echo "$dod_consent_banner" >/etc/issue.net
 
-#https://www.stigviewer.com/stig/canonical_ubuntu_20.04_lts/2022-09-07/finding/V-238221
+# C2 V-260560
+# https://stigviewer.com/stig/canonical_ubuntu_22.04_lts/2024-11-25/finding/V-260560
 echo "ucredit=-1" >>/etc/security/pwquality.conf
 
-#https://www.stigviewer.com/stig/canonical_ubuntu_20.04_lts/2022-09-07/finding/V-238222
+# C2 V-260561 Ubuntu 22.04 LTS must enforce password complexity by requiring at least one lowercase character be used.
+# https://stigviewer.com/stig/canonical_ubuntu_22.04_lts/2024-11-25/finding/V-260561
 echo "lcredit=-1" >>/etc/security/pwquality.conf
 
-#https://www.stigviewer.com/stig/canonical_ubuntu_20.04_lts/2022-09-07/finding/V-238223
+# C2 V-260562 Ubuntu 22.04 LTS must enforce password complexity by requiring that at least one numeric character be used.
+# https://stigviewer.com/stig/canonical_ubuntu_22.04_lts/2024-11-25/finding/V-260562
 echo "dcredit=-1" >>/etc/security/pwquality.conf
 
-#https://www.stigviewer.com/stig/canonical_ubuntu_20.04_lts/2022-09-07/finding/V-238224
+# C2 V-260566 Ubuntu 22.04 LTS must require the change of at least eight characters when passwords are changed.
+# https://stigviewer.com/stig/canonical_ubuntu_22.04_lts/2024-11-25/finding/V-260566
 echo "difok=8" >>/etc/security/pwquality.conf
 
-#https://www.stigviewer.com/stig/canonical_ubuntu_20.04_lts/2022-09-07/finding/V-238225
-#Verify the pwquality configuration file enforces a minimum 15-character password length
+# C2 V-260565 Ubuntu 22.04 LTS must require the pwquality configuration file enforces a minimum 15-character password length
+# https://stigviewer.com/stig/canonical_ubuntu_22.04_lts/2024-11-25/finding/V-260565
 echo minlen=15 >>/etc/security/pwquality.conf
 
-#https://www.stigviewer.com/stig/canonical_ubuntu_20.04_lts/2022-09-07/finding/V-238226
+# C2 V-260563 Ubuntu 22.04 LTS must enforce password complexity by requiring that at least one special character be used.
+# https://stigviewer.com/stig/canonical_ubuntu_22.04_lts/2024-11-25/finding/V-260563
 echo "ocredit=-1" >>/etc/security/pwquality.conf
 
-#https://www.stigviewer.com/stig/canonical_ubuntu_20.04_lts/2022-09-07/finding/V-238227
-#Verify the Ubuntu operating system uses the "cracklib" library to prevent the use of dictionary words
+# C2 V-260564 Ubuntu 22.04 LTS must prevent the use of dictionary words for passwords.
+# https://stigviewer.com/stig/canonical_ubuntu_22.04_lts/2024-11-25/finding/V-260564
 echo dictcheck=1 >>/etc/security/pwquality.conf
 
-#https://www.stigviewer.com/stig/canonical_ubuntu_20.04_lts/2022-09-07/finding/V-238228
+# C2 V-260567 Ubuntu 22.04 LTS must be configured so that when passwords are changed 
+# or new passwords are established, pwquality must be used.
+# https://stigviewer.com/stig/canonical_ubuntu_22.04_lts/2024-11-25/finding/V-260567
 echo enforcing=1 >>/etc/security/pwquality.conf
 echo "password requisite pam_pwquality.so retry=3" >>/etc/pam.d/common-password
 
-# V-260569
+# C2 V-260569 Ubuntu 22.04 LTS must store only encrypted representations of passwords.
+# https://stigviewer.com/stig/canonical_ubuntu_22.04_lts/2024-11-25/finding/V-260569
 cp -a /etc/pam.d/common-password /etc/pam.d/common-password.new
 grep -v pam_unix.so </etc/pam.d/common-password.new >/etc/pam.d/common-password
 echo "password [success=1 default=ignore] pam_unix.so obscure sha512 shadow remember=5 rounds=100000" >>/etc/pam.d/common-password
 rm /etc/pam.d/common-password.new
 
-# V-238228 install libpam-pwquality
+# C2 V-260567 Ubuntu 22.04 LTS must be configured so that when passwords are changed 
+# or new passwords are established, pwquality must be used.
+# https://stigviewer.com/stig/canonical_ubuntu_22.04_lts/2024-11-25/finding/V-260567
+# Install libpam-pwquality if not already installed
+# This should be done prior to configuring pwquality.conf
 if ! dpkg -l | grep libpam-pwquality >/dev/null; then
     aptupdate
     apt install -o DPkg::Options::="--force-confold" -y libpam-pwquality
@@ -181,14 +249,16 @@ if ! dpkg -l | grep vlock >/dev/null; then
     rm -f /lib/vlock/modules/nosysrq.so
 fi
 
-#https://www.stigviewer.com/stig/canonical_ubuntu_20.04_lts/2022-09-07/finding/V-238370
-#Verify is configured to remove all software components after updated versions have been installed
+# C2 V-260477 Ubuntu 22.04 LTS must be configured so that the Advance Package Tool (APT) 
+# removes all software components after updated versions have been installed.
+# https://stigviewer.com/stig/canonical_ubuntu_22.04_lts/2024-11-25/finding/V-260477
 cat >/etc/apt/apt.conf.d/50unattended-upgrades <<-EOM
 Unattended-Upgrade::Remove-Unused-Dependencies "true";
 Unattended-Upgrade::Remove-Unused-Kernel-Packages "true";
 EOM
 
-#https://www.stigviewer.com/stig/canonical_ubuntu_20.04_lts/2022-09-07/finding/V-251505
+# C2 V-260540 Ubuntu 22.04 LTS must disable automatic mounting of Universal Serial Bus (USB) mass storage driver.
+# https://stigviewer.com/stig/canonical_ubuntu_22.04_lts/2024-11-25/finding/V-260540
 cat >/etc/modprobe.d/blacklist-usb.conf <<-EOM
 blacklist usb-storage
 install usb-storage /bin/true
@@ -198,23 +268,27 @@ if ! cz-config get kernel/cmdlineOptions | grep module_blacklist=usb_storage >/d
     cz-config set kernel/cmdlineOptions "$(cz-config get kernel/cmdlineOptions) module_blacklist=usb_storage"
 fi
 
-# V-260471
-# pass audit=1 to the kernel command line
+# C2 V-260471 Ubuntu 22.04 LTS must initiate session audits at system startup.
+# https://stigviewer.com/stig/canonical_ubuntu_22.04_lts/2024-11-25/finding/V-260471
 if ! cz-config get kernel/cmdlineOptions | grep audit=1 >/dev/null; then
     cz-config set kernel/cmdlineOptions "$(cz-config get kernel/cmdlineOptions) audit=1"
 fi
 
-# V-260531
+# C2 V-260531 Ubuntu 22.04 LTS must configure the SSH daemon to use FIPS 140-3-approved 
+# ciphers to prevent the unauthorized disclosure of information and/or detect changes 
+# to information during transmission.
+# https://stigviewer.com/stig/canonical_ubuntu_22.04_lts/2024-11-25/finding/V-260531
 sed -i "s:Ciphers .*:Ciphers aes256-ctr,aes192-ctr,aes128-ctr:g" /etc/ssh/sshd_config
 systemctl restart sshd.service
 
-# V-260589
+# C2 V-260589 Ubuntu 22.04 LTS must monitor remote access methods.
+# https://stigviewer.com/stig/canonical_ubuntu_22.04_lts/2024-11-25/finding/V-260589
 # Monitor remote access methods
 cp "$BASE_DIR/data/55-auth.conf" /etc/rsyslog.d/
 systemctl restart rsyslog
 
-#https://stigviewer.com/stig/canonical_ubuntu_22.04_lts/2024-05-30/finding/V-260500
-#library files must be group-owned by "root".
+# C2 V-260500 Ubuntu 22.04 LTS library files must be group-owned by "root".
+# https://stigviewer.com/stig/canonical_ubuntu_22.04_lts/2024-05-30/finding/V-260500
 #NOTE: /lib is a symlink to /usr/lib
 FILES="\
 /usr/lib/x86_64-linux-gnu/utempter/utempter \

@@ -23,6 +23,11 @@
 # V-238317
 -w /var/log/btmp -p wa -k logins
 
+-w /var/log/journal -p wa -k systemd_journal
+-w /etc/sudoers -p wa -k privilege_modification
+-w /etc/sudoers.d -p wa -k privilege_modification
+-w /var/log/sudo.log -p wa -k maintenance
+
 # Monitor commands
 
 # V-238252
