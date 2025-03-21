@@ -201,3 +201,15 @@ systemctl restart sshd.service
 # Monitor remote access methods
 cp "$BASE_DIR/data/55-auth.conf" /etc/rsyslog.d/
 systemctl restart rsyslog
+
+#https://stigviewer.com/stig/canonical_ubuntu_22.04_lts/2024-05-30/finding/V-260500
+#library files must be group-owned by "root".
+#NOTE: /lib is a symlink to /usr/lib
+FILES="\
+/usr/lib/x86_64-linux-gnu/utempter/utempter \
+/usr/lib/dbus-1.0/dbus-daemon-launch-helper \
+/usr/lib/ssl/private/ssl-cert-snakeoil.key \
+"
+for FILE in $FILES; do
+    chgrp root "$FILE"
+done
