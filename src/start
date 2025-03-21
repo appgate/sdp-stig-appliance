@@ -108,11 +108,13 @@ fi
 sed -i "s/disk_full_action = SUSPEND/disk_full_action = HALT/g" /etc/audit/auditd.conf
 sed -i "s/disk_error_action = SUSPEND/disk_error_action = HALT/g" /etc/audit/auditd.conf
 # V-26059
-sed -i "s/space_left = [0-9]*/space_left = 25%/g" /etc/audit/auditd.conf
-sed -i "s/space_left_action = .*$/space_left_action = email/g" /etc/audit/auditd.conf
+sed -i "s/^space_left = [0-9]*/space_left = 25%/g" /etc/audit/auditd.conf
+sed -i "s/^space_left_action = .*$/space_left_action = email/g" /etc/audit/auditd.conf
+
 # V-260599
 sed -i "s/log_group = adm/log_group = root/g" /etc/audit/auditd.conf
 
+/usr/sbin/augenrules --load
 service auditd restart
 
 # C2 V-260558 Ubuntu 22.04 LTS must require users to reauthenticate for privilege escalation or when changing roles.
@@ -234,6 +236,7 @@ echo "password requisite pam_pwquality.so retry=3" >>/etc/pam.d/common-password
 cp -a /etc/pam.d/common-password /etc/pam.d/common-password.new
 grep -v pam_unix.so </etc/pam.d/common-password.new >/etc/pam.d/common-password
 echo "password [success=1 default=ignore] pam_unix.so obscure sha512 shadow remember=5 rounds=100000" >>/etc/pam.d/common-password
+echo "password sufficient pam_unix.so obscure sha512" >>/etc/pam.d/common-password
 rm /etc/pam.d/common-password.new
 
 # C2 V-260567 Ubuntu 22.04 LTS must be configured so that when passwords are changed 
@@ -310,3 +313,26 @@ done
 # https://stigviewer.com/stig/canonical_ubuntu_22.04_lts/2024-11-25/finding/V-260542
 passwd -l root
 
+# C2 V-260597 - Ubuntu 22.04 LTS must be configured so that audit log files are not 
+# read- or write-accessible by unauthorized users.
+# https://stigviewer.com/stig/canonical_ubuntu_22.04_lts/2024-11-25/finding/V-260597
+chmod g-r /var/log/audit/audit.log
+
+
+### CAT III STIGs ###
+
+
+# C3 V-260550 - Ubuntu 22.04 LTS must enforce a delay of at least four seconds between 
+# logon prompts following a failed logon attempt.
+# https://stigviewer.com/stig/canonical_ubuntu_22.04_lts/2024-11-25/finding/V-260550
+echo auth required pam_faildelay.so delay=4000000 >>/etc/pam.d/common-auth
+
+# C3 V-260472 - Ubuntu 22.04 LTS must restrict access to the kernel message buffer.
+# https://stigviewer.com/stig/canonical_ubuntu_22.04_lts/2024-11-25/finding/V-260472
+echo "kernel.dmesg_restrict = 1" >> /etc/sysctl.conf
+sysctl --system
+
+# C3 V-260552 - Ubuntu 22.04 LTS must limit the number of concurrent sessions to ten 
+# for all accounts and/or account types.
+# https://stigviewer.com/stig/canonical_ubuntu_22.04_lts/2024-11-25/finding/V-260552
+echo '* hard maxlogins 10' >> /etc/security/limits.conf
