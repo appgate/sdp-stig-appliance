@@ -196,3 +196,8 @@ fi
 # V-260531
 sed -i "s:Ciphers .*:Ciphers aes256-ctr,aes192-ctr,aes128-ctr:g" /etc/ssh/sshd_config
 systemctl restart sshd.service
+
+# V-260589
+# Monitor remote access methods
+cp "$BASE_DIR/data/55-auth.conf" /etc/rsyslog.d/
+systemctl restart rsyslog
