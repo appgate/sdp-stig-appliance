@@ -64,6 +64,9 @@ fi
 # V-238244
 sed -i "s/disk_full_action = SUSPEND/disk_full_action = HALT/g" /etc/audit/auditd.conf
 sed -i "s/disk_error_action = SUSPEND/disk_error_action = HALT/g" /etc/audit/auditd.conf
+# V-26059
+sed -i "s/space_left = [0-9]*/space_left = 25%/g" /etc/audit/auditd.conf
+sed -i "s/space_left_action = .*$/space_left_action = email/g" /etc/audit/auditd.conf
 service auditd restart
 
 # V-238208
