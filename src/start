@@ -84,7 +84,7 @@ echo "use_mappers=pwent" >/etc/pam_pkcs11/pam_pkcs11.conf
 sed -i '1i session required pam_lastlog.so showfailed' /etc/pam.d/login
 
 # V-260490
-chmod 751 /run/log/journal
+chmod 750 /run/log/journal
 chmod 750 /var/log/journal
 
 # V-238337
