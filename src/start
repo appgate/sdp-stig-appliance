@@ -141,10 +141,11 @@ chmod 750 /var/log/journal
 # https://stigviewer.com/stig/canonical_ubuntu_22.04_lts/2024-11-25/finding/V-260489
 chmod o-r /var/log/* /var/log/apt/*
 
-# C2 V-260554 Ubuntu 22.04 LTS must automatically exit interactive command shell user sessions after 15 minutes of inactivity.
+# C2 V-260554 Ubuntu 22.04 LTS must automatically exit interactive command shell 
+# user sessions after 15 minutes of inactivity.
 # https://stigviewer.com/stig/canonical_ubuntu_22.04_lts/2024-11-25/finding/V-260554
-#Verify the operating system automatically terminates a user session after inactivity timeouts have expired.
-#This decreases timeout from 20 minutes to 15 minutes
+#Verify the operating system automatically terminates a user session after inactivity 
+# timeouts have expired.  This decreases timeout from 20 minutes to 15 minutes
 sed -i "s:TMOUT=1800:TMOUT=900:g" /etc/profile.d/autologout.sh
 
 # C2 V-260555 Ubuntu 22.04 LTS must define default permissions for all authenticated 
@@ -152,7 +153,10 @@ sed -i "s:TMOUT=1800:TMOUT=900:g" /etc/profile.d/autologout.sh
 # https://stigviewer.com/stig/canonical_ubuntu_22.04_lts/2024-11-25/finding/V-260555
 sed -i "s:UMASK.*:UMASK 077:g" /etc/login.defs
 
-# V-260545
+# C2 V-260545 Ubuntu 22.04 LTS must enforce 24 hours/one day as the minimum password 
+# lifetime. Passwords for new users must have a 24 hours/one day minimum password 
+# lifetime restriction
+# https://stigviewer.com/stig/canonical_ubuntu_22.04_lts/2024-11-25/finding/V-260545
 grep -v ^PASS_MIN_DAYS < /etc/login.defs > /etc/login.defs.tmp
 cat /etc/login.defs.tmp > /etc/login.defs
 echo "PASS_MIN_DAYS 1" >> /etc/login.defs
@@ -162,7 +166,9 @@ echo "PASS_MIN_DAYS 1" >> /etc/login.defs
 # https://stigviewer.com/stig/canonical_ubuntu_22.04_lts/2024-11-25/finding/V-260527
 sed -i "s:ClientAliveCountMax 0:ClientAliveCountMax 1:g" /etc/ssh/sshd_config
 
-# C2 V-260533 - Ubuntu 22.04 LTS SSH server must be configured to use only FIPS-validated key exchange algorithms.
+# C2 V-260533 - Ubuntu 22.04 LTS SSH server must be configured to use only 
+# FIPS-validated key exchange algorithms.
+# https://stigviewer.com/stig/canonical_ubuntu_22.04_lts/2024-11-25/finding/V-260533
 echo "KexAlgorithms ecdh-sha2-nistp256,ecdh-sha2-nistp384,ecdh-sha2-nistp521,diffie-hellman-group-exchange-sha256" >> /etc/ssh/sshd_config
 
 # C2 V-260532 Ubuntu 22.04 LTS must configure the SSH daemon to use Message Authentication 
@@ -240,7 +246,8 @@ if ! dpkg -l | grep libpam-pwquality >/dev/null; then
     apt install -o DPkg::Options::="--force-confold" -y libpam-pwquality
 fi
 
-# V-260553 install vlock
+# C2 V-260553 Ubuntu 22.04 LTS must allow users to directly initiate a session lock for all connection types.
+# https://stigviewer.com/stig/canonical_ubuntu_22.04_lts/2024-11-25/finding/V-260553
 if ! dpkg -l | grep vlock >/dev/null; then
     aptupdate
     apt install -o DPkg::Options::="--force-confold" -y vlock
@@ -261,7 +268,7 @@ EOM
 # https://stigviewer.com/stig/canonical_ubuntu_22.04_lts/2024-11-25/finding/V-260540
 cat >/etc/modprobe.d/blacklist-usb.conf <<-EOM
 blacklist usb-storage
-install usb-storage /bin/true
+install usb-storage /bin/false
 EOM
 chmod 644 /etc/modprobe.d/blacklist-usb.conf
 if ! cz-config get kernel/cmdlineOptions | grep module_blacklist=usb_storage >/dev/null; then
@@ -298,3 +305,8 @@ FILES="\
 for FILE in $FILES; do
     chgrp root "$FILE"
 done
+
+# C2 V-260542 Ubuntu 22.04 LTS must prevent direct login into the root account.
+# https://stigviewer.com/stig/canonical_ubuntu_22.04_lts/2024-11-25/finding/V-260542
+passwd -l root
+
