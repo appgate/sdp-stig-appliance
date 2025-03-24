@@ -176,6 +176,9 @@ fi
 if ! dpkg -l | grep vlock >/dev/null; then
     aptupdate
     apt install -o DPkg::Options::="--force-confold" -y vlock
+    # V-260500 except this file+symlink
+    rm -f /usr/lib/vlock/modules/nosysrq.so
+    rm -f /lib/vlock/modules/nosysrq.so
 fi
 
 #https://www.stigviewer.com/stig/canonical_ubuntu_20.04_lts/2022-09-07/finding/V-238370
