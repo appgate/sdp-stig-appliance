@@ -103,6 +103,11 @@ sed -i "s:TMOUT=1800:TMOUT=600:g" /etc/profile.d/autologout.sh
 #users in such a way that the user can read and modify only their own files.
 sed -i "s:UMASK.*:UMASK 077:g" /etc/login.defs
 
+# V-260545
+grep -v ^PASS_MIN_DAYS < /etc/login.defs > /etc/login.defs.tmp
+cat /etc/login.defs.tmp > /etc/login.defs
+echo "PASS_MIN_DAYS 1" >> /etc/login.defs
+
 #https://www.stigviewer.com/stig/canonical_ubuntu_20.04_lts/2022-09-07/finding/V-238212
 #Verify that all network connections associated with SSH traffic automatically terminate
 #after a period of inactivity.
