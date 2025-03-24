@@ -124,14 +124,6 @@ if grep '^cz:\$' </etc/shadow >/dev/null; then
     sed -i "s/NOPASSWD://g" /etc/sudoers
 fi
 
-# V-238201
-# FIXME we don't use smart card authentication
-mkdir -p /etc/pam_pkcs11/
-echo "use_mappers=pwent" >/etc/pam_pkcs11/pam_pkcs11.conf
-
-# V-238373
-sed -i '1i session required pam_lastlog.so showfailed' /etc/pam.d/login
-
 # C2 V-260490 Ubuntu 22.04 LTS must generate system journal entries without
 # revealing information that could be exploited by adversaries.
 # https://stigviewer.com/stig/canonical_ubuntu_22.04_lts/2024-11-25/finding/V-260490
