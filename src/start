@@ -107,7 +107,7 @@ fi
 # https://stigviewer.com/stig/canonical_ubuntu_22.04_lts/2024-11-25/finding/V-260594
 sed -i "s/disk_full_action = SUSPEND/disk_full_action = HALT/g" /etc/audit/auditd.conf
 sed -i "s/disk_error_action = SUSPEND/disk_error_action = HALT/g" /etc/audit/auditd.conf
-# V-26059
+# V-260596
 sed -i "s/^space_left = [0-9]*/space_left = 25%/g" /etc/audit/auditd.conf
 sed -i "s/^space_left_action = .*$/space_left_action = email/g" /etc/audit/auditd.conf
 
