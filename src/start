@@ -182,6 +182,7 @@ if ! dpkg -l | grep vlock >/dev/null; then
 fi
 
 #https://www.stigviewer.com/stig/canonical_ubuntu_20.04_lts/2022-09-07/finding/V-238370
+# V-260477
 #Verify is configured to remove all software components after updated versions have been installed
 cat >/etc/apt/apt.conf.d/50unattended-upgrades <<-EOM
 Unattended-Upgrade::Remove-Unused-Dependencies "true";
@@ -189,6 +190,7 @@ Unattended-Upgrade::Remove-Unused-Kernel-Packages "true";
 EOM
 
 #https://www.stigviewer.com/stig/canonical_ubuntu_20.04_lts/2022-09-07/finding/V-251505
+# V-260540
 cat >/etc/modprobe.d/blacklist-usb.conf <<-EOM
 blacklist usb-storage
 install usb-storage /bin/true

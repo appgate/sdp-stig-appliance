@@ -14,7 +14,7 @@ fi
 systemctl unmask ctrl-alt-del.target
 systemctl daemon-reload
 
-#V-219156
+#V-219156 V-260477
 rm /etc/apt/apt.conf.d/50unattended-upgrades 
 
 #V-219181 & V-219184

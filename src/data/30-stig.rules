@@ -1,108 +1,108 @@
 # Monitor files
 
-# V-238238
+# V-238238 V-260631
 -w /etc/passwd -p wa -k usergroup_modification
-# V-238239
+# V-238239 V-260628
 -w /etc/group -p wa -k usergroup_modification
-# V-238240
+# V-238240 V-260632
 -w /etc/shadow -p wa -k usergroup_modification
-# V-238241
+# V-238241 V-260629
 -w /etc/gshadow -p wa -k usergroup_modification
-# V-238242
+# V-238242 V-260630
 -w /etc/security/opasswd -p wa -k usergroup_modification
 # V-238285
 -w /var/log/tallylog -p wa -k logins
-# V-238286
+# V-238286 V-260644
 -w /var/log/faillog -p wa -k logins
-# V-238287
+# V-238287 V-260645
 -w /var/log/lastlog -p wa -k logins
-# V-238315
+# V-238315 V-260642
 -w /var/log/wtmp -p wa -k logins
-# V-238316
+# V-238316 V-260643
 -w /var/run/utmp -p wa -k logins
-# V-238317
+# V-238317 V-260641
 -w /var/log/btmp -p wa -k logins
 
 # Monitor commands
 
-# V-238252
+# V-238252 V-260622
 -a always,exit -F path=/bin/su -F perm=x -F auid>=1000 -F auid!=4294967295 -k privileged-priv_change
-# V-238253
+# V-238253 V-260608
 -a always,exit -F path=/usr/bin/chfn -F perm=x -F auid>=1000 -F auid!=4294967295 -k privileged-chfn
-# V-238254
+# V-238254 V-260615
 -a always,exit -F path=/usr/bin/mount -F perm=x -F auid>=1000 -F auid!=4294967295 -k privileged-mount
-# V-238255
+# V-238255 V-260625
 -a always,exit -F path=/usr/bin/umount -F perm=x -F auid>=1000 -F auid!=4294967295 -k privileged-umount
-# V-238256
+# V-238256 V-260620
 -a always,exit -F path=/usr/bin/ssh-agent -F perm=x -F auid>=1000 -F auid!=4294967295 -k privileged-ssh
-# V-238257
+# V-238257 V-260621
 -a always,exit -F path=/usr/lib/openssh/ssh-keysign -F perm=x -F auid>=1000 -F auid!=4294967295 -k privileged-ssh
-# V-238258
+# V-238258 V-260638
 -a always,exit -F arch=b32 -S setxattr,fsetxattr,lsetxattr,removexattr,fremovexattr,lremovexattr -F auid>=1000 -F auid!=4294967295 -k perm_mod
 -a always,exit -F arch=b32 -S setxattr,fsetxattr,lsetxattr,removexattr,fremovexattr,lremovexattr -F auid=0 -k perm_mod
 -a always,exit -F arch=b64 -S setxattr,fsetxattr,lsetxattr,removexattr,fremovexattr,lremovexattr -F auid>=1000 -F auid!=4294967295 -k perm_mod
 -a always,exit -F arch=b64 -S setxattr,fsetxattr,lsetxattr,removexattr,fremovexattr,lremovexattr -F auid=0 -k perm_mod
-# V-238264
+# V-238264 V-260634
 -a always,exit -F arch=b32 -S chown,fchown,fchownat,lchown -F auid>=1000 -F auid!=4294967295 -k perm_chng
 -a always,exit -F arch=b64 -S chown,fchown,fchownat,lchown -F auid>=1000 -F auid!=4294967295 -k perm_chng
-# V-238268
+# V-238268 V-260633
 -a always,exit -F arch=b32 -S chmod,fchmod,fchmodat -F auid>=1000 -F auid!=4294967295 -k perm_chng
 -a always,exit -F arch=b64 -S chmod,fchmod,fchmodat -F auid>=1000 -F auid!=4294967295 -k perm_chng
-# V-238271
+# V-238271 V-260635
 -a always,exit -F arch=b32 -S creat,open,openat,open_by_handle_at,truncate,ftruncate -F exit=-EPERM -F auid>=1000 -F auid!=4294967295 -k perm_access
 -a always,exit -F arch=b32 -S creat,open,openat,open_by_handle_at,truncate,ftruncate -F exit=-EACCES -F auid>=1000 -F auid!=4294967295 -k perm_access
 -a always,exit -F arch=b64 -S creat,open,openat,open_by_handle_at,truncate,ftruncate -F exit=-EPERM -F auid>=1000 -F auid!=4294967295 -k perm_access
 -a always,exit -F arch=b64 -S creat,open,openat,open_by_handle_at,truncate,ftruncate -F exit=-EACCES -F auid>=1000 -F auid!=4294967295 -k perm_access
-# V-238277
+# V-238277 V-260623
 -a always,exit -F path=/usr/bin/sudo -F perm=x -F auid>=1000 -F auid!=4294967295 -k priv_cmd
-# V-238318
+# V-238318 V-260614
 -w /sbin/modprobe -p x -k modules
-# V-238319
+# V-238319 V-260613
 -w /bin/kmod -p x -k modules
-# V-238320
+# V-238320 V-260611
 -w /usr/sbin/fdisk -p x -k fdisk
-# V-238278
+# V-238278 V-260624
 -a always,exit -F path=/usr/bin/sudoedit -F perm=x -F auid>=1000 -F auid!=4294967295 -k priv_cmd
-# V-238279
+# V-238279 V-260609
 -a always,exit -F path=/usr/bin/chsh -F perm=x -F auid>=1000 -F auid!=4294967295 -k priv_cmd
-# V-238280
+# V-238280 V-260616
 -a always,exit -F path=/usr/bin/newgrp -F perm=x -F auid>=1000 -F auid!=4294967295 -k priv_cmd
-# V-238281
+# V-238281 V-260607
 -a always,exit -F path=/usr/bin/chcon -F perm=x -F auid>=1000 -F auid!=4294967295 -k perm_chng
-# V-238282
+# V-238282 V-260604
 -a always,exit -F path=/sbin/apparmor_parser -F perm=x -F auid>=1000 -F auid!=4294967295 -k perm_chng
-# V-238283
+# V-238283 V-260619
 -a always,exit -F path=/usr/bin/setfacl -F perm=x -F auid>=1000 -F auid!=4294967295 -k perm_chng
-# V-238284
+# V-238284 V-260605
 -a always,exit -F path=/usr/bin/chacl -F perm=x -F auid>=1000 -F auid!=4294967295 -k perm_chng
-# V-238288
+# V-238288 V-260618
 -a always,exit -F path=/usr/bin/passwd -F perm=x -F auid>=1000 -F auid!=4294967295 -k privileged-passwd
-# V-238289
+# V-238289 V-260626
 -a always,exit -F path=/sbin/unix_update -F perm=x -F auid>=1000 -F auid!=4294967295 -k privileged-unix-update
-# V-238290
+# V-238290 V-260612
 -a always,exit -F path=/usr/bin/gpasswd -F perm=x -F auid>=1000 -F auid!=4294967295 -k privileged-gpasswd
-# V-238291
+# V-238291 V-260606
 -a always,exit -F path=/usr/bin/chage -F perm=x -F auid>=1000 -F auid!=4294967295 -k privileged-chage
-# V-238292
+# V-238292 V-260627
 -a always,exit -F path=/usr/sbin/usermod -F perm=x -F auid>=1000 -F auid!=4294967295 -k privileged-usermod
-# V-238293
+# V-238293 V-260610
 -a always,exit -F path=/usr/bin/crontab -F perm=x -F auid>=1000 -F auid!=4294967295 -k privileged-crontab
-# V-238294
+# V-238294 V-260617
 -a always,exit -F path=/usr/sbin/pam_timestamp_check -F perm=x -F auid>=1000 -F auid!=4294967295 -k privileged-pam_timestamp_check
 
 #syscalls
 
-# V-238295
+# V-238295 V-260637
 -a always,exit -F arch=b32 -S init_module,finit_module -F auid>=1000 -F auid!=4294967295 -k module_chng
 -a always,exit -F arch=b64 -S init_module,finit_module -F auid>=1000 -F auid!=4294967295 -k module_chng
-# V-238297
+# V-238297 V-260636
 -a always,exit -F arch=b32 -S delete_module -F auid>=1000 -F auid!=4294967295 -k module_chng
 -a always,exit -F arch=b64 -S delete_module -F auid>=1000 -F auid!=4294967295 -k module_chng
-# V-238304
+# V-238304 V-260648
 -a always,exit -F arch=b64 -S execve -C uid!=euid -F euid=0 -F key=execpriv
 -a always,exit -F arch=b64 -S execve -C gid!=egid -F egid=0 -F key=execpriv
 -a always,exit -F arch=b32 -S execve -C uid!=euid -F euid=0 -F key=execpriv
 -a always,exit -F arch=b32 -S execve -C gid!=egid -F egid=0 -F key=execpriv
-# V-238310
+# V-238310 V-260639
 -a always,exit -F arch=b64 -S unlink,unlinkat,rename,renameat,rmdir -F auid>=1000 -F auid!=4294967295 -k delete
 -a always,exit -F arch=b32 -S unlink,unlinkat,rename,renameat,rmdir -F auid>=1000 -F auid!=4294967295 -k delete
