@@ -24,14 +24,15 @@ if [ -z "$os_ver" ]; then
     exit 1
 fi
 
-#Wait until appliance is not busy so that sshd_config is properly applied after reboot
+# Wait until appliance is not busy so that sshd_config is properly applied after reboot
 status=$(cz-config status | jq -r .roles.appliance.status)
 while [[ $status == "busy" ]]; do
     sleep 5
     status=$(cz-config status | jq -r .roles.appliance.status)
 done
 
-# V-238204 V-260470
+# V-238204
+# V-260470
 pushd /usr/sbin
 if ! test -e .patched_cz_install; then
     patch -p1 <"$BASE_DIR/data/cz-install.patch"
@@ -54,16 +55,19 @@ if dpkg -l | grep \ auditd\  >/dev/null; then
     touch /etc/cz_stig
 else
     aptupdate
-    # V-238298 install auditd
+    # V-238298
+    # Install auditd
     apt install -o DPkg::Options::="--force-confold" -y auditd
 fi
 
 # V-238244
 sed -i "s/disk_full_action = SUSPEND/disk_full_action = HALT/g" /etc/audit/auditd.conf
 sed -i "s/disk_error_action = SUSPEND/disk_error_action = HALT/g" /etc/audit/auditd.conf
+
 # V-26059
 sed -i "s/space_left = [0-9]*/space_left = 25%/g" /etc/audit/auditd.conf
 sed -i "s/space_left_action = .*$/space_left_action = email/g" /etc/audit/auditd.conf
+
 # V-260599
 sed -i "s/log_group = adm/log_group = root/g" /etc/audit/auditd.conf
 
@@ -91,13 +95,13 @@ chmod 750 /var/log/journal
 chmod o-r /var/log/* /var/log/apt/*
 
 # V-238207
-#Verify the operating system automatically terminates a user session after inactivity timeouts have expired.
-#This decreases timeout from 20 minutes to 10 minutes
+# Verify the operating system automatically terminates a user session after inactivity timeouts have expired.
+# This decreases timeout from 20 minutes to 10 minutes
 sed -i "s:TMOUT=1800:TMOUT=600:g" /etc/profile.d/autologout.sh
 
 # V-238209
-#Verify the Ubuntu operating system defines default permissions for all authenticated
-#users in such a way that the user can read and modify only their own files.
+# Verify the Ubuntu operating system defines default permissions for all authenticated
+# users in such a way that the user can read and modify only their own files.
 sed -i "s:UMASK.*:UMASK 077:g" /etc/login.defs
 
 # V-260545
@@ -106,8 +110,8 @@ cat /etc/login.defs.tmp > /etc/login.defs
 echo "PASS_MIN_DAYS 1" >> /etc/login.defs
 
 # V-238212
-#Verify that all network connections associated with SSH traffic automatically terminate
-#after a period of inactivity.
+# Verify that all network connections associated with SSH traffic automatically terminate
+# after a period of inactivity.
 sed -i "s:ClientAliveCountMax 0:ClientAliveCountMax 1:g" /etc/ssh/sshd_config
 
 # V-238216
@@ -119,15 +123,15 @@ sed -i "s:MACs .*:MACs hmac-sha2-512,hmac-sha2-256:g" /etc/ssh/sshd_config
 sed -i "s:Ciphers .*:Ciphers aes256-ctr,aes192-ctr,aes128-ctr:g" /etc/ssh/sshd_config
 
 # V-238220
-#Verify the SSH daemon prevents remote hosts from connecting to the proxy display.
+# Verify the SSH daemon prevents remote hosts from connecting to the proxy display.
 echo "X11UseLocalhost yes" >>/etc/ssh/sshd_config
 
-#Reload sshd daemon to enforce above changes
+# Reload sshd daemon to enforce above changes
 systemctl reload sshd.service
 
 # V-238214
-#Verify the Ubuntu operating system displays the Standard Mandatory DoD Notice and
-#Consent Banner before granting access to the operating system via an SSH logon
+# Verify the Ubuntu operating system displays the Standard Mandatory DoD Notice and
+# Consent Banner before granting access to the operating system via an SSH logon
 echo "$dod_consent_banner" >/etc/issue.net
 
 # V-238221
@@ -143,7 +147,7 @@ echo "dcredit=-1" >>/etc/security/pwquality.conf
 echo "difok=8" >>/etc/security/pwquality.conf
 
 # V-238225
-#Verify the pwquality configuration file enforces a minimum 15-character password length
+# Verify the pwquality configuration file enforces a minimum 15-character password length
 echo minlen=15 >>/etc/security/pwquality.conf
 
 # V-238226
@@ -163,13 +167,15 @@ grep -v pam_unix.so </etc/pam.d/common-password.new >/etc/pam.d/common-password
 echo "password [success=1 default=ignore] pam_unix.so obscure sha512 shadow remember=5 rounds=100000" >>/etc/pam.d/common-password
 rm /etc/pam.d/common-password.new
 
-# V-238228 install libpam-pwquality
+# V-238228
+# Install libpam-pwquality
 if ! dpkg -l | grep libpam-pwquality >/dev/null; then
     aptupdate
     apt install -o DPkg::Options::="--force-confold" -y libpam-pwquality
 fi
 
-# V-260553 install vlock
+# V-260553
+# Install vlock
 if ! dpkg -l | grep vlock >/dev/null; then
     aptupdate
     apt install -o DPkg::Options::="--force-confold" -y vlock
@@ -180,7 +186,7 @@ fi
 
 # V-238370
 # V-260477
-#Verify is configured to remove all software components after updated versions have been installed
+# Verify is configured to remove all software components after updated versions have been installed
 cat >/etc/apt/apt.conf.d/50unattended-upgrades <<-EOM
 Unattended-Upgrade::Remove-Unused-Dependencies "true";
 Unattended-Upgrade::Remove-Unused-Kernel-Packages "true";
@@ -213,8 +219,8 @@ cp "$BASE_DIR/data/55-auth.conf" /etc/rsyslog.d/
 systemctl restart rsyslog
 
 # V-260500
-#library files must be group-owned by "root".
-#NOTE: /lib is a symlink to /usr/lib
+# library files must be group-owned by "root".
+# NOTE: /lib is a symlink to /usr/lib
 FILES="\
 /usr/lib/x86_64-linux-gnu/utempter/utempter \
 /usr/lib/dbus-1.0/dbus-daemon-launch-helper \
