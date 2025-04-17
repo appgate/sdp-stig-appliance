@@ -1,6 +1,6 @@
 #!/bin/bash
 
-#load shared vars
+# Load shared vars
 BASE_DIR="$(cd "$(dirname "$0")"; pwd)";
 source "${BASE_DIR}/data/settings.config"
 
@@ -10,21 +10,22 @@ if [ -z "$os_ver" ]; then
 	exit 1
 fi
 
-#V-219212 
+# V-219212
 systemctl unmask ctrl-alt-del.target
 systemctl daemon-reload
 
-#V-219156
+# V-219156
 rm /etc/apt/apt.conf.d/50unattended-upgrades 
 
-#V-219181 & V-219184
+# V-219181
+# V-219184
 rm /etc/security/pwquality.conf
 
-#V-219303
+# V-219303
 sed -i "s:900:1800:g" /etc/profile.d/autologout.sh
 
-#V-219328
+# V-219328
 sed -i "s:K 077:K 027:g" /etc/login.defs
 
-#V-219339
+# V-219339
 rm /etc/modprobe.d/DISASTIG.conf
