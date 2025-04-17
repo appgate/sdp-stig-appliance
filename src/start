@@ -1,7 +1,4 @@
 #!/bin/bash
-# Updated 2023-09-26 for Appgate 6.2.2 scanned with
-# Ubuntu 20.04 LTS STIG for Ansible - Ver 1, Rel 9 released 2023-07-20
-#load shared vars
 
 function aptupdate() {
     # When called it runs apt update, but at most once every hour
@@ -93,12 +90,12 @@ chmod 750 /var/log/journal
 # V-238337
 chmod o-r /var/log/* /var/log/apt/*
 
-#https://www.stigviewer.com/stig/canonical_ubuntu_20.04_lts/2022-09-07/finding/V-238207
+# V-238207
 #Verify the operating system automatically terminates a user session after inactivity timeouts have expired.
 #This decreases timeout from 20 minutes to 10 minutes
 sed -i "s:TMOUT=1800:TMOUT=600:g" /etc/profile.d/autologout.sh
 
-#https://www.stigviewer.com/stig/canonical_ubuntu_20.04_lts/2022-09-07/finding/V-238209
+# V-238209
 #Verify the Ubuntu operating system defines default permissions for all authenticated
 #users in such a way that the user can read and modify only their own files.
 sed -i "s:UMASK.*:UMASK 077:g" /etc/login.defs
@@ -108,55 +105,55 @@ grep -v ^PASS_MIN_DAYS < /etc/login.defs > /etc/login.defs.tmp
 cat /etc/login.defs.tmp > /etc/login.defs
 echo "PASS_MIN_DAYS 1" >> /etc/login.defs
 
-#https://www.stigviewer.com/stig/canonical_ubuntu_20.04_lts/2022-09-07/finding/V-238212
+# V-238212
 #Verify that all network connections associated with SSH traffic automatically terminate
 #after a period of inactivity.
 sed -i "s:ClientAliveCountMax 0:ClientAliveCountMax 1:g" /etc/ssh/sshd_config
 
-#https://www.stigviewer.com/stig/canonical_ubuntu_20.04_lts/2022-09-07/finding/V-238216
+# V-238216
 #Verify the SSH daemon is configured to only use MACs that employ FIPS 140-2 approved ciphers
 sed -i "s:MACs .*:MACs hmac-sha2-512,hmac-sha2-256:g" /etc/ssh/sshd_config
 
-#https://www.stigviewer.com/stig/canonical_ubuntu_20.04_lts/2022-09-07/finding/V-238217
+# V-238217
 #Verify the SSH daemon is configured to only implement FIPS-approved algorithms
 sed -i "s:Ciphers .*:Ciphers aes256-ctr,aes192-ctr,aes128-ctr:g" /etc/ssh/sshd_config
 
-#https://www.stigviewer.com/stig/canonical_ubuntu_20.04_lts/2022-09-07/finding/V-238220
+# V-238220
 #Verify the SSH daemon prevents remote hosts from connecting to the proxy display.
 echo "X11UseLocalhost yes" >>/etc/ssh/sshd_config
 
 #Reload sshd daemon to enforce above changes
 systemctl reload sshd.service
 
-#https://www.stigviewer.com/stig/canonical_ubuntu_20.04_lts/2022-09-07/finding/V-238214
+# V-238214
 #Verify the Ubuntu operating system displays the Standard Mandatory DoD Notice and
 #Consent Banner before granting access to the operating system via an SSH logon
 echo "$dod_consent_banner" >/etc/issue.net
 
-#https://www.stigviewer.com/stig/canonical_ubuntu_20.04_lts/2022-09-07/finding/V-238221
+# V-238221
 echo "ucredit=-1" >>/etc/security/pwquality.conf
 
-#https://www.stigviewer.com/stig/canonical_ubuntu_20.04_lts/2022-09-07/finding/V-238222
+# V-238222
 echo "lcredit=-1" >>/etc/security/pwquality.conf
 
-#https://www.stigviewer.com/stig/canonical_ubuntu_20.04_lts/2022-09-07/finding/V-238223
+# V-238223
 echo "dcredit=-1" >>/etc/security/pwquality.conf
 
-#https://www.stigviewer.com/stig/canonical_ubuntu_20.04_lts/2022-09-07/finding/V-238224
+# V-238224
 echo "difok=8" >>/etc/security/pwquality.conf
 
-#https://www.stigviewer.com/stig/canonical_ubuntu_20.04_lts/2022-09-07/finding/V-238225
+# V-238225
 #Verify the pwquality configuration file enforces a minimum 15-character password length
 echo minlen=15 >>/etc/security/pwquality.conf
 
-#https://www.stigviewer.com/stig/canonical_ubuntu_20.04_lts/2022-09-07/finding/V-238226
+# V-238226
 echo "ocredit=-1" >>/etc/security/pwquality.conf
 
-#https://www.stigviewer.com/stig/canonical_ubuntu_20.04_lts/2022-09-07/finding/V-238227
+# V-238227
 #Verify the Ubuntu operating system uses the "cracklib" library to prevent the use of dictionary words
 echo dictcheck=1 >>/etc/security/pwquality.conf
 
-#https://www.stigviewer.com/stig/canonical_ubuntu_20.04_lts/2022-09-07/finding/V-238228
+# V-238228
 echo enforcing=1 >>/etc/security/pwquality.conf
 echo "password requisite pam_pwquality.so retry=3" >>/etc/pam.d/common-password
 
@@ -181,7 +178,7 @@ if ! dpkg -l | grep vlock >/dev/null; then
     rm -f /lib/vlock/modules/nosysrq.so
 fi
 
-#https://www.stigviewer.com/stig/canonical_ubuntu_20.04_lts/2022-09-07/finding/V-238370
+# V-238370
 # V-260477
 #Verify is configured to remove all software components after updated versions have been installed
 cat >/etc/apt/apt.conf.d/50unattended-upgrades <<-EOM
@@ -189,7 +186,7 @@ Unattended-Upgrade::Remove-Unused-Dependencies "true";
 Unattended-Upgrade::Remove-Unused-Kernel-Packages "true";
 EOM
 
-#https://www.stigviewer.com/stig/canonical_ubuntu_20.04_lts/2022-09-07/finding/V-251505
+# V-251505
 # V-260540
 cat >/etc/modprobe.d/blacklist-usb.conf <<-EOM
 blacklist usb-storage
@@ -215,7 +212,7 @@ systemctl restart sshd.service
 cp "$BASE_DIR/data/55-auth.conf" /etc/rsyslog.d/
 systemctl restart rsyslog
 
-#https://stigviewer.com/stig/canonical_ubuntu_22.04_lts/2024-05-30/finding/V-260500
+# V-260500
 #library files must be group-owned by "root".
 #NOTE: /lib is a symlink to /usr/lib
 FILES="\
