@@ -41,6 +41,10 @@ fi
 popd
 cz-install bootmenu $(cat /mnt/state/volume-number)
 
+# C1 V-260570 Ubuntu 22.04 LTS must not allow accounts configured with blank or null passwords.
+# https://stigviewer.com/stig/canonical_ubuntu_22.04_lts/2024-11-25/finding/V-260570
+sed -i 's/nullok//g' /etc/pam.d/common-auth
+
 mkdir -p /etc/audit/rules.d/
 echo "" >/etc/audit/rules.d/audit.rules
 cp "$BASE_DIR/data/10-base-config.rules" /etc/audit/rules.d/
