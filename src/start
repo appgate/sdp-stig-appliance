@@ -1,5 +1,7 @@
 #!/bin/bash
 
+cz-config admin-message -l Information "Begin applying STIG customization"
+
 function aptupdate() {
     # When called it runs apt update, but at most once every hour
     # otherwise it is skipped.
@@ -228,3 +230,4 @@ FILES="\
 for FILE in $FILES; do
     chgrp root "$FILE"
 done
+cz-config admin-message -l Information "Finished applying STIG customization"
