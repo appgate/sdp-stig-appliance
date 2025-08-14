@@ -1,5 +1,7 @@
 #!/bin/bash
 
+cz-config admin-message -l Information "Begin applying STIG customization"
+
 function aptupdate() {
     # When called it runs apt update, but at most once every hour
     # otherwise it is skipped.
@@ -31,15 +33,13 @@ while [[ $status == "busy" ]]; do
     status=$(cz-config status | jq -r .roles.appliance.status)
 done
 
-# V-238204
-# V-260470
-pushd /usr/sbin
-if ! test -e .patched_cz_install; then
-    patch -p1 <"$BASE_DIR/data/cz-install.patch"
-    touch .patched_cz_install
-fi
-popd
-cz-install bootmenu $(cat /mnt/state/volume-number)
+# V-238204 for ubuntu 20.04 & V-260470 for ubuntu 22.04
+#Lock single user and maintenance mode
+cz-config set -j kernel/lockGrubEdit true
+
+# V-260570 for ubuntu 22.04 & V-251504 for ubuntu 20.04
+
+sed -i 's/nullok//g' /etc/pam.d/common-auth
 
 mkdir -p /etc/audit/rules.d/
 echo "" >/etc/audit/rules.d/audit.rules
@@ -79,10 +79,11 @@ if grep '^cz:\$' </etc/shadow >/dev/null; then
     sed -i "s/NOPASSWD://g" /etc/sudoers
 fi
 
-# V-238201
+
+# V-238201 for ubuntu 20.04 & V-260579 for ubuntu 22.04
 # FIXME we don't use smart card authentication
 mkdir -p /etc/pam_pkcs11/
-echo "use_mappers=pwent" >/etc/pam_pkcs11/pam_pkcs11.conf
+echo "use_mappers = pwent;" >/etc/pam_pkcs11/pam_pkcs11.conf
 
 # V-238373
 sed -i '1i session required pam_lastlog.so showfailed' /etc/pam.d/login
@@ -229,3 +230,4 @@ FILES="\
 for FILE in $FILES; do
     chgrp root "$FILE"
 done
+cz-config admin-message -l Information "Finished applying STIG customization"
