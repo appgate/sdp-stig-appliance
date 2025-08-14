@@ -83,7 +83,7 @@ fi
 # V-238201 for ubuntu 20.04 & V-260579 for ubuntu 22.04
 # FIXME we don't use smart card authentication
 mkdir -p /etc/pam_pkcs11/
-echo "use_mappers = pwent" >/etc/pam_pkcs11/pam_pkcs11.conf
+echo "use_mappers = pwent;" >/etc/pam_pkcs11/pam_pkcs11.conf
 
 # V-238373
 sed -i '1i session required pam_lastlog.so showfailed' /etc/pam.d/login
