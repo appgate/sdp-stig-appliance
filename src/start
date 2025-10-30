@@ -306,3 +306,10 @@ if ! grep -q "\* hard maxlogins 10" /etc/security/limits.conf
 then
   echo "* hard maxlogins 10" >> /etc/security/limits.conf
 fi
+
+# V-260596
+cp -a /etc/audit/auditd.conf /etc/audit/auditd.conf.new
+grep -vE "^space_left |^space_left_action " < /etc/audit/auditd.conf.new > /etc/audit/auditd.conf
+echo "space_left = 25%
+space_left_action = email " >> /etc/audit/auditd.conf
+systemctl restart auditd.service
