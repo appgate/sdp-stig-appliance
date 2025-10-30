@@ -241,6 +241,9 @@ chmod 0755 /var/log
 # V-260489
 find /var/log -perm /137 ! -name '*[bw]tmp' ! -name '*lastlog' -type f -exec chmod 640 '{}' \;
 
+# V-260512
+chmod 740 /usr/bin/journalctl
+
 # V-260500
 # library files must be group-owned by "root".
 # NOTE: /lib is a symlink to /usr/lib
