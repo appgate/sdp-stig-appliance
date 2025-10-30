@@ -24,6 +24,8 @@
 -w /var/log/btmp -p wa -k logins
 # V-260646
 -w /etc/sudoers -p wa -k privilege_modification
+# V-260647
+-w /etc/sudoers.d -p wa -k privilege_modification
 
 # Monitor commands
 
