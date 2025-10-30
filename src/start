@@ -297,3 +297,6 @@ silent
 deny = 3
 fail_interval = 900
 unlock_time = 0" >> /etc/security/faillock.conf
+
+# V-260550
+echo "auth required pam_faildelay.so delay=4000000" >> /etc/pam.d/common-auth
