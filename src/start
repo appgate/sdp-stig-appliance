@@ -286,3 +286,6 @@ then
   echo "$aide_str" >> /etc/aide.conf
   augenrules --load
 fi
+
+# V-260473
+systemctl mask kdump-tools
