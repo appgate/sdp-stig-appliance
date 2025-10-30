@@ -33,6 +33,7 @@ done
 
 # V-238204
 # V-260470
+# V-260611
 pushd /usr/sbin
 if ! test -e .patched_cz_install; then
     patch -p1 <"$BASE_DIR/data/cz-install.patch"
@@ -46,6 +47,7 @@ echo "" >/etc/audit/rules.d/audit.rules
 cp "$BASE_DIR/data/10-base-config.rules" /etc/audit/rules.d/
 cp "$BASE_DIR/data/30-stig.rules" /etc/audit/rules.d/
 cp "$BASE_DIR/data/99-finalize.rules" /etc/audit/rules.d/
+augenrules --load
 
 # V-238249
 chmod -R 0640 /etc/audit/audit*.{rules,conf} /etc/audit/rules.d/*
