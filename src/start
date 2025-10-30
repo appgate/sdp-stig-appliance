@@ -248,3 +248,6 @@ systemctl restart sshd.service
 # V-260540
 echo install usb-storage /bin/false >> /etc/modprobe.d/stig.conf
 echo blacklist usb-storage >> /etc/modprobe.d/stig.conf
+
+# V-260542
+passwd -l root
