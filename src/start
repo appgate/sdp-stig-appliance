@@ -251,3 +251,8 @@ echo blacklist usb-storage >> /etc/modprobe.d/stig.conf
 
 # V-260542
 passwd -l root
+
+# V-260546
+cp -a /etc/login.defs /etc/login.defs.new
+grep -v "PASS_MAX_DAYS" < /etc/login.defs.new > /etc/login.defs
+echo 'PASS_MAX_DAYS 60' >> /etc/login.defs
