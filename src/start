@@ -262,3 +262,6 @@ useradd -D -f 35
 
 # V-260556
 apt install -y apparmor
+
+# V-260582
+apt install -y aide
