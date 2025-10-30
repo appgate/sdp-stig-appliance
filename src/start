@@ -246,3 +246,11 @@ chmod 740 /usr/bin/journalctl
 
 # V-260500
 find -L /lib /usr/lib /lib64 /usr/lib64 -type f ! -group root -exec chgrp root -- {} +
+
+# V-260527
+# V-260534
+cp -a /etc/ssh/sshd_config /etc/ssh/sshd_config.new
+grep -vE "ClientAliveCountMax|UsePAM" < /etc/ssh/sshd_config.new > /etc/ssh/sshd_config
+echo 'ClientAliveCountMax 1' >> /etc/ssh/sshd_config
+echo 'UsePAM yes' >> /etc/ssh/sshd_config
+systemctl restart sshd.service
