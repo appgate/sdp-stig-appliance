@@ -265,3 +265,9 @@ apt install -y apparmor
 
 # V-260582
 apt install -y aide
+
+# V-260584
+if ! grep -q "SILENTREPORTS=no" /etc/default/aide
+then
+  echo "SILENTREPORTS=no" >> /etc/default/aide
+fi
