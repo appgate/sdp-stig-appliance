@@ -256,3 +256,6 @@ passwd -l root
 cp -a /etc/login.defs /etc/login.defs.new
 grep -v "PASS_MAX_DAYS" < /etc/login.defs.new > /etc/login.defs
 echo 'PASS_MAX_DAYS 60' >> /etc/login.defs
+
+# V-260547
+useradd -D -f 35
