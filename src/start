@@ -245,13 +245,4 @@ find /var/log -perm /137 ! -name '*[bw]tmp' ! -name '*lastlog' -type f -exec chm
 chmod 740 /usr/bin/journalctl
 
 # V-260500
-# library files must be group-owned by "root".
-# NOTE: /lib is a symlink to /usr/lib
-FILES="\
-/usr/lib/x86_64-linux-gnu/utempter/utempter \
-/usr/lib/dbus-1.0/dbus-daemon-launch-helper \
-/usr/lib/ssl/private/ssl-cert-snakeoil.key \
-"
-for FILE in $FILES; do
-    chgrp root "$FILE"
-done
+find -L /lib /usr/lib /lib64 /usr/lib64 -type f ! -group root -exec chgrp root -- {} +
