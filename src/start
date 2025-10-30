@@ -259,3 +259,6 @@ echo 'PASS_MAX_DAYS 60' >> /etc/login.defs
 
 # V-260547
 useradd -D -f 35
+
+# V-260556
+apt install -y apparmor
