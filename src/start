@@ -203,17 +203,6 @@ Unattended-Upgrade::Remove-Unused-Dependencies "true";
 Unattended-Upgrade::Remove-Unused-Kernel-Packages "true";
 EOM
 
-# V-251505
-# V-260540
-cat >/etc/modprobe.d/blacklist-usb.conf <<-EOM
-blacklist usb-storage
-install usb-storage /bin/true
-EOM
-chmod 644 /etc/modprobe.d/blacklist-usb.conf
-if ! cz-config get kernel/cmdlineOptions | grep module_blacklist=usb_storage >/dev/null; then
-    cz-config set kernel/cmdlineOptions "$(cz-config get kernel/cmdlineOptions) module_blacklist=usb_storage"
-fi
-
 # V-260471
 # pass audit=1 to the kernel command line
 if ! cz-config get kernel/cmdlineOptions | grep audit=1 >/dev/null; then
@@ -254,3 +243,8 @@ grep -vE "ClientAliveCountMax|UsePAM" < /etc/ssh/sshd_config.new > /etc/ssh/sshd
 echo 'ClientAliveCountMax 1' >> /etc/ssh/sshd_config
 echo 'UsePAM yes' >> /etc/ssh/sshd_config
 systemctl restart sshd.service
+
+# V-251505
+# V-260540
+echo install usb-storage /bin/false >> /etc/modprobe.d/stig.conf
+echo blacklist usb-storage >> /etc/modprobe.d/stig.conf
