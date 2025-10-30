@@ -22,6 +22,8 @@
 -w /var/run/utmp -p wa -k logins
 # V-238317 V-260641
 -w /var/log/btmp -p wa -k logins
+# V-260646
+-w /etc/sudoers -p wa -k privilege_modification
 
 # Monitor commands
 
@@ -89,6 +91,8 @@
 -a always,exit -F path=/usr/bin/crontab -F perm=x -F auid>=1000 -F auid!=4294967295 -k privileged-crontab
 # V-238294 V-260617
 -a always,exit -F path=/usr/sbin/pam_timestamp_check -F perm=x -F auid>=1000 -F auid!=4294967295 -k privileged-pam_timestamp_check
+# V-260640
+-w /var/log/journal -p wa -k systemd_journal
 
 #syscalls
 
