@@ -271,3 +271,18 @@ if ! grep -q "SILENTREPORTS=no" /etc/default/aide
 then
   echo "SILENTREPORTS=no" >> /etc/default/aide
 fi
+
+# V-260586
+aide_str="# Audit Tools
+/sbin/auditctl p+i+n+u+g+s+b+acl+xattrs+sha512
+/sbin/auditd p+i+n+u+g+s+b+acl+xattrs+sha512
+/sbin/ausearch p+i+n+u+g+s+b+acl+xattrs+sha512
+/sbin/aureport p+i+n+u+g+s+b+acl+xattrs+sha512
+/sbin/autrace p+i+n+u+g+s+b+acl+xattrs+sha512
+/sbin/augenrules p+i+n+u+g+s+b+acl+xattrs+sha512"
+
+if ! grep -Fxq "# Audit tools" /etc/aide.conf
+then
+  echo "$aide_str" >> /etc/aide.conf
+  augenrules --load
+fi
