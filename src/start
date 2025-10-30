@@ -216,7 +216,7 @@ systemctl restart sshd.service
 # V-260589
 # Monitor remote access methods
 cp "$BASE_DIR/data/55-auth.conf" /etc/rsyslog.d/
-systemctl restart rsyslog
+systemctl restart rsyslog.service
 
 # V-260500
 # library files must be group-owned by "root".
