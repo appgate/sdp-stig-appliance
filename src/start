@@ -289,3 +289,11 @@ fi
 
 # V-260473
 systemctl mask kdump-tools
+
+# V-260549
+sed -i 's/auth\t\[success=1 default=ignore\]\tpam_unix.so/auth\t[success=1 default=ignore]\tpam_unix.so\nauth\t[default=die]\tpam_faillock.so\tauthfail\nauth\tsufficient\tpam_faillock.so\tauthsucc /' /etc/pam.d/common-auth
+echo "audit
+silent
+deny = 3
+fail_interval = 900
+unlock_time = 0" >> /etc/security/faillock.conf
