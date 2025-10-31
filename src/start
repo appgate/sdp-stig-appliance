@@ -313,3 +313,7 @@ grep -vE "^space_left |^space_left_action " < /etc/audit/auditd.conf.new > /etc/
 echo "space_left = 25%
 space_left_action = email " >> /etc/audit/auditd.conf
 systemctl restart auditd.service
+
+# V-260570
+sed -i 's/nullok//' /etc/pam.d/common-auth
+sed -i 's/nullok//' /etc/pam.d/common-password
