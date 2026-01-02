@@ -31,9 +31,8 @@ while [[ $status == "busy" ]]; do
     status=$(cz-config status | jq -r .roles.appliance.status)
 done
 
-# V-238204
-# V-260470
-# V-260611
+# V-270675
+# V-270815
 pushd /usr/sbin
 if ! test -e .patched_cz_install; then
     patch -p1 <"$BASE_DIR/data/cz-install.patch"
@@ -49,7 +48,7 @@ cp "$BASE_DIR/data/30-stig.rules" /etc/audit/rules.d/
 cp "$BASE_DIR/data/99-finalize.rules" /etc/audit/rules.d/
 augenrules --load
 
-# V-238249
+# V-270775
 chmod -R 0640 /etc/audit/audit*.{rules,conf} /etc/audit/rules.d/*
 
 if dpkg -l | grep \ auditd\  >/dev/null; then
@@ -57,32 +56,23 @@ if dpkg -l | grep \ auditd\  >/dev/null; then
     touch /etc/cz_stig
 else
     aptupdate
-    # V-238298
+    # V-270657
     # Install auditd
     apt install -o DPkg::Options::="--force-confold" -y auditd
 fi
 
-# V-238244
-sed -i "s/disk_full_action = SUSPEND/disk_full_action = HALT/g" /etc/audit/auditd.conf
-sed -i "s/disk_error_action = SUSPEND/disk_error_action = HALT/g" /etc/audit/auditd.conf
-
-# V-26059
-sed -i "s/space_left = [0-9]*/space_left = 25%/g" /etc/audit/auditd.conf
-sed -i "s/space_left_action = .*$/space_left_action = email/g" /etc/audit/auditd.conf
-
-# V-260599
+# V-270829
 sed -i "s/log_group = adm/log_group = root/g" /etc/audit/auditd.conf
 
 service auditd restart
 
-# V-238208
+# V-270707
 # Require password for sudo, only if cz has a password set
 if grep '^cz:\$' </etc/shadow >/dev/null; then
     sed -i "s/NOPASSWD://g" /etc/sudoers
 fi
 
-# V-238201
-# V-260579
+# V-270736
 # FIXME we don't use smart card authentication
 mkdir -p /etc/pam_pkcs11/
 echo "use_mappers = pwent" > /etc/pam_pkcs11/pam_pkcs11.conf
@@ -95,184 +85,182 @@ echo "  # Certificate Common Name ( CN ) to getpwent() mapper
   }" >> /etc/pam_pkcs11/pam_pkcs11.conf
 
 
-# V-238373
+# V-270710
 sed -i '1i session required pam_lastlog.so showfailed' /etc/pam.d/login
 
-# V-260490
+# V-270757
 chmod 750 /run/log/journal
 chmod 750 /var/log/journal
 
-# V-238337
+# V-270756
 chmod o-r /var/log/* /var/log/apt/*
 
-# V-238207
+# V-270680
 # Verify the operating system automatically terminates a user session after inactivity timeouts have expired.
 # This decreases timeout from 20 minutes to 10 minutes
 sed -i "s:TMOUT=1800:TMOUT=600:g" /etc/profile.d/autologout.sh
 
-# V-238209
+# V-270716
 # Verify the Ubuntu operating system defines default permissions for all authenticated
 # users in such a way that the user can read and modify only their own files.
 sed -i "s:UMASK.*:UMASK 077:g" /etc/login.defs
 
-# V-260545
+# V-270730
 grep -v ^PASS_MIN_DAYS < /etc/login.defs > /etc/login.defs.tmp
 cat /etc/login.defs.tmp > /etc/login.defs
 echo "PASS_MIN_DAYS 1" >> /etc/login.defs
 
-# V-238212
+# V-270742
 # Verify that all network connections associated with SSH traffic automatically terminate
 # after a period of inactivity.
 sed -i "s:ClientAliveCountMax 0:ClientAliveCountMax 1:g" /etc/ssh/sshd_config
 
-# V-238216
-#Verify the SSH daemon is configured to only use MACs that employ FIPS 140-2 approved ciphers
+# V-270668
+# Verify the SSH daemon is configured to only use MACs that employ FIPS 140-2 approved ciphers
 sed -i "s:MACs .*:MACs hmac-sha2-512,hmac-sha2-256:g" /etc/ssh/sshd_config
 
-# V-238217
-#Verify the SSH daemon is configured to only implement FIPS-approved algorithms
+# V-270667
+# Verify the SSH daemon is configured to only implement FIPS-approved algorithms
 sed -i "s:Ciphers .*:Ciphers aes256-ctr,aes192-ctr,aes128-ctr:g" /etc/ssh/sshd_config
 
-# V-238220
+# V-270709
 # Verify the SSH daemon prevents remote hosts from connecting to the proxy display.
 echo "X11UseLocalhost yes" >>/etc/ssh/sshd_config
 
 # Reload sshd daemon to enforce above changes
 systemctl reload sshd.service
 
-# V-238214
+# V-270693
 # Verify the Ubuntu operating system displays the Standard Mandatory DoD Notice and
 # Consent Banner before granting access to the operating system via an SSH logon
 echo "$dod_consent_banner" >/etc/issue.net
 
-# V-238221
+# V-270726
 echo "ucredit=-1" >>/etc/security/pwquality.conf
 
-# V-238222
+# V-270727
 echo "lcredit=-1" >>/etc/security/pwquality.conf
 
-# V-238223
+# V-270728
 echo "dcredit=-1" >>/etc/security/pwquality.conf
 
-# V-238224
+# V-270729
 echo "difok=8" >>/etc/security/pwquality.conf
 
-# V-238225
+# V-270732
 # Verify the pwquality configuration file enforces a minimum 15-character password length
 echo minlen=15 >>/etc/security/pwquality.conf
 
-# V-238226
+# V-270733
 echo "ocredit=-1" >>/etc/security/pwquality.conf
 
-# V-238227
-#Verify the Ubuntu operating system uses the "cracklib" library to prevent the use of dictionary words
+# V-270704
+# Verify the Ubuntu operating system uses the "cracklib" library to prevent the use of dictionary words
 echo dictcheck=1 >>/etc/security/pwquality.conf
 
-# V-238228
+# V-270705
 echo enforcing=1 >>/etc/security/pwquality.conf
 echo "password requisite pam_pwquality.so retry=3" >>/etc/pam.d/common-password
 
-# V-260569
+# V-270725
 cp -a /etc/pam.d/common-password /etc/pam.d/common-password.new
 grep -v pam_unix.so </etc/pam.d/common-password.new >/etc/pam.d/common-password
 echo "password [success=1 default=ignore] pam_unix.so obscure sha512 shadow remember=5 rounds=100000" >>/etc/pam.d/common-password
 rm /etc/pam.d/common-password.new
 
-# V-238228
+# V-270705
 # Install libpam-pwquality
 if ! dpkg -l | grep libpam-pwquality >/dev/null; then
     aptupdate
     apt install -o DPkg::Options::="--force-confold" -y libpam-pwquality
 fi
 
-# V-260553
+# V-270674
 # Install vlock
 if ! dpkg -l | grep vlock >/dev/null; then
     aptupdate
     apt install -o DPkg::Options::="--force-confold" -y vlock
-    # V-260500 except this file+symlink
+    # V-270697 except this file+symlink
     rm -f /usr/lib/vlock/modules/nosysrq.so
     rm -f /lib/vlock/modules/nosysrq.so
 fi
 
-# V-238370
-# V-260477
+# V-270773
 # Verify is configured to remove all software components after updated versions have been installed
 cat >/etc/apt/apt.conf.d/50unattended-upgrades <<-EOM
 Unattended-Upgrade::Remove-Unused-Dependencies "true";
 Unattended-Upgrade::Remove-Unused-Kernel-Packages "true";
 EOM
 
-# V-260471
-# pass audit=1 to the kernel command line
+# V-270676
+# Pass audit=1 to the kernel command line
 if ! cz-config get kernel/cmdlineOptions | grep audit=1 >/dev/null; then
     cz-config set kernel/cmdlineOptions "$(cz-config get kernel/cmdlineOptions) audit=1"
 fi
 
-# V-260531
+# V-270667
 sed -i "s:Ciphers .*:Ciphers aes256-ctr,aes192-ctr,aes128-ctr:g" /etc/ssh/sshd_config
 systemctl restart sshd.service
 
-# V-260589
+# V-270681
 # Monitor remote access methods
 cp "$BASE_DIR/data/55-auth.conf" /etc/rsyslog.d/
 systemctl restart rsyslog.service
 
-# V-260469
+# V-270712
 rm -f /etc/systemd/system/ctrl-alt-del.target
 systemctl disable ctrl-alt-del.target
 systemctl mask ctrl-alt-del.target
 systemctl daemon-reload
 
-# V-260488
+# V-270767
 chmod 0755 /var/log
 
-# V-260489
+# V-270756
 find /var/log -perm /137 ! -name '*[bw]tmp' ! -name '*lastlog' -type f -exec chmod 640 '{}' \;
 
-# V-260512
+# V-270758
 chmod 740 /usr/bin/journalctl
 
-# V-260500
+# V-270697
 find -L /lib /usr/lib /lib64 /usr/lib64 -type f ! -group root -exec chgrp root -- {} +
 
-# V-260527
-# V-260534
+# V-270742
+# V-270741
 cp -a /etc/ssh/sshd_config /etc/ssh/sshd_config.new
 grep -vE "ClientAliveCountMax|UsePAM" < /etc/ssh/sshd_config.new > /etc/ssh/sshd_config
 echo 'ClientAliveCountMax 1' >> /etc/ssh/sshd_config
 echo 'UsePAM yes' >> /etc/ssh/sshd_config
 systemctl restart sshd.service
 
-# V-251505
-# V-260540
+# V-270718
 echo install usb-storage /bin/false >> /etc/modprobe.d/stig.conf
 echo blacklist usb-storage >> /etc/modprobe.d/stig.conf
 
-# V-260542
+# V-270724
 passwd -l root
 
-# V-260546
+# V-270731
 cp -a /etc/login.defs /etc/login.defs.new
 grep -v "PASS_MAX_DAYS" < /etc/login.defs.new > /etc/login.defs
 echo 'PASS_MAX_DAYS 60' >> /etc/login.defs
 
-# V-260547
+# V-270683
 useradd -D -f 35
 
-# V-260556
+# V-270659
 apt install -y apparmor
 
-# V-260582
+# V-270649
 apt install -y aide
 
-# V-260584
+# V-270652
 if ! grep -q "SILENTREPORTS=no" /etc/default/aide
 then
   echo "SILENTREPORTS=no" >> /etc/default/aide
 fi
 
-# V-260586
+# V-270831
 aide_str="# Audit Tools
 /sbin/auditctl p+i+n+u+g+s+b+acl+xattrs+sha512
 /sbin/auditd p+i+n+u+g+s+b+acl+xattrs+sha512
@@ -287,10 +275,10 @@ then
   augenrules --load
 fi
 
-# V-260473
+# V-270746
 systemctl mask kdump-tools
 
-# V-260549
+# V-270690
 sed -i 's/auth\t\[success=1 default=ignore\]\tpam_unix.so/auth\t[success=1 default=ignore]\tpam_unix.so\nauth\t[default=die]\tpam_faillock.so\tauthfail\nauth\tsufficient\tpam_faillock.so\tauthsucc /' /etc/pam.d/common-auth
 echo "audit
 silent
@@ -298,22 +286,22 @@ deny = 3
 fail_interval = 900
 unlock_time = 0" >> /etc/security/faillock.conf
 
-# V-260550
+# V-270706
 echo "auth required pam_faildelay.so delay=4000000" >> /etc/pam.d/common-auth
 
-# V-260552
+# V-270677
 if ! grep -q "\* hard maxlogins 10" /etc/security/limits.conf
 then
   echo "* hard maxlogins 10" >> /etc/security/limits.conf
 fi
 
-# V-260596
+# V-270818
 cp -a /etc/audit/auditd.conf /etc/audit/auditd.conf.new
 grep -vE "^space_left |^space_left_action " < /etc/audit/auditd.conf.new > /etc/audit/auditd.conf
 echo "space_left = 25%
 space_left_action = email " >> /etc/audit/auditd.conf
 systemctl restart auditd.service
 
-# V-260570
+# V-270713
 sed -i 's/nullok//' /etc/pam.d/common-auth
 sed -i 's/nullok//' /etc/pam.d/common-password
