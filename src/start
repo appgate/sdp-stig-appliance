@@ -216,8 +216,6 @@ systemctl daemon-reload
 # V-270767
 chmod 0755 /var/log
 
-# V-270756
-find /var/log -perm /137 ! -name '*[bw]tmp' ! -name '*lastlog' -type f -exec chmod 640 '{}' \;
 
 # V-270758
 chmod 740 /usr/bin/journalctl
@@ -305,3 +303,8 @@ systemctl restart auditd.service
 # V-270713
 sed -i 's/nullok//' /etc/pam.d/common-auth
 sed -i 's/nullok//' /etc/pam.d/common-password
+
+# V-270756
+find /var/log -perm /137 ! -name '*[bw]tmp' ! -name '*lastlog' -type f -exec chmod 640 '{}' \;
+rm /var/log/README
+
