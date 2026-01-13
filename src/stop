@@ -32,3 +32,6 @@ rm /etc/modprobe.d/DISASTIG.conf
 # V-260589
 rm /etc/rsyslog.d/55-auth.conf
 systemctl restart rsyslog
+
+# V-270831
+rm /etc/aide.conf
