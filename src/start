@@ -309,3 +309,6 @@ sed -i 's/nullok//' /etc/pam.d/common-password
 find /var/log -perm /137 ! -name '*[bw]tmp' ! -name '*lastlog' -type f -exec chmod 640 '{}' \;
 rm /var/log/README
 
+# V-270654
+apt install -y ufw
+dpkg --configure -a
