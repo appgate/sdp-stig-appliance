@@ -267,7 +267,8 @@ aide_str="# Audit Tools
 /sbin/ausearch p+i+n+u+g+s+b+acl+xattrs+sha512
 /sbin/aureport p+i+n+u+g+s+b+acl+xattrs+sha512
 /sbin/autrace p+i+n+u+g+s+b+acl+xattrs+sha512
-/sbin/augenrules p+i+n+u+g+s+b+acl+xattrs+sha512"
+/sbin/augenrules p+i+n+u+g+s+b+acl+xattrs+sha512
+/sbin/audispd p+i+n+u+g+s+b+acl+xattrs+sha512"
 
 if ! grep -Fxq "# Audit tools" /etc/aide.conf
 then
