@@ -309,3 +309,7 @@ sed -i 's/nullok//' /etc/pam.d/common-password
 find /var/log -perm /137 ! -name '*[bw]tmp' ! -name '*lastlog' -type f -exec chmod 640 '{}' \;
 rm /var/log/README
 
+# V-270670
+accepted_ciphers="    Ciphers aes256-gcm@openssh.com,aes128-gcm@openssh.com,aes256-ctr,aes128-ctr"
+sed -Ei "s/#\s{3,4}Ciphers.*$/${accepted_ciphers}/" /etc/ssh/ssh_config
+systemctl restart ssh
