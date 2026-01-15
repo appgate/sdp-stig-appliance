@@ -42,10 +42,10 @@ def generate_markdown(
     findings = {}
     for group in stig_data.get("groups", []):
         findings[group["groupId"]] = {
-            "severity": group["ruleSeverity"], 
+            "severity": group["ruleSeverity"],
             "title": group["ruleTitle"]
         }
-    
+
     for stig_id in sorted(stig_ids):
         entry = findings.get(stig_id)
         if not entry:

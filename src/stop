@@ -35,3 +35,7 @@ systemctl restart rsyslog
 
 # V-270831
 rm /etc/aide.conf
+
+# V-270670
+sed -Ei 's/\s{3,4}Ciphers aes256-gcm.*//gm' /etc/ssh/ssh_config
+systemctl restart ssh
