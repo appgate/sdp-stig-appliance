@@ -238,25 +238,8 @@ echo blacklist usb-storage >> /etc/modprobe.d/stig.conf
 # V-270724
 passwd -l root
 
-# V-270731
-cp -a /etc/login.defs /etc/login.defs.new
-grep -v "PASS_MAX_DAYS" < /etc/login.defs.new > /etc/login.defs
-echo 'PASS_MAX_DAYS 60' >> /etc/login.defs
-
-# V-270683
-useradd -D -f 35
-
-# V-270659
-apt install -y apparmor
-
 # V-270649
 apt install -y aide
-
-# V-270652
-if ! grep -q "SILENTREPORTS=no" /etc/default/aide
-then
-  echo "SILENTREPORTS=no" >> /etc/default/aide
-fi
 
 # V-270831
 aide_str="# Audit Tools
@@ -276,14 +259,6 @@ fi
 
 # V-270746
 systemctl mask kdump-tools
-
-# V-270690
-sed -i 's/auth\t\[success=1 default=ignore\]\tpam_unix.so/auth\t[success=1 default=ignore]\tpam_unix.so\nauth\t[default=die]\tpam_faillock.so\tauthfail\nauth\tsufficient\tpam_faillock.so\tauthsucc /' /etc/pam.d/common-auth
-echo "audit
-silent
-deny = 3
-fail_interval = 900
-unlock_time = 0" >> /etc/security/faillock.conf
 
 # V-270706
 echo "auth required pam_faildelay.so delay=4000000" >> /etc/pam.d/common-auth
