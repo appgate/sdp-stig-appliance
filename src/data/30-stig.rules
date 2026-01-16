@@ -28,6 +28,9 @@
 -w /etc/sudoers.d -p wa -k privilege_modification
 # V-260649
 -w /var/log/sudo.log -p wa -k maintenance
+# V-274870
+-w /etc/cron.d -p wa -k cronjobs
+-w /var/spool/cron -p wa -k cronjobs
 
 # Monitor commands
 
