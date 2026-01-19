@@ -123,6 +123,11 @@ sed -i "s:MACs .*:MACs hmac-sha2-512,hmac-sha2-256:g" /etc/ssh/sshd_config
 # Verify the SSH daemon is configured to only implement FIPS-approved algorithms
 sed -i "s:Ciphers .*:Ciphers aes256-ctr,aes192-ctr,aes128-ctr:g" /etc/ssh/sshd_config
 
+# V-270669
+# Verify the SSH daemon is configured to use only FIPS 140-3 validated key exchange algorithms.
+grep -q '^KexAlgorithms ' /etc/ssh/sshd_config || echo 'KexAlgorithms ecdh-sha2-nistp521,ecdh-sha2-nistp384,ecdh-sha2-nistp256,diffie-hellman-group-exchange-sha256,diffie-hellman-group16-sha512,diffie-hellman-group14-sha256' >> /etc/ssh/sshd_config
+sed -i "s:KexAlgorithms .*:KexAlgorithms ecdh-sha2-nistp521,ecdh-sha2-nistp384,ecdh-sha2-nistp256,diffie-hellman-group-exchange-sha256,diffie-hellman-group16-sha512,diffie-hellman-group14-sha256:g" /etc/ssh/sshd_config
+
 # V-270709
 # Verify the SSH daemon prevents remote hosts from connecting to the proxy display.
 echo "X11UseLocalhost yes" >>/etc/ssh/sshd_config
