@@ -127,8 +127,15 @@ sed -i "s:Ciphers .*:Ciphers aes256-gcm@openssh.com,aes128-gcm@openssh.com,aes25
 # Verify the SSH daemon prevents remote hosts from connecting to the proxy display.
 echo "X11UseLocalhost yes" >>/etc/ssh/sshd_config
 
+# V-270742
+# V-270741
+cp -a /etc/ssh/sshd_config /etc/ssh/sshd_config.new
+grep -vE "ClientAliveCountMax|UsePAM" < /etc/ssh/sshd_config.new > /etc/ssh/sshd_config
+echo 'ClientAliveCountMax 1' >> /etc/ssh/sshd_config
+echo 'UsePAM yes' >> /etc/ssh/sshd_config
+
 # Reload sshd daemon to enforce above changes
-systemctl reload sshd.service
+systemctl reload ssh.service
 
 # V-270693
 # Verify the Ubuntu operating system displays the Standard Mandatory DoD Notice and
@@ -218,14 +225,6 @@ chmod 740 /usr/bin/journalctl
 
 # V-270697
 find -L /lib /usr/lib /lib64 /usr/lib64 -type f ! -group root -exec chgrp root -- {} +
-
-# V-270742
-# V-270741
-cp -a /etc/ssh/sshd_config /etc/ssh/sshd_config.new
-grep -vE "ClientAliveCountMax|UsePAM" < /etc/ssh/sshd_config.new > /etc/ssh/sshd_config
-echo 'ClientAliveCountMax 1' >> /etc/ssh/sshd_config
-echo 'UsePAM yes' >> /etc/ssh/sshd_config
-systemctl restart sshd.service
 
 # V-270718
 echo install usb-storage /bin/false >> /etc/modprobe.d/stig.conf
