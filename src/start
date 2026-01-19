@@ -121,7 +121,7 @@ sed -i "s:MACs .*:MACs hmac-sha2-512,hmac-sha2-256:g" /etc/ssh/sshd_config
 
 # V-270667
 # Verify the SSH daemon is configured to only implement FIPS-approved algorithms
-sed -i "s:Ciphers .*:Ciphers aes256-ctr,aes192-ctr,aes128-ctr:g" /etc/ssh/sshd_config
+sed -i "s:Ciphers .*:Ciphers aes256-gcm@openssh.com,aes128-gcm@openssh.com,aes256-ctr,aes128-ctr:g" /etc/ssh/sshd_config
 
 # V-270709
 # Verify the SSH daemon prevents remote hosts from connecting to the proxy display.
@@ -197,10 +197,6 @@ EOM
 if ! cz-config get kernel/cmdlineOptions | grep audit=1 >/dev/null; then
     cz-config set kernel/cmdlineOptions "$(cz-config get kernel/cmdlineOptions) audit=1"
 fi
-
-# V-270667
-sed -i "s:Ciphers .*:Ciphers aes256-ctr,aes192-ctr,aes128-ctr:g" /etc/ssh/sshd_config
-systemctl restart sshd.service
 
 # V-270681
 # Monitor remote access methods
