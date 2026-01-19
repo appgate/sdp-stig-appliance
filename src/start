@@ -287,4 +287,7 @@ rm /var/log/README
 # V-270670
 accepted_ciphers="    Ciphers aes256-gcm@openssh.com,aes128-gcm@openssh.com,aes256-ctr,aes128-ctr"
 sed -Ei "s/#\s{3,4}Ciphers.*$/${accepted_ciphers}/" /etc/ssh/ssh_config
-systemctl restart ssh
+
+# V-270671
+accepted_macs="    MACs hmac-sha2-512-etm@openssh.com,hmac-sha2-256-etm@openssh.com,hmac-sha2-512,hmac-sha2-256"
+sed -Ei "s/#\s{3,4}MACs.*$/${accepted_macs}/" /etc/ssh/ssh_config
