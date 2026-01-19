@@ -116,8 +116,8 @@ echo "PASS_MIN_DAYS 1" >> /etc/login.defs
 sed -i "s:ClientAliveCountMax 0:ClientAliveCountMax 1:g" /etc/ssh/sshd_config
 
 # V-270668
-# Verify the SSH daemon is configured to only use MACs that employ FIPS 140-2 approved ciphers
-sed -i "s:MACs .*:MACs hmac-sha2-512,hmac-sha2-256:g" /etc/ssh/sshd_config
+# Verify the SSH daemon is configured to only use MACs that employ FIPS 140-3 approved ciphers
+sed -i "s:MACs .*:MACs hmac-sha2-512,hmac-sha2-512-etm@openssh.com,hmac-sha2-256,hmac-sha2-256-etm@openssh.com:g" /etc/ssh/sshd_config
 
 # V-270667
 # Verify the SSH daemon is configured to only implement FIPS-approved algorithms
