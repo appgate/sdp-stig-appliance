@@ -39,3 +39,6 @@ rm /etc/aide.conf
 # V-270670
 sed -Ei 's/\s{3,4}Ciphers aes256-gcm.*//gm' /etc/ssh/ssh_config
 systemctl restart ssh
+
+# V-270774
+mv /etc/lsb-release.bak /etc/lsb-release
