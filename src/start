@@ -291,3 +291,10 @@ sed -Ei "s/#\s{3,4}Ciphers.*$/${accepted_ciphers}/" /etc/ssh/ssh_config
 # V-270671
 accepted_macs="    MACs hmac-sha2-512,hmac-sha2-512-etm@openssh.com,hmac-sha2-256,hmac-sha2-256-etm@openssh.com"
 sed -Ei "s/#\s{3,4}MACs.*$/${accepted_macs}/" /etc/ssh/ssh_config
+
+# V-270774
+cp /etc/lsb-release /etc/lsb-release.bak
+echo "DISTRIB_ID=Ubuntu
+DISTRIB_RELEASE=24.04
+DISTRIB_CODENAME=noble
+DISTRIB_DESCRIPTION=\"Ubuntu 24.04 LTS\"" > /etc/lsb-release
