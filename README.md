@@ -34,3 +34,10 @@ Written to apply STIG related configuration changes for the Appgate appliances u
        stop
        data/.etc..
     </code></pre>
+
+### Tailoring
+In order to change which findings are checked in the scan a tailoring file may be used. In this you can mark findings as "not selected" to ignore them.
+
+The file used for scanning is included in this repo and can be applied with the command `cscc --installTailoringProfile <path>` just before scanning. 
+
+To update this file, in Nexus upload a zip-file containing only the xml and overwrite the existing one.
