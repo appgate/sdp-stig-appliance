@@ -6,9 +6,9 @@
       <cdf:metadata>
             <organization xmlns="urn:oasis:names:tc:ciq:xsdschema:xNL:2.0">Appgate</organization>
             <name xmlns="urn:oasis:names:tc:ciq:xsdschema:xNL:2.0">Appgate</name>
-            <description xmlns="urn:oasis:names:tc:ciq:xsdschema:xNL:2.0"></description>
+            <description xmlns="urn:oasis:names:tc:ciq:xsdschema:xNL:2.0">Deselect STIG findings not relevant to Appgate as they have remedies that this scan does not look for.</description>
             <version xmlns="urn:oasis:names:tc:ciq:xsdschema:xNL:2.0">1</version>
-            <status xmlns="urn:oasis:names:tc:ciq:xsdschema:xNL:2.0">draft</status>
+            <status xmlns="urn:oasis:names:tc:ciq:xsdschema:xNL:2.0">accepted</status>
       </cdf:metadata>
       <cdf:Profile extends="xccdf_mil.disa.stig_profile_MAC-2_Public" id="xccdf_mil.disa.stig_profile_MAC-2_Public_tailored">
             <cdf:title>Tailored profile created with SCC</cdf:title>
@@ -121,7 +121,7 @@
             <cdf:select idref="xccdf_mil.disa.stig_rule_SV-270646r1068358_rule" selected="true"></cdf:select>
             <cdf:select idref="xccdf_mil.disa.stig_rule_SV-270664r1068359_rule" selected="true"></cdf:select>
             <cdf:select idref="xccdf_mil.disa.stig_rule_SV-270665r1067133_rule" selected="true"></cdf:select>
-            <cdf:select idref="xccdf_mil.disa.stig_rule_SV-270666r1066487_rule" selected="true"></cdf:select>
+            <cdf:select idref="xccdf_mil.disa.stig_rule_SV-270666r1066487_rule" selected="false"></cdf:select>
             <cdf:select idref="xccdf_mil.disa.stig_rule_SV-270667r1067107_rule" selected="true"></cdf:select>
             <cdf:select idref="xccdf_mil.disa.stig_rule_SV-270668r1067110_rule" selected="true"></cdf:select>
             <cdf:select idref="xccdf_mil.disa.stig_rule_SV-270669r1067112_rule" selected="true"></cdf:select>
