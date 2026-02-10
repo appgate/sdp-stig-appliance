@@ -147,6 +147,9 @@ systemctl reload ssh.service
 # Consent Banner before granting access to the operating system via an SSH logon
 echo "$dod_consent_banner" >/etc/issue.net
 
+# V-270816
+cp $BASE_DIR/data/ssh_confirm.sh /etc/profile.d/ssh_confirm.sh
+
 # V-270726
 echo "ucredit=-1" >>/etc/security/pwquality.conf
 

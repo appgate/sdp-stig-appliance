@@ -1,3 +1,4 @@
 stig-customization.zip
 changelog.md
 *.json
+.idea/*
