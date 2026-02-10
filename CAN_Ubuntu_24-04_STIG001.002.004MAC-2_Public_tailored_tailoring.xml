@@ -1,0 +1,378 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<cdf:Tailoring id="xccdf_AppGate_tailoring_xccdf_mil.disa.stig_benchmark_CAN_Ubuntu_24-04_STIG" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://checklists.nist.gov/xccdf/1.2 http://scap.nist.gov/schema/xccdf/1.2/xccdf_1.2.xsd" xmlns:cdf="http://checklists.nist.gov/xccdf/1.2">
+      <cdf:benchmark href="scap_mil.disa.stig_comp_U_CAN_Ubuntu_24-04_LTS_V1R2_STIG_SCAP_1-4_Benchmark-enhancedV4-xccdf.xml" id="xccdf_mil.disa.stig_benchmark_CAN_Ubuntu_24-04_STIG" version="001.002.004"></cdf:benchmark>
+      <cdf:version time="2026-02-06T17:57:47">1</cdf:version>
+      <cdf:metadata>
+            <organization xmlns="urn:oasis:names:tc:ciq:xsdschema:xNL:2.0">AppGate</organization>
+            <name xmlns="urn:oasis:names:tc:ciq:xsdschema:xNL:2.0">AppGate</name>
+            <description xmlns="urn:oasis:names:tc:ciq:xsdschema:xNL:2.0">Deselect STIG findings not relevant to Appgate as they have remedies that this scan does not look for.</description>
+            <version xmlns="urn:oasis:names:tc:ciq:xsdschema:xNL:2.0">1</version>
+            <status xmlns="urn:oasis:names:tc:ciq:xsdschema:xNL:2.0">accepted</status>
+      </cdf:metadata>
+      <cdf:Profile extends="xccdf_mil.disa.stig_profile_MAC-2_Public" id="xccdf_mil.disa.stig_profile_MAC-2_Public_tailored">
+            <cdf:title>Tailored profile created with SCC</cdf:title>
+            <cdf:select idref="xccdf_mil.disa.stig_rule_SV-270645r1068357_rule" selected="true"></cdf:select>
+            <cdf:select idref="xccdf_mil.disa.stig_rule_SV-270764r1066781_rule" selected="true"></cdf:select>
+            <cdf:select idref="xccdf_mil.disa.stig_rule_SV-270677r1101774_rule" selected="true"></cdf:select>
+            <cdf:select idref="xccdf_mil.disa.stig_rule_SV-270678r1101791_rule" selected="true"></cdf:select>
+            <cdf:select idref="xccdf_mil.disa.stig_rule_SV-270679r1107295_rule" selected="true"></cdf:select>
+            <cdf:select idref="xccdf_mil.disa.stig_rule_SV-270680r1066529_rule" selected="true"></cdf:select>
+            <cdf:select idref="xccdf_mil.disa.stig_rule_SV-270682r1066535_rule" selected="true"></cdf:select>
+            <cdf:select idref="xccdf_mil.disa.stig_rule_SV-274868r1107313_rule" selected="true"></cdf:select>
+            <cdf:select idref="xccdf_mil.disa.stig_rule_SV-270683r1066538_rule" selected="false"></cdf:select>
+            <cdf:select idref="xccdf_mil.disa.stig_rule_SV-270648r1066433_rule" selected="true"></cdf:select>
+            <cdf:select idref="xccdf_mil.disa.stig_rule_SV-270655r1067145_rule" selected="false"></cdf:select>
+            <cdf:select idref="xccdf_mil.disa.stig_rule_SV-270684r1066541_rule" selected="true"></cdf:select>
+            <cdf:select idref="xccdf_mil.disa.stig_rule_SV-270765r1066784_rule" selected="true"></cdf:select>
+            <cdf:select idref="xccdf_mil.disa.stig_rule_SV-270685r1066544_rule" selected="true"></cdf:select>
+            <cdf:select idref="xccdf_mil.disa.stig_rule_SV-270686r1066547_rule" selected="true"></cdf:select>
+            <cdf:select idref="xccdf_mil.disa.stig_rule_SV-270687r1066550_rule" selected="true"></cdf:select>
+            <cdf:select idref="xccdf_mil.disa.stig_rule_SV-270688r1066553_rule" selected="true"></cdf:select>
+            <cdf:select idref="xccdf_mil.disa.stig_rule_SV-270689r1066556_rule" selected="true"></cdf:select>
+            <cdf:select idref="xccdf_mil.disa.stig_rule_SV-270690r1067126_rule" selected="false"></cdf:select>
+            <cdf:select idref="xccdf_mil.disa.stig_rule_SV-270663r1066478_rule" selected="false"></cdf:select>
+            <cdf:select idref="xccdf_mil.disa.stig_rule_SV-270691r1066562_rule" selected="true"></cdf:select>
+            <cdf:select idref="xccdf_mil.disa.stig_rule_SV-270692r1066565_rule" selected="true"></cdf:select>
+            <cdf:select idref="xccdf_mil.disa.stig_rule_SV-270693r1066568_rule" selected="true"></cdf:select>
+            <cdf:select idref="xccdf_mil.disa.stig_rule_SV-270766r1066787_rule" selected="true"></cdf:select>
+            <cdf:select idref="xccdf_mil.disa.stig_rule_SV-270754r1066751_rule" selected="false"></cdf:select>
+            <cdf:select idref="xccdf_mil.disa.stig_rule_SV-270649r1067136_rule" selected="false"></cdf:select>
+            <cdf:select idref="xccdf_mil.disa.stig_rule_SV-270694r1066571_rule" selected="true"></cdf:select>
+            <cdf:select idref="xccdf_mil.disa.stig_rule_SV-270695r1066574_rule" selected="true"></cdf:select>
+            <cdf:select idref="xccdf_mil.disa.stig_rule_SV-270696r1107306_rule" selected="true"></cdf:select>
+            <cdf:select idref="xccdf_mil.disa.stig_rule_SV-270697r1107308_rule" selected="true"></cdf:select>
+            <cdf:select idref="xccdf_mil.disa.stig_rule_SV-270698r1101751_rule" selected="true"></cdf:select>
+            <cdf:select idref="xccdf_mil.disa.stig_rule_SV-274869r1107312_rule" selected="true"></cdf:select>
+            <cdf:select idref="xccdf_mil.disa.stig_rule_SV-270699r1107310_rule" selected="true"></cdf:select>
+            <cdf:select idref="xccdf_mil.disa.stig_rule_SV-270700r1066589_rule" selected="true"></cdf:select>
+            <cdf:select idref="xccdf_mil.disa.stig_rule_SV-270767r1066790_rule" selected="true"></cdf:select>
+            <cdf:select idref="xccdf_mil.disa.stig_rule_SV-270701r1066592_rule" selected="true"></cdf:select>
+            <cdf:select idref="xccdf_mil.disa.stig_rule_SV-270702r1066595_rule" selected="true"></cdf:select>
+            <cdf:select idref="xccdf_mil.disa.stig_rule_SV-270755r1066754_rule" selected="true"></cdf:select>
+            <cdf:select idref="xccdf_mil.disa.stig_rule_SV-270703r1066598_rule" selected="true"></cdf:select>
+            <cdf:select idref="xccdf_mil.disa.stig_rule_SV-270704r1066601_rule" selected="true"></cdf:select>
+            <cdf:select idref="xccdf_mil.disa.stig_rule_SV-270705r1066604_rule" selected="true"></cdf:select>
+            <cdf:select idref="xccdf_mil.disa.stig_rule_SV-270706r1068361_rule" selected="true"></cdf:select>
+            <cdf:select idref="xccdf_mil.disa.stig_rule_SV-270707r1101786_rule" selected="true"></cdf:select>
+            <cdf:select idref="xccdf_mil.disa.stig_rule_SV-274870r1107304_rule" selected="true"></cdf:select>
+            <cdf:select idref="xccdf_mil.disa.stig_rule_SV-270708r1066613_rule" selected="true"></cdf:select>
+            <cdf:select idref="xccdf_mil.disa.stig_rule_SV-270664r1068359_rule" selected="true"></cdf:select>
+            <cdf:select idref="xccdf_mil.disa.stig_rule_SV-270709r1066616_rule" selected="true"></cdf:select>
+            <cdf:select idref="xccdf_mil.disa.stig_rule_SV-270710r1066619_rule" selected="true"></cdf:select>
+            <cdf:select idref="xccdf_mil.disa.stig_rule_SV-270711r1101772_rule" selected="true"></cdf:select>
+            <cdf:select idref="xccdf_mil.disa.stig_rule_SV-270712r1068363_rule" selected="true"></cdf:select>
+            <cdf:select idref="xccdf_mil.disa.stig_rule_SV-270713r1066628_rule" selected="true"></cdf:select>
+            <cdf:select idref="xccdf_mil.disa.stig_rule_SV-270651r1068395_rule" selected="true"></cdf:select>
+            <cdf:select idref="xccdf_mil.disa.stig_rule_SV-270715r1066634_rule" selected="true"></cdf:select>
+            <cdf:select idref="xccdf_mil.disa.stig_rule_SV-270716r1066637_rule" selected="true"></cdf:select>
+            <cdf:select idref="xccdf_mil.disa.stig_rule_SV-270717r1067177_rule" selected="true"></cdf:select>
+            <cdf:select idref="xccdf_mil.disa.stig_rule_SV-274871r1107302_rule" selected="true"></cdf:select>
+            <cdf:select idref="xccdf_mil.disa.stig_rule_SV-270768r1066793_rule" selected="true"></cdf:select>
+            <cdf:select idref="xccdf_mil.disa.stig_rule_SV-270719r1067172_rule" selected="true"></cdf:select>
+            <cdf:select idref="xccdf_mil.disa.stig_rule_SV-270720r1066649_rule" selected="true"></cdf:select>
+            <cdf:select idref="xccdf_mil.disa.stig_rule_SV-270757r1066760_rule" selected="true"></cdf:select>
+            <cdf:select idref="xccdf_mil.disa.stig_rule_SV-270721r1066652_rule" selected="false"></cdf:select>
+            <cdf:select idref="xccdf_mil.disa.stig_rule_SV-270722r1067130_rule" selected="true"></cdf:select>
+            <cdf:select idref="xccdf_mil.disa.stig_rule_SV-270723r1066658_rule" selected="false"></cdf:select>
+            <cdf:select idref="xccdf_mil.disa.stig_rule_SV-270652r1067138_rule" selected="false"></cdf:select>
+            <cdf:select idref="xccdf_mil.disa.stig_rule_SV-270724r1066661_rule" selected="true"></cdf:select>
+            <cdf:select idref="xccdf_mil.disa.stig_rule_SV-270725r1101789_rule" selected="true"></cdf:select>
+            <cdf:select idref="xccdf_mil.disa.stig_rule_SV-270726r1066667_rule" selected="true"></cdf:select>
+            <cdf:select idref="xccdf_mil.disa.stig_rule_SV-270769r1066796_rule" selected="true"></cdf:select>
+            <cdf:select idref="xccdf_mil.disa.stig_rule_SV-274872r1107297_rule" selected="true"></cdf:select>
+            <cdf:select idref="xccdf_mil.disa.stig_rule_SV-270727r1066670_rule" selected="true"></cdf:select>
+            <cdf:select idref="xccdf_mil.disa.stig_rule_SV-270728r1066673_rule" selected="true"></cdf:select>
+            <cdf:select idref="xccdf_mil.disa.stig_rule_SV-270729r1066676_rule" selected="true"></cdf:select>
+            <cdf:select idref="xccdf_mil.disa.stig_rule_SV-270758r1066763_rule" selected="true"></cdf:select>
+            <cdf:select idref="xccdf_mil.disa.stig_rule_SV-270730r1066679_rule" selected="true"></cdf:select>
+            <cdf:select idref="xccdf_mil.disa.stig_rule_SV-270731r1066682_rule" selected="false"></cdf:select>
+            <cdf:select idref="xccdf_mil.disa.stig_rule_SV-270732r1066685_rule" selected="true"></cdf:select>
+            <cdf:select idref="xccdf_mil.disa.stig_rule_SV-270733r1066688_rule" selected="true"></cdf:select>
+            <cdf:select idref="xccdf_mil.disa.stig_rule_SV-270653r1067141_rule" selected="true"></cdf:select>
+            <cdf:select idref="xccdf_mil.disa.stig_rule_SV-270770r1066799_rule" selected="true"></cdf:select>
+            <cdf:select idref="xccdf_mil.disa.stig_rule_SV-270734r1066691_rule" selected="false"></cdf:select>
+            <cdf:select idref="xccdf_mil.disa.stig_rule_SV-274873r1107300_rule" selected="true"></cdf:select>
+            <cdf:select idref="xccdf_mil.disa.stig_rule_SV-270735r1066694_rule" selected="true"></cdf:select>
+            <cdf:select idref="xccdf_mil.disa.stig_rule_SV-270736r1066697_rule" selected="false"></cdf:select>
+            <cdf:select idref="xccdf_mil.disa.stig_rule_SV-270737r1067178_rule" selected="false"></cdf:select>
+            <cdf:select idref="xccdf_mil.disa.stig_rule_SV-270738r1066703_rule" selected="false"></cdf:select>
+            <cdf:select idref="xccdf_mil.disa.stig_rule_SV-270759r1068367_rule" selected="true"></cdf:select>
+            <cdf:select idref="xccdf_mil.disa.stig_rule_SV-270739r1067124_rule" selected="true"></cdf:select>
+            <cdf:select idref="xccdf_mil.disa.stig_rule_SV-270740r1066709_rule" selected="true"></cdf:select>
+            <cdf:select idref="xccdf_mil.disa.stig_rule_SV-270741r1066712_rule" selected="false"></cdf:select>
+            <cdf:select idref="xccdf_mil.disa.stig_rule_SV-270771r1066802_rule" selected="true"></cdf:select>
+            <cdf:select idref="xccdf_mil.disa.stig_rule_SV-270742r1066715_rule" selected="true"></cdf:select>
+            <cdf:select idref="xccdf_mil.disa.stig_rule_SV-270743r1066718_rule" selected="true"></cdf:select>
+            <cdf:select idref="xccdf_mil.disa.stig_rule_SV-270772r1066805_rule" selected="true"></cdf:select>
+            <cdf:select idref="xccdf_mil.disa.stig_rule_SV-270646r1068358_rule" selected="true"></cdf:select>
+            <cdf:select idref="xccdf_mil.disa.stig_rule_SV-270773r1066808_rule" selected="true"></cdf:select>
+            <cdf:select idref="xccdf_mil.disa.stig_rule_SV-270657r1066460_rule" selected="true"></cdf:select>
+            <cdf:select idref="xccdf_mil.disa.stig_rule_SV-270775r1068369_rule" selected="true"></cdf:select>
+            <cdf:select idref="xccdf_mil.disa.stig_rule_SV-270776r1066817_rule" selected="true"></cdf:select>
+            <cdf:select idref="xccdf_mil.disa.stig_rule_SV-270777r1066820_rule" selected="true"></cdf:select>
+            <cdf:select idref="xccdf_mil.disa.stig_rule_SV-270665r1067133_rule" selected="true"></cdf:select>
+            <cdf:select idref="xccdf_mil.disa.stig_rule_SV-270745r1066724_rule" selected="true"></cdf:select>
+            <cdf:select idref="xccdf_mil.disa.stig_rule_SV-270778r1066823_rule" selected="true"></cdf:select>
+            <cdf:select idref="xccdf_mil.disa.stig_rule_SV-270779r1066826_rule" selected="true"></cdf:select>
+            <cdf:select idref="xccdf_mil.disa.stig_rule_SV-270780r1066829_rule" selected="true"></cdf:select>
+            <cdf:select idref="xccdf_mil.disa.stig_rule_SV-270654r1067143_rule" selected="false"></cdf:select>
+            <cdf:select idref="xccdf_mil.disa.stig_rule_SV-270781r1066832_rule" selected="true"></cdf:select>
+            <cdf:select idref="xccdf_mil.disa.stig_rule_SV-270782r1066835_rule" selected="true"></cdf:select>
+            <cdf:select idref="xccdf_mil.disa.stig_rule_SV-270783r1066838_rule" selected="true"></cdf:select>
+            <cdf:select idref="xccdf_mil.disa.stig_rule_SV-270658r1067151_rule" selected="false"></cdf:select>
+            <cdf:select idref="xccdf_mil.disa.stig_rule_SV-270784r1068371_rule" selected="true"></cdf:select>
+            <cdf:select idref="xccdf_mil.disa.stig_rule_SV-270785r1068373_rule" selected="true"></cdf:select>
+            <cdf:select idref="xccdf_mil.disa.stig_rule_SV-270752r1068365_rule" selected="true"></cdf:select>
+            <cdf:select idref="xccdf_mil.disa.stig_rule_SV-270786r1068375_rule" selected="true"></cdf:select>
+            <cdf:select idref="xccdf_mil.disa.stig_rule_SV-270746r1101769_rule" selected="true"></cdf:select>
+            <cdf:select idref="xccdf_mil.disa.stig_rule_SV-270787r1068378_rule" selected="true"></cdf:select>
+            <cdf:select idref="xccdf_mil.disa.stig_rule_SV-270744r1117272_rule" selected="false"></cdf:select>
+            <cdf:select idref="xccdf_mil.disa.stig_rule_SV-270788r1066853_rule" selected="true"></cdf:select>
+            <cdf:select idref="xccdf_mil.disa.stig_rule_SV-270789r1066856_rule" selected="true"></cdf:select>
+            <cdf:select idref="xccdf_mil.disa.stig_rule_SV-270790r1068380_rule" selected="true"></cdf:select>
+            <cdf:select idref="xccdf_mil.disa.stig_rule_SV-270791r1066862_rule" selected="true"></cdf:select>
+            <cdf:select idref="xccdf_mil.disa.stig_rule_SV-270792r1066865_rule" selected="true"></cdf:select>
+            <cdf:select idref="xccdf_mil.disa.stig_rule_SV-270793r1066868_rule" selected="false"></cdf:select>
+            <cdf:select idref="xccdf_mil.disa.stig_rule_SV-270659r1066466_rule" selected="false"></cdf:select>
+            <cdf:select idref="xccdf_mil.disa.stig_rule_SV-270666r1066487_rule" selected="false"></cdf:select>
+            <cdf:select idref="xccdf_mil.disa.stig_rule_SV-270794r1066871_rule" selected="true"></cdf:select>
+            <cdf:select idref="xccdf_mil.disa.stig_rule_SV-270795r1066874_rule" selected="true"></cdf:select>
+            <cdf:select idref="xccdf_mil.disa.stig_rule_SV-270760r1066769_rule" selected="true"></cdf:select>
+            <cdf:select idref="xccdf_mil.disa.stig_rule_SV-270747r1066730_rule" selected="true"></cdf:select>
+            <cdf:select idref="xccdf_mil.disa.stig_rule_SV-270796r1066877_rule" selected="true"></cdf:select>
+            <cdf:select idref="xccdf_mil.disa.stig_rule_SV-270797r1066880_rule" selected="true"></cdf:select>
+            <cdf:select idref="xccdf_mil.disa.stig_rule_SV-270798r1068382_rule" selected="true"></cdf:select>
+            <cdf:select idref="xccdf_mil.disa.stig_rule_SV-270799r1066886_rule" selected="true"></cdf:select>
+            <cdf:select idref="xccdf_mil.disa.stig_rule_SV-270800r1066889_rule" selected="true"></cdf:select>
+            <cdf:select idref="xccdf_mil.disa.stig_rule_SV-270801r1066892_rule" selected="true"></cdf:select>
+            <cdf:select idref="xccdf_mil.disa.stig_rule_SV-270802r1066895_rule" selected="true"></cdf:select>
+            <cdf:select idref="xccdf_mil.disa.stig_rule_SV-270667r1067107_rule" selected="true"></cdf:select>
+            <cdf:select idref="xccdf_mil.disa.stig_rule_SV-270803r1066898_rule" selected="true"></cdf:select>
+            <cdf:select idref="xccdf_mil.disa.stig_rule_SV-270761r1067180_rule" selected="true"></cdf:select>
+            <cdf:select idref="xccdf_mil.disa.stig_rule_SV-270660r1066469_rule" selected="false"></cdf:select>
+            <cdf:select idref="xccdf_mil.disa.stig_rule_SV-270804r1066901_rule" selected="true"></cdf:select>
+            <cdf:select idref="xccdf_mil.disa.stig_rule_SV-270748r1066733_rule" selected="true"></cdf:select>
+            <cdf:select idref="xccdf_mil.disa.stig_rule_SV-270805r1068384_rule" selected="true"></cdf:select>
+            <cdf:select idref="xccdf_mil.disa.stig_rule_SV-270806r1068386_rule" selected="true"></cdf:select>
+            <cdf:select idref="xccdf_mil.disa.stig_rule_SV-270807r1066910_rule" selected="true"></cdf:select>
+            <cdf:select idref="xccdf_mil.disa.stig_rule_SV-270808r1067100_rule" selected="true"></cdf:select>
+            <cdf:select idref="xccdf_mil.disa.stig_rule_SV-270809r1068388_rule" selected="true"></cdf:select>
+            <cdf:select idref="xccdf_mil.disa.stig_rule_SV-270810r1066919_rule" selected="true"></cdf:select>
+            <cdf:select idref="xccdf_mil.disa.stig_rule_SV-270668r1067110_rule" selected="true"></cdf:select>
+            <cdf:select idref="xccdf_mil.disa.stig_rule_SV-270762r1066775_rule" selected="true"></cdf:select>
+            <cdf:select idref="xccdf_mil.disa.stig_rule_SV-270811r1066922_rule" selected="true"></cdf:select>
+            <cdf:select idref="xccdf_mil.disa.stig_rule_SV-270812r1066925_rule" selected="true"></cdf:select>
+            <cdf:select idref="xccdf_mil.disa.stig_rule_SV-270813r1066928_rule" selected="true"></cdf:select>
+            <cdf:select idref="xccdf_mil.disa.stig_rule_SV-270661r1067175_rule" selected="true"></cdf:select>
+            <cdf:select idref="xccdf_mil.disa.stig_rule_SV-270814r1066931_rule" selected="true"></cdf:select>
+            <cdf:select idref="xccdf_mil.disa.stig_rule_SV-270815r1066934_rule" selected="true"></cdf:select>
+            <cdf:select idref="xccdf_mil.disa.stig_rule_SV-270816r1066937_rule" selected="true"></cdf:select>
+            <cdf:select idref="xccdf_mil.disa.stig_rule_SV-270817r1066940_rule" selected="true"></cdf:select>
+            <cdf:select idref="xccdf_mil.disa.stig_rule_SV-270818r1066943_rule" selected="true"></cdf:select>
+            <cdf:select idref="xccdf_mil.disa.stig_rule_SV-270819r1068390_rule" selected="true"></cdf:select>
+            <cdf:select idref="xccdf_mil.disa.stig_rule_SV-270763r1066778_rule" selected="true"></cdf:select>
+            <cdf:select idref="xccdf_mil.disa.stig_rule_SV-270670r1067115_rule" selected="true"></cdf:select>
+            <cdf:select idref="xccdf_mil.disa.stig_rule_SV-270820r1066949_rule" selected="true"></cdf:select>
+            <cdf:select idref="xccdf_mil.disa.stig_rule_SV-270662r1067156_rule" selected="false"></cdf:select>
+            <cdf:select idref="xccdf_mil.disa.stig_rule_SV-270824r1066961_rule" selected="true"></cdf:select>
+            <cdf:select idref="xccdf_mil.disa.stig_rule_SV-270825r1066964_rule" selected="true"></cdf:select>
+            <cdf:select idref="xccdf_mil.disa.stig_rule_SV-270826r1066967_rule" selected="true"></cdf:select>
+            <cdf:select idref="xccdf_mil.disa.stig_rule_SV-270827r1066970_rule" selected="true"></cdf:select>
+            <cdf:select idref="xccdf_mil.disa.stig_rule_SV-270828r1066973_rule" selected="true"></cdf:select>
+            <cdf:select idref="xccdf_mil.disa.stig_rule_SV-270829r1066976_rule" selected="true"></cdf:select>
+            <cdf:select idref="xccdf_mil.disa.stig_rule_SV-270830r1068397_rule" selected="true"></cdf:select>
+            <cdf:select idref="xccdf_mil.disa.stig_rule_SV-270656r1067148_rule" selected="true"></cdf:select>
+            <cdf:select idref="xccdf_mil.disa.stig_rule_SV-270832r1068399_rule" selected="true"></cdf:select>
+            <cdf:select idref="xccdf_mil.disa.stig_rule_SV-270671r1067118_rule" selected="true"></cdf:select>
+            <cdf:select idref="xccdf_mil.disa.stig_rule_SV-270672r1067161_rule" selected="false"></cdf:select>
+            <cdf:select idref="xccdf_mil.disa.stig_rule_SV-270751r1066742_rule" selected="true"></cdf:select>
+            <cdf:select idref="xccdf_mil.disa.stig_rule_SV-270673r1067164_rule" selected="false"></cdf:select>
+            <cdf:select idref="xccdf_mil.disa.stig_rule_SV-270647r1066430_rule" selected="true"></cdf:select>
+            <cdf:select idref="xccdf_mil.disa.stig_rule_SV-270674r1067167_rule" selected="true"></cdf:select>
+            <cdf:select idref="xccdf_mil.disa.stig_rule_SV-270753r1066748_rule" selected="true"></cdf:select>
+            <cdf:select idref="xccdf_mil.disa.stig_rule_SV-270675r1117265_rule" selected="false"></cdf:select>
+            <cdf:select idref="xccdf_mil.disa.stig_rule_SV-270676r1068360_rule" selected="false"></cdf:select>
+            <cdf:refine-rule idref="xccdf_mil.disa.stig_rule_SV-270742r1066715_rule" selector="automated" severity="medium" weight="10.0"></cdf:refine-rule>
+            <cdf:refine-rule idref="xccdf_mil.disa.stig_rule_SV-270801r1066892_rule" selector="automated" severity="medium" weight="10.0"></cdf:refine-rule>
+            <cdf:refine-rule idref="xccdf_mil.disa.stig_rule_SV-270647r1066430_rule" selector="automated" severity="high" weight="10.0"></cdf:refine-rule>
+            <cdf:refine-rule idref="xccdf_mil.disa.stig_rule_SV-270826r1066967_rule" selector="automated" severity="medium" weight="10.0"></cdf:refine-rule>
+            <cdf:refine-rule idref="xccdf_mil.disa.stig_rule_SV-270658r1067151_rule" selector="automated" severity="low" weight="10.0"></cdf:refine-rule>
+            <cdf:refine-rule idref="xccdf_mil.disa.stig_rule_SV-270768r1066793_rule" selector="automated" severity="medium" weight="10.0"></cdf:refine-rule>
+            <cdf:refine-rule idref="xccdf_mil.disa.stig_rule_SV-274872r1107297_rule" selector="manual" severity="medium" weight="10.0"></cdf:refine-rule>
+            <cdf:refine-rule idref="xccdf_mil.disa.stig_rule_SV-270828r1066973_rule" selector="automated" severity="medium" weight="10.0"></cdf:refine-rule>
+            <cdf:refine-rule idref="xccdf_mil.disa.stig_rule_SV-270700r1066589_rule" selector="automated" severity="medium" weight="10.0"></cdf:refine-rule>
+            <cdf:refine-rule idref="xccdf_mil.disa.stig_rule_SV-270791r1066862_rule" selector="automated" severity="medium" weight="10.0"></cdf:refine-rule>
+            <cdf:refine-rule idref="xccdf_mil.disa.stig_rule_SV-270824r1066961_rule" selector="automated" severity="medium" weight="10.0"></cdf:refine-rule>
+            <cdf:refine-rule idref="xccdf_mil.disa.stig_rule_SV-270806r1068386_rule" selector="automated" severity="medium" weight="10.0"></cdf:refine-rule>
+            <cdf:refine-rule idref="xccdf_mil.disa.stig_rule_SV-270679r1107295_rule" selector="manual" severity="medium" weight="10.0"></cdf:refine-rule>
+            <cdf:refine-rule idref="xccdf_mil.disa.stig_rule_SV-270699r1107310_rule" selector="automated" severity="medium" weight="10.0"></cdf:refine-rule>
+            <cdf:refine-rule idref="xccdf_mil.disa.stig_rule_SV-270784r1068371_rule" selector="automated" severity="medium" weight="10.0"></cdf:refine-rule>
+            <cdf:refine-rule idref="xccdf_mil.disa.stig_rule_SV-270682r1066535_rule" selector="manual" severity="medium" weight="10.0"></cdf:refine-rule>
+            <cdf:refine-rule idref="xccdf_mil.disa.stig_rule_SV-270771r1066802_rule" selector="automated" severity="medium" weight="10.0"></cdf:refine-rule>
+            <cdf:refine-rule idref="xccdf_mil.disa.stig_rule_SV-270721r1066652_rule" selector="automated" severity="medium" weight="10.0"></cdf:refine-rule>
+            <cdf:refine-rule idref="xccdf_mil.disa.stig_rule_SV-270832r1068399_rule" selector="automated" severity="medium" weight="10.0"></cdf:refine-rule>
+            <cdf:refine-rule idref="xccdf_mil.disa.stig_rule_SV-270659r1066466_rule" selector="automated" severity="medium" weight="10.0"></cdf:refine-rule>
+            <cdf:refine-rule idref="xccdf_mil.disa.stig_rule_SV-270773r1066808_rule" selector="automated" severity="medium" weight="10.0"></cdf:refine-rule>
+            <cdf:refine-rule idref="xccdf_mil.disa.stig_rule_SV-270723r1066658_rule" selector="automated" severity="medium" weight="10.0"></cdf:refine-rule>
+            <cdf:refine-rule idref="xccdf_mil.disa.stig_rule_SV-270820r1066949_rule" selector="automated" severity="low" weight="10.0"></cdf:refine-rule>
+            <cdf:refine-rule idref="xccdf_mil.disa.stig_rule_SV-270692r1066565_rule" selector="automated" severity="medium" weight="10.0"></cdf:refine-rule>
+            <cdf:refine-rule idref="xccdf_mil.disa.stig_rule_SV-270691r1066562_rule" selector="automated" severity="medium" weight="10.0"></cdf:refine-rule>
+            <cdf:refine-rule idref="xccdf_mil.disa.stig_rule_SV-270812r1066925_rule" selector="automated" severity="medium" weight="10.0"></cdf:refine-rule>
+            <cdf:refine-rule idref="xccdf_mil.disa.stig_rule_SV-270792r1066865_rule" selector="automated" severity="medium" weight="10.0"></cdf:refine-rule>
+            <cdf:refine-rule idref="xccdf_mil.disa.stig_rule_SV-270743r1066718_rule" selector="automated" severity="medium" weight="10.0"></cdf:refine-rule>
+            <cdf:refine-rule idref="xccdf_mil.disa.stig_rule_SV-270793r1066868_rule" selector="automated" severity="medium" weight="10.0"></cdf:refine-rule>
+            <cdf:refine-rule idref="xccdf_mil.disa.stig_rule_SV-270680r1066529_rule" selector="automated" severity="medium" weight="10.0"></cdf:refine-rule>
+            <cdf:refine-rule idref="xccdf_mil.disa.stig_rule_SV-270819r1068390_rule" selector="manual" severity="low" weight="10.0"></cdf:refine-rule>
+            <cdf:refine-rule idref="xccdf_mil.disa.stig_rule_SV-270646r1068358_rule" selector="automated" severity="low" weight="10.0"></cdf:refine-rule>
+            <cdf:refine-rule idref="xccdf_mil.disa.stig_rule_SV-270732r1066685_rule" selector="automated" severity="medium" weight="10.0"></cdf:refine-rule>
+            <cdf:refine-rule idref="xccdf_mil.disa.stig_rule_SV-270688r1066553_rule" selector="automated" severity="medium" weight="10.0"></cdf:refine-rule>
+            <cdf:refine-rule idref="xccdf_mil.disa.stig_rule_SV-270690r1067126_rule" selector="automated" severity="low" weight="10.0"></cdf:refine-rule>
+            <cdf:refine-rule idref="xccdf_mil.disa.stig_rule_SV-270666r1066487_rule" selector="automated" severity="high" weight="10.0"></cdf:refine-rule>
+            <cdf:refine-rule idref="xccdf_mil.disa.stig_rule_SV-270807r1066910_rule" selector="automated" severity="medium" weight="10.0"></cdf:refine-rule>
+            <cdf:refine-rule idref="xccdf_mil.disa.stig_rule_SV-270797r1066880_rule" selector="automated" severity="medium" weight="10.0"></cdf:refine-rule>
+            <cdf:refine-rule idref="xccdf_mil.disa.stig_rule_SV-270738r1066703_rule" selector="automated" severity="medium" weight="10.0"></cdf:refine-rule>
+            <cdf:refine-rule idref="xccdf_mil.disa.stig_rule_SV-270787r1068378_rule" selector="automated" severity="medium" weight="10.0"></cdf:refine-rule>
+            <cdf:refine-rule idref="xccdf_mil.disa.stig_rule_SV-270698r1101751_rule" selector="automated" severity="medium" weight="10.0"></cdf:refine-rule>
+            <cdf:refine-rule idref="xccdf_mil.disa.stig_rule_SV-270676r1068360_rule" selector="automated" severity="medium" weight="10.0"></cdf:refine-rule>
+            <cdf:refine-rule idref="xccdf_mil.disa.stig_rule_SV-270776r1066817_rule" selector="automated" severity="medium" weight="10.0"></cdf:refine-rule>
+            <cdf:refine-rule idref="xccdf_mil.disa.stig_rule_SV-270672r1067161_rule" selector="automated" severity="medium" weight="10.0"></cdf:refine-rule>
+            <cdf:refine-rule idref="xccdf_mil.disa.stig_rule_SV-270697r1107308_rule" selector="automated" severity="medium" weight="10.0"></cdf:refine-rule>
+            <cdf:refine-rule idref="xccdf_mil.disa.stig_rule_SV-270767r1066790_rule" selector="automated" severity="medium" weight="10.0"></cdf:refine-rule>
+            <cdf:refine-rule idref="xccdf_mil.disa.stig_rule_SV-274873r1107300_rule" selector="manual" severity="medium" weight="10.0"></cdf:refine-rule>
+            <cdf:refine-rule idref="xccdf_mil.disa.stig_rule_SV-270726r1066667_rule" selector="automated" severity="medium" weight="10.0"></cdf:refine-rule>
+            <cdf:refine-rule idref="xccdf_mil.disa.stig_rule_SV-270779r1066826_rule" selector="automated" severity="medium" weight="10.0"></cdf:refine-rule>
+            <cdf:refine-rule idref="xccdf_mil.disa.stig_rule_SV-270704r1066601_rule" selector="automated" severity="medium" weight="10.0"></cdf:refine-rule>
+            <cdf:refine-rule idref="xccdf_mil.disa.stig_rule_SV-270655r1067145_rule" selector="automated" severity="medium" weight="10.0"></cdf:refine-rule>
+            <cdf:refine-rule idref="xccdf_mil.disa.stig_rule_SV-270814r1066931_rule" selector="automated" severity="medium" weight="10.0"></cdf:refine-rule>
+            <cdf:refine-rule idref="xccdf_mil.disa.stig_rule_SV-270772r1066805_rule" selector="automated" severity="medium" weight="10.0"></cdf:refine-rule>
+            <cdf:refine-rule idref="xccdf_mil.disa.stig_rule_SV-270722r1067130_rule" selector="automated" severity="medium" weight="10.0"></cdf:refine-rule>
+            <cdf:refine-rule idref="xccdf_mil.disa.stig_rule_SV-270803r1066898_rule" selector="automated" severity="medium" weight="10.0"></cdf:refine-rule>
+            <cdf:refine-rule idref="xccdf_mil.disa.stig_rule_SV-270677r1101774_rule" selector="automated" severity="low" weight="10.0"></cdf:refine-rule>
+            <cdf:refine-rule idref="xccdf_mil.disa.stig_rule_SV-270727r1066670_rule" selector="automated" severity="medium" weight="10.0"></cdf:refine-rule>
+            <cdf:refine-rule idref="xccdf_mil.disa.stig_rule_SV-270667r1067107_rule" selector="automated" severity="medium" weight="10.0"></cdf:refine-rule>
+            <cdf:refine-rule idref="xccdf_mil.disa.stig_rule_SV-270661r1067175_rule" selector="automated" severity="medium" weight="10.0"></cdf:refine-rule>
+            <cdf:refine-rule idref="xccdf_mil.disa.stig_rule_SV-270748r1066733_rule" selector="manual" severity="high" weight="10.0"></cdf:refine-rule>
+            <cdf:refine-rule idref="xccdf_mil.disa.stig_rule_SV-270796r1066877_rule" selector="automated" severity="medium" weight="10.0"></cdf:refine-rule>
+            <cdf:refine-rule idref="xccdf_mil.disa.stig_rule_SV-270653r1067141_rule" selector="automated" severity="medium" weight="10.0"></cdf:refine-rule>
+            <cdf:refine-rule idref="xccdf_mil.disa.stig_rule_SV-270710r1066619_rule" selector="automated" severity="low" weight="10.0"></cdf:refine-rule>
+            <cdf:refine-rule idref="xccdf_mil.disa.stig_rule_SV-270705r1066604_rule" selector="automated" severity="medium" weight="10.0"></cdf:refine-rule>
+            <cdf:refine-rule idref="xccdf_mil.disa.stig_rule_SV-270656r1067148_rule" selector="automated" severity="medium" weight="10.0"></cdf:refine-rule>
+            <cdf:refine-rule idref="xccdf_mil.disa.stig_rule_SV-270739r1067124_rule" selector="automated" severity="medium" weight="10.0"></cdf:refine-rule>
+            <cdf:refine-rule idref="xccdf_mil.disa.stig_rule_SV-270657r1066460_rule" selector="automated" severity="medium" weight="10.0"></cdf:refine-rule>
+            <cdf:refine-rule idref="xccdf_mil.disa.stig_rule_SV-270798r1068382_rule" selector="automated" severity="medium" weight="10.0"></cdf:refine-rule>
+            <cdf:refine-rule idref="xccdf_mil.disa.stig_rule_SV-270802r1066895_rule" selector="automated" severity="medium" weight="10.0"></cdf:refine-rule>
+            <cdf:refine-rule idref="xccdf_mil.disa.stig_rule_SV-270745r1066724_rule" selector="manual" severity="medium" weight="10.0"></cdf:refine-rule>
+            <cdf:refine-rule idref="xccdf_mil.disa.stig_rule_SV-270795r1066874_rule" selector="automated" severity="medium" weight="10.0"></cdf:refine-rule>
+            <cdf:refine-rule idref="xccdf_mil.disa.stig_rule_SV-270775r1068369_rule" selector="automated" severity="medium" weight="10.0"></cdf:refine-rule>
+            <cdf:refine-rule idref="xccdf_mil.disa.stig_rule_SV-270830r1068397_rule" selector="automated" severity="medium" weight="10.0"></cdf:refine-rule>
+            <cdf:refine-rule idref="xccdf_mil.disa.stig_rule_SV-270731r1066682_rule" selector="automated" severity="medium" weight="10.0"></cdf:refine-rule>
+            <cdf:refine-rule idref="xccdf_mil.disa.stig_rule_SV-270702r1066595_rule" selector="automated" severity="medium" weight="10.0"></cdf:refine-rule>
+            <cdf:refine-rule idref="xccdf_mil.disa.stig_rule_SV-270813r1066928_rule" selector="automated" severity="medium" weight="10.0"></cdf:refine-rule>
+            <cdf:refine-rule idref="xccdf_mil.disa.stig_rule_SV-270707r1101786_rule" selector="automated" severity="medium" weight="10.0"></cdf:refine-rule>
+            <cdf:refine-rule idref="xccdf_mil.disa.stig_rule_SV-270759r1068367_rule" selector="automated" severity="medium" weight="10.0"></cdf:refine-rule>
+            <cdf:refine-rule idref="xccdf_mil.disa.stig_rule_SV-270782r1066835_rule" selector="automated" severity="medium" weight="10.0"></cdf:refine-rule>
+            <cdf:refine-rule idref="xccdf_mil.disa.stig_rule_SV-270746r1101769_rule" selector="automated" severity="medium" weight="10.0"></cdf:refine-rule>
+            <cdf:refine-rule idref="xccdf_mil.disa.stig_rule_SV-270673r1067164_rule" selector="automated" severity="medium" weight="10.0"></cdf:refine-rule>
+            <cdf:refine-rule idref="xccdf_mil.disa.stig_rule_SV-274869r1107312_rule" selector="automated" severity="medium" weight="10.0"></cdf:refine-rule>
+            <cdf:refine-rule idref="xccdf_mil.disa.stig_rule_SV-270786r1068375_rule" selector="automated" severity="medium" weight="10.0"></cdf:refine-rule>
+            <cdf:refine-rule idref="xccdf_mil.disa.stig_rule_SV-270815r1066934_rule" selector="automated" severity="medium" weight="10.0"></cdf:refine-rule>
+            <cdf:refine-rule idref="xccdf_mil.disa.stig_rule_SV-270695r1066574_rule" selector="automated" severity="low" weight="10.0"></cdf:refine-rule>
+            <cdf:refine-rule idref="xccdf_mil.disa.stig_rule_SV-270649r1067136_rule" selector="automated" severity="medium" weight="10.0"></cdf:refine-rule>
+            <cdf:refine-rule idref="xccdf_mil.disa.stig_rule_SV-270811r1066922_rule" selector="automated" severity="medium" weight="10.0"></cdf:refine-rule>
+            <cdf:refine-rule idref="xccdf_mil.disa.stig_rule_SV-270765r1066784_rule" selector="automated" severity="medium" weight="10.0"></cdf:refine-rule>
+            <cdf:refine-rule idref="xccdf_mil.disa.stig_rule_SV-270769r1066796_rule" selector="automated" severity="medium" weight="10.0"></cdf:refine-rule>
+            <cdf:refine-rule idref="xccdf_mil.disa.stig_rule_SV-270717r1067177_rule" selector="automated" severity="high" weight="10.0"></cdf:refine-rule>
+            <cdf:refine-rule idref="xccdf_mil.disa.stig_rule_SV-270686r1066547_rule" selector="automated" severity="medium" weight="10.0"></cdf:refine-rule>
+            <cdf:refine-rule idref="xccdf_mil.disa.stig_rule_SV-270762r1066775_rule" selector="automated" severity="medium" weight="10.0"></cdf:refine-rule>
+            <cdf:refine-rule idref="xccdf_mil.disa.stig_rule_SV-270777r1066820_rule" selector="automated" severity="medium" weight="10.0"></cdf:refine-rule>
+            <cdf:refine-rule idref="xccdf_mil.disa.stig_rule_SV-270719r1067172_rule" selector="manual" severity="medium" weight="10.0"></cdf:refine-rule>
+            <cdf:refine-rule idref="xccdf_mil.disa.stig_rule_SV-270783r1066838_rule" selector="automated" severity="medium" weight="10.0"></cdf:refine-rule>
+            <cdf:refine-rule idref="xccdf_mil.disa.stig_rule_SV-270755r1066754_rule" selector="automated" severity="medium" weight="10.0"></cdf:refine-rule>
+            <cdf:refine-rule idref="xccdf_mil.disa.stig_rule_SV-270764r1066781_rule" selector="automated" severity="medium" weight="10.0"></cdf:refine-rule>
+            <cdf:refine-rule idref="xccdf_mil.disa.stig_rule_SV-270716r1066637_rule" selector="automated" severity="medium" weight="10.0"></cdf:refine-rule>
+            <cdf:refine-rule idref="xccdf_mil.disa.stig_rule_SV-270674r1067167_rule" selector="automated" severity="medium" weight="10.0"></cdf:refine-rule>
+            <cdf:refine-rule idref="xccdf_mil.disa.stig_rule_SV-270668r1067110_rule" selector="automated" severity="medium" weight="10.0"></cdf:refine-rule>
+            <cdf:refine-rule idref="xccdf_mil.disa.stig_rule_SV-270733r1066688_rule" selector="automated" severity="medium" weight="10.0"></cdf:refine-rule>
+            <cdf:refine-rule idref="xccdf_mil.disa.stig_rule_SV-270662r1067156_rule" selector="automated" severity="medium" weight="10.0"></cdf:refine-rule>
+            <cdf:refine-rule idref="xccdf_mil.disa.stig_rule_SV-270809r1068388_rule" selector="automated" severity="medium" weight="10.0"></cdf:refine-rule>
+            <cdf:refine-rule idref="xccdf_mil.disa.stig_rule_SV-270808r1067100_rule" selector="automated" severity="medium" weight="10.0"></cdf:refine-rule>
+            <cdf:refine-rule idref="xccdf_mil.disa.stig_rule_SV-270670r1067115_rule" selector="automated" severity="medium" weight="10.0"></cdf:refine-rule>
+            <cdf:refine-rule idref="xccdf_mil.disa.stig_rule_SV-270816r1066937_rule" selector="automated" severity="low" weight="10.0"></cdf:refine-rule>
+            <cdf:refine-rule idref="xccdf_mil.disa.stig_rule_SV-270660r1066469_rule" selector="automated" severity="medium" weight="10.0"></cdf:refine-rule>
+            <cdf:refine-rule idref="xccdf_mil.disa.stig_rule_SV-270818r1066943_rule" selector="manual" severity="low" weight="10.0"></cdf:refine-rule>
+            <cdf:refine-rule idref="xccdf_mil.disa.stig_rule_SV-270708r1066613_rule" selector="automated" severity="high" weight="10.0"></cdf:refine-rule>
+            <cdf:refine-rule idref="xccdf_mil.disa.stig_rule_SV-270671r1067118_rule" selector="automated" severity="medium" weight="10.0"></cdf:refine-rule>
+            <cdf:refine-rule idref="xccdf_mil.disa.stig_rule_SV-270728r1066673_rule" selector="automated" severity="medium" weight="10.0"></cdf:refine-rule>
+            <cdf:refine-rule idref="xccdf_mil.disa.stig_rule_SV-270678r1101791_rule" selector="automated" severity="medium" weight="10.0"></cdf:refine-rule>
+            <cdf:refine-rule idref="xccdf_mil.disa.stig_rule_SV-270751r1066742_rule" selector="manual" severity="low" weight="10.0"></cdf:refine-rule>
+            <cdf:refine-rule idref="xccdf_mil.disa.stig_rule_SV-270757r1066760_rule" selector="automated" severity="medium" weight="10.0"></cdf:refine-rule>
+            <cdf:refine-rule idref="xccdf_mil.disa.stig_rule_SV-270652r1067138_rule" selector="automated" severity="medium" weight="10.0"></cdf:refine-rule>
+            <cdf:refine-rule idref="xccdf_mil.disa.stig_rule_SV-270752r1068365_rule" selector="automated" severity="low" weight="10.0"></cdf:refine-rule>
+            <cdf:refine-rule idref="xccdf_mil.disa.stig_rule_SV-270817r1066940_rule" selector="manual" severity="low" weight="10.0"></cdf:refine-rule>
+            <cdf:refine-rule idref="xccdf_mil.disa.stig_rule_SV-270740r1066709_rule" selector="automated" severity="medium" weight="10.0"></cdf:refine-rule>
+            <cdf:refine-rule idref="xccdf_mil.disa.stig_rule_SV-270648r1066433_rule" selector="automated" severity="high" weight="10.0"></cdf:refine-rule>
+            <cdf:refine-rule idref="xccdf_mil.disa.stig_rule_SV-270687r1066550_rule" selector="automated" severity="medium" weight="10.0"></cdf:refine-rule>
+            <cdf:refine-rule idref="xccdf_mil.disa.stig_rule_SV-270760r1066769_rule" selector="automated" severity="medium" weight="10.0"></cdf:refine-rule>
+            <cdf:refine-rule idref="xccdf_mil.disa.stig_rule_SV-270790r1068380_rule" selector="automated" severity="medium" weight="10.0"></cdf:refine-rule>
+            <cdf:refine-rule idref="xccdf_mil.disa.stig_rule_SV-270663r1066478_rule" selector="automated" severity="medium" weight="10.0"></cdf:refine-rule>
+            <cdf:refine-rule idref="xccdf_mil.disa.stig_rule_SV-270770r1066799_rule" selector="automated" severity="medium" weight="10.0"></cdf:refine-rule>
+            <cdf:refine-rule idref="xccdf_mil.disa.stig_rule_SV-270724r1066661_rule" selector="automated" severity="medium" weight="10.0"></cdf:refine-rule>
+            <cdf:refine-rule idref="xccdf_mil.disa.stig_rule_SV-270825r1066964_rule" selector="automated" severity="medium" weight="10.0"></cdf:refine-rule>
+            <cdf:refine-rule idref="xccdf_mil.disa.stig_rule_SV-270763r1066778_rule" selector="automated" severity="medium" weight="10.0"></cdf:refine-rule>
+            <cdf:refine-rule idref="xccdf_mil.disa.stig_rule_SV-270694r1066571_rule" selector="automated" severity="medium" weight="10.0"></cdf:refine-rule>
+            <cdf:refine-rule idref="xccdf_mil.disa.stig_rule_SV-270645r1068357_rule" selector="automated" severity="low" weight="10.0"></cdf:refine-rule>
+            <cdf:refine-rule idref="xccdf_mil.disa.stig_rule_SV-270829r1066976_rule" selector="automated" severity="medium" weight="10.0"></cdf:refine-rule>
+            <cdf:refine-rule idref="xccdf_mil.disa.stig_rule_SV-270744r1117272_rule" selector="automated" severity="high" weight="10.0"></cdf:refine-rule>
+            <cdf:refine-rule idref="xccdf_mil.disa.stig_rule_SV-270754r1066751_rule" selector="automated" severity="medium" weight="10.0"></cdf:refine-rule>
+            <cdf:refine-rule idref="xccdf_mil.disa.stig_rule_SV-270799r1066886_rule" selector="automated" severity="medium" weight="10.0"></cdf:refine-rule>
+            <cdf:refine-rule idref="xccdf_mil.disa.stig_rule_SV-270712r1068363_rule" selector="automated" severity="high" weight="10.0"></cdf:refine-rule>
+            <cdf:refine-rule idref="xccdf_mil.disa.stig_rule_SV-270785r1068373_rule" selector="automated" severity="medium" weight="10.0"></cdf:refine-rule>
+            <cdf:refine-rule idref="xccdf_mil.disa.stig_rule_SV-270711r1101772_rule" selector="manual" severity="high" weight="10.0"></cdf:refine-rule>
+            <cdf:refine-rule idref="xccdf_mil.disa.stig_rule_SV-274870r1107304_rule" selector="automated" severity="medium" weight="10.0"></cdf:refine-rule>
+            <cdf:refine-rule idref="xccdf_mil.disa.stig_rule_SV-270701r1066592_rule" selector="automated" severity="medium" weight="10.0"></cdf:refine-rule>
+            <cdf:refine-rule idref="xccdf_mil.disa.stig_rule_SV-270778r1066823_rule" selector="automated" severity="medium" weight="10.0"></cdf:refine-rule>
+            <cdf:refine-rule idref="xccdf_mil.disa.stig_rule_SV-270665r1067133_rule" selector="automated" severity="high" weight="10.0"></cdf:refine-rule>
+            <cdf:refine-rule idref="xccdf_mil.disa.stig_rule_SV-270810r1066919_rule" selector="automated" severity="medium" weight="10.0"></cdf:refine-rule>
+            <cdf:refine-rule idref="xccdf_mil.disa.stig_rule_SV-270766r1066787_rule" selector="automated" severity="medium" weight="10.0"></cdf:refine-rule>
+            <cdf:refine-rule idref="xccdf_mil.disa.stig_rule_SV-270758r1066763_rule" selector="automated" severity="medium" weight="10.0"></cdf:refine-rule>
+            <cdf:refine-rule idref="xccdf_mil.disa.stig_rule_SV-270736r1066697_rule" selector="automated" severity="high" weight="10.0"></cdf:refine-rule>
+            <cdf:refine-rule idref="xccdf_mil.disa.stig_rule_SV-274868r1107313_rule" selector="automated" severity="medium" weight="10.0"></cdf:refine-rule>
+            <cdf:refine-rule idref="xccdf_mil.disa.stig_rule_SV-270794r1066871_rule" selector="automated" severity="medium" weight="10.0"></cdf:refine-rule>
+            <cdf:refine-rule idref="xccdf_mil.disa.stig_rule_SV-270693r1066568_rule" selector="automated" severity="medium" weight="10.0"></cdf:refine-rule>
+            <cdf:refine-rule idref="xccdf_mil.disa.stig_rule_SV-270715r1066634_rule" selector="automated" severity="medium" weight="10.0"></cdf:refine-rule>
+            <cdf:refine-rule idref="xccdf_mil.disa.stig_rule_SV-270780r1066829_rule" selector="automated" severity="medium" weight="10.0"></cdf:refine-rule>
+            <cdf:refine-rule idref="xccdf_mil.disa.stig_rule_SV-270703r1066598_rule" selector="automated" severity="medium" weight="10.0"></cdf:refine-rule>
+            <cdf:refine-rule idref="xccdf_mil.disa.stig_rule_SV-274871r1107302_rule" selector="manual" severity="medium" weight="10.0"></cdf:refine-rule>
+            <cdf:refine-rule idref="xccdf_mil.disa.stig_rule_SV-270725r1101789_rule" selector="automated" severity="medium" weight="10.0"></cdf:refine-rule>
+            <cdf:refine-rule idref="xccdf_mil.disa.stig_rule_SV-270761r1067180_rule" selector="automated" severity="medium" weight="10.0"></cdf:refine-rule>
+            <cdf:refine-rule idref="xccdf_mil.disa.stig_rule_SV-270713r1066628_rule" selector="automated" severity="high" weight="10.0"></cdf:refine-rule>
+            <cdf:refine-rule idref="xccdf_mil.disa.stig_rule_SV-270805r1068384_rule" selector="automated" severity="medium" weight="10.0"></cdf:refine-rule>
+            <cdf:refine-rule idref="xccdf_mil.disa.stig_rule_SV-270800r1066889_rule" selector="automated" severity="medium" weight="10.0"></cdf:refine-rule>
+            <cdf:refine-rule idref="xccdf_mil.disa.stig_rule_SV-270651r1068395_rule" selector="manual" severity="medium" weight="10.0"></cdf:refine-rule>
+            <cdf:refine-rule idref="xccdf_mil.disa.stig_rule_SV-270675r1117265_rule" selector="automated" severity="high" weight="10.0"></cdf:refine-rule>
+            <cdf:refine-rule idref="xccdf_mil.disa.stig_rule_SV-270781r1066832_rule" selector="automated" severity="medium" weight="10.0"></cdf:refine-rule>
+            <cdf:refine-rule idref="xccdf_mil.disa.stig_rule_SV-270683r1066538_rule" selector="automated" severity="medium" weight="10.0"></cdf:refine-rule>
+            <cdf:refine-rule idref="xccdf_mil.disa.stig_rule_SV-270735r1066694_rule" selector="manual" severity="medium" weight="10.0"></cdf:refine-rule>
+            <cdf:refine-rule idref="xccdf_mil.disa.stig_rule_SV-270737r1067178_rule" selector="automated" severity="medium" weight="10.0"></cdf:refine-rule>
+            <cdf:refine-rule idref="xccdf_mil.disa.stig_rule_SV-270684r1066541_rule" selector="automated" severity="medium" weight="10.0"></cdf:refine-rule>
+            <cdf:refine-rule idref="xccdf_mil.disa.stig_rule_SV-270741r1066712_rule" selector="automated" severity="medium" weight="10.0"></cdf:refine-rule>
+            <cdf:refine-rule idref="xccdf_mil.disa.stig_rule_SV-270789r1066856_rule" selector="automated" severity="medium" weight="10.0"></cdf:refine-rule>
+            <cdf:refine-rule idref="xccdf_mil.disa.stig_rule_SV-270689r1066556_rule" selector="automated" severity="medium" weight="10.0"></cdf:refine-rule>
+            <cdf:refine-rule idref="xccdf_mil.disa.stig_rule_SV-270804r1066901_rule" selector="automated" severity="medium" weight="10.0"></cdf:refine-rule>
+            <cdf:refine-rule idref="xccdf_mil.disa.stig_rule_SV-270827r1066970_rule" selector="automated" severity="medium" weight="10.0"></cdf:refine-rule>
+            <cdf:refine-rule idref="xccdf_mil.disa.stig_rule_SV-270747r1066730_rule" selector="manual" severity="medium" weight="10.0"></cdf:refine-rule>
+            <cdf:refine-rule idref="xccdf_mil.disa.stig_rule_SV-270654r1067143_rule" selector="automated" severity="medium" weight="10.0"></cdf:refine-rule>
+            <cdf:refine-rule idref="xccdf_mil.disa.stig_rule_SV-270685r1066544_rule" selector="automated" severity="medium" weight="10.0"></cdf:refine-rule>
+            <cdf:refine-rule idref="xccdf_mil.disa.stig_rule_SV-270788r1066853_rule" selector="automated" severity="medium" weight="10.0"></cdf:refine-rule>
+            <cdf:refine-rule idref="xccdf_mil.disa.stig_rule_SV-270730r1066679_rule" selector="automated" severity="medium" weight="10.0"></cdf:refine-rule>
+            <cdf:refine-rule idref="xccdf_mil.disa.stig_rule_SV-270720r1066649_rule" selector="automated" severity="medium" weight="10.0"></cdf:refine-rule>
+            <cdf:refine-rule idref="xccdf_mil.disa.stig_rule_SV-270734r1066691_rule" selector="automated" severity="low" weight="10.0"></cdf:refine-rule>
+            <cdf:refine-rule idref="xccdf_mil.disa.stig_rule_SV-270709r1066616_rule" selector="automated" severity="medium" weight="10.0"></cdf:refine-rule>
+            <cdf:refine-rule idref="xccdf_mil.disa.stig_rule_SV-270664r1068359_rule" selector="automated" severity="low" weight="10.0"></cdf:refine-rule>
+            <cdf:refine-rule idref="xccdf_mil.disa.stig_rule_SV-270696r1107306_rule" selector="automated" severity="medium" weight="10.0"></cdf:refine-rule>
+            <cdf:refine-rule idref="xccdf_mil.disa.stig_rule_SV-270729r1066676_rule" selector="automated" severity="medium" weight="10.0"></cdf:refine-rule>
+            <cdf:refine-rule idref="xccdf_mil.disa.stig_rule_SV-270706r1068361_rule" selector="automated" severity="low" weight="10.0"></cdf:refine-rule>
+            <cdf:refine-rule idref="xccdf_mil.disa.stig_rule_SV-270753r1066748_rule" selector="automated" severity="medium" weight="10.0"></cdf:refine-rule>
+      </cdf:Profile>
+</cdf:Tailoring>
