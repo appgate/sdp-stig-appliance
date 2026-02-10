@@ -120,7 +120,7 @@
             <cdf:select idref="xccdf_mil.disa.stig_rule_SV-270781r1066832_rule" selected="true"></cdf:select>
             <cdf:select idref="xccdf_mil.disa.stig_rule_SV-270782r1066835_rule" selected="true"></cdf:select>
             <cdf:select idref="xccdf_mil.disa.stig_rule_SV-270783r1066838_rule" selected="true"></cdf:select>
-            <cdf:select idref="xccdf_mil.disa.stig_rule_SV-270658r1067151_rule" selected="true"></cdf:select>
+            <cdf:select idref="xccdf_mil.disa.stig_rule_SV-270658r1067151_rule" selected="false"></cdf:select>
             <cdf:select idref="xccdf_mil.disa.stig_rule_SV-270784r1068371_rule" selected="true"></cdf:select>
             <cdf:select idref="xccdf_mil.disa.stig_rule_SV-270785r1068373_rule" selected="true"></cdf:select>
             <cdf:select idref="xccdf_mil.disa.stig_rule_SV-270752r1068365_rule" selected="true"></cdf:select>
