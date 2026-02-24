@@ -1,42 +1,45 @@
-# sdp-stig-appliance
+# AppGate ZTNA STIG Customization
 
-## Description:
-Written to apply STIG related configuration changes for the Appgate appliances using [Appliance Customizations](https://sdphelp.appgate.com/adminguide/appliance-customizations-configure.html). 
+## Overview
+This repository contains an **Appliance Customization** package used to apply STIG-related configuration to AppGate ZTNA appliances.
 
-## Usage:
-- Navigate to the Appgate admin portal
-- Upload the .zip file to as an 'Appliance Customization' 
-- For each appliance you wish to apply changes to:
-  - Edit appliance definition
-  - Select desired customization
-  - Save changes
+Use this customization as part of your STIG compliance workflow for a **seeded appliance**.
 
-## Configuration:
-### Optional Configuration:
-- The expected underlying OS defined by line 2 in “/data/settings.config”
-- The error message defined by line 3 in “/data/settings.config”
-### Changing Package For Your Needs
-- Edit contents of [/src](/src/) as desired. [More details here](https://sdphelp.appgate.com/adminguide/adding-3rd-party-executables.html)
-- Zip files into a folder, be careful that the zip process does not nest an additional folder within. Mac users must also avoid adding __MACOSX & .DS_STORE files. Required structure is
-	<pre><code>
-   folder.zip
-    start
-    status
-    stop
-    data/..etc..
-   </code></pre>
-   NOT
-   <pre><code>
-   folder.zip
-     folder
-       start
-       status
-       stop
-       data/.etc..
-    </code></pre>
+## STIG Compliance Workflow (Seeded Appliance)
+To make an AppGate ZTNA appliance STIG compliant, complete the following steps:
 
-### Tailoring
-In order to change which findings are checked in the scan a tailoring file may be used. In this you can mark findings as "not selected" to ignore them.
+1. Run `man cz-stig` on the appliance and apply the commands displayed.
+2. Upload the STIG customization from this repository and enable it on the appliance(s).
 
-The file used for scanning is included in this repo and can be applied with the command `cscc --installTailoringProfile <path>` just before scanning. 
+## Installing the Customization
+1. Sign in to the AppGate Admin UI.
+2. Upload the `.zip` package as an **Appliance Customization**.
+3. For each appliance where STIG settings must be applied:
+   - Edit the appliance configuration.
+   - Select this customization under Miscellaneous > Appliance Customization.
+   - Save and deploy changes.
 
+## Repository Customization Notes
+### Optional Configuration
+The customization can be adjusted with `/data/settings.config`:
+- Line 2: Expected underlying OS value
+- Line 3: Error message text
+
+### Packaging Changes
+If you modify the package contents under `src/`, ensure the zip structure is correct.
+
+Required layout:
+
+```text
+folder.zip
+  start
+  status
+  stop
+  data/...
+```
+
+## Tailoring Profile
+A SCAP tailoring profile is included to control which findings are selected during scanning.
+You can mark findings as "not selected" in the tailoring file to exclude them from checks.
+
+[`CAN_Ubuntu_24-04_STIG001.003.005MAC-2_Public_tailored_tailoring.xml`](./CAN_Ubuntu_24-04_STIG001.003.005MAC-2_Public_tailored_tailoring.xml) is used by internal scans to achieve the advertised score. Please contact an AppGate ZTNA representative to obtain a copy of the attestation that explains the justifications for exclusions specified in this tailoring file.
