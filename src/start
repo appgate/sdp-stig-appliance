@@ -254,9 +254,9 @@ aide_str="# Audit Tools
 /sbin/augenrules p+i+n+u+g+s+b+acl+xattrs+sha512
 /sbin/audispd p+i+n+u+g+s+b+acl+xattrs+sha512"
 
-if ! grep -Fxq "# Audit tools" /etc/aide.conf
+if ! grep -Fxq "# Audit tools" /etc/aide/aide.conf
 then
-  echo "$aide_str" >> /etc/aide.conf
+  echo "$aide_str" >> /etc/aide/aide.conf
   augenrules --load
 fi
 
