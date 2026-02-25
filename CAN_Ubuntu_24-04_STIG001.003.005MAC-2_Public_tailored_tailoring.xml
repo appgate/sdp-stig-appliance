@@ -57,7 +57,7 @@
             <cdf:select idref="xccdf_mil.disa.stig_rule_SV-270783r1066838_rule" selected="true"></cdf:select>
             <cdf:select idref="xccdf_mil.disa.stig_rule_SV-270784r1068371_rule" selected="true"></cdf:select>
             <cdf:select idref="xccdf_mil.disa.stig_rule_SV-270785r1068373_rule" selected="true"></cdf:select>
-            <cdf:select idref="xccdf_mil.disa.stig_rule_SV-270658r1067151_rule" selected="true"></cdf:select>
+            <cdf:select idref="xccdf_mil.disa.stig_rule_SV-270658r1067151_rule" selected="false"></cdf:select>
             <cdf:select idref="xccdf_mil.disa.stig_rule_SV-270786r1068375_rule" selected="true"></cdf:select>
             <cdf:select idref="xccdf_mil.disa.stig_rule_SV-270787r1068378_rule" selected="true"></cdf:select>
             <cdf:select idref="xccdf_mil.disa.stig_rule_SV-270788r1066853_rule" selected="true"></cdf:select>
