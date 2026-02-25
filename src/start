@@ -301,3 +301,14 @@ echo "DISTRIB_ID=Ubuntu
 DISTRIB_RELEASE=24.04
 DISTRIB_CODENAME=noble
 DISTRIB_DESCRIPTION=\"Ubuntu 24.04 LTS\"" > /etc/lsb-release
+
+# V-270751
+NTP_SERVERS='{
+  "servers": [
+    { "hostname": "tick.usno.navy.mil", "key": null, "keyNo": null, "keyType": null },
+    { "hostname": "tock.usno.navy.mil", "key": null, "keyNo": null, "keyType": null },
+    { "hostname": "ntp2.usno.navy.mil", "key": null, "keyNo": null, "keyType": null }
+  ]
+}'
+
+cz-config set ntp "$NTP_SERVERS" -j -r
