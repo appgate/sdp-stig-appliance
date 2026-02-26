@@ -304,8 +304,8 @@ DISTRIB_DESCRIPTION=\"Ubuntu 24.04 LTS\"" > /etc/lsb-release
 
 # V-270751
 sudo tee -a /etc/chrony/chrony.conf > /dev/null <<EOF
-server tick.usno.navy.mil
-server tock.usno.navy.mil
-server ntp2.usno.navy.mil
+server tick.usno.navy.mil iburst maxpoll 10
+server tock.usno.navy.mil iburst maxpoll 10
+server ntp2.usno.navy.mil iburst maxpoll 10
 EOF
 systemctl restart chronyd
