@@ -303,12 +303,9 @@ DISTRIB_CODENAME=noble
 DISTRIB_DESCRIPTION=\"Ubuntu 24.04 LTS\"" > /etc/lsb-release
 
 # V-270751
-NTP_SERVERS='{
-  "servers": [
-    { "hostname": "tick.usno.navy.mil", "key": null, "keyNo": null, "keyType": null },
-    { "hostname": "tock.usno.navy.mil", "key": null, "keyNo": null, "keyType": null },
-    { "hostname": "ntp2.usno.navy.mil", "key": null, "keyNo": null, "keyType": null }
-  ]
-}'
-
-cz-config set ntp "$NTP_SERVERS" -j -r
+sudo tee -a /etc/chrony/chrony.conf > /dev/null <<EOF
+server tick.usno.navy.mil iburst maxpoll 10
+server tock.usno.navy.mil iburst maxpoll 10
+server ntp2.usno.navy.mil iburst maxpoll 10
+EOF
+systemctl restart chronyd
