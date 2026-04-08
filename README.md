@@ -9,7 +9,8 @@ Use this customization as part of your STIG compliance workflow for a **seeded a
 To make an AppGate ZTNA appliance STIG compliant, complete the following steps:
 
 1. Run `man cz-stig` on the appliance and apply the commands displayed.
-2. Upload the STIG customization from this repository and enable it on the appliance(s).
+2. Download the customization zip from the release or create the customization zip by running `make stig-customization.zip` in the repository root if you configure the customization (see [Repository Customization Notes](https://github.com/appgate/sdp-stig-appliance?tab=readme-ov-file#repository-customization-notes)).
+3. Upload the STIG customization from this repository and enable it on the appliance(s) by following the steps below.
 
 ## Installing the Customization
 1. Sign in to the AppGate Admin UI.
