@@ -110,38 +110,6 @@ grep -v ^PASS_MIN_DAYS < /etc/login.defs > /etc/login.defs.tmp
 cat /etc/login.defs.tmp > /etc/login.defs
 echo "PASS_MIN_DAYS 1" >> /etc/login.defs
 
-# V-270742
-# Verify that all network connections associated with SSH traffic automatically terminate
-# after a period of inactivity.
-sed -i "s:ClientAliveCountMax 0:ClientAliveCountMax 1:g" /etc/ssh/sshd_config
-
-# V-270668
-# Verify the SSH daemon is configured to only use MACs that employ FIPS 140-3 approved ciphers
-sed -i "s:MACs .*:MACs hmac-sha2-512-etm@openssh.com,hmac-sha2-256-etm@openssh.com,hmac-sha2-512,hmac-sha2-256:g" /etc/ssh/sshd_config
-
-# V-270667
-# Verify the SSH daemon is configured to only implement FIPS-approved algorithms
-sed -i "s:Ciphers .*:Ciphers aes256-gcm@openssh.com,aes128-gcm@openssh.com,aes256-ctr,aes128-ctr:g" /etc/ssh/sshd_config
-
-# V-270669
-# Verify the SSH daemon is configured to use only FIPS 140-3 validated key exchange algorithms.
-grep -q '^KexAlgorithms ' /etc/ssh/sshd_config || echo 'KexAlgorithms ecdh-sha2-nistp521,ecdh-sha2-nistp384,ecdh-sha2-nistp256,diffie-hellman-group-exchange-sha256,diffie-hellman-group16-sha512,diffie-hellman-group14-sha256' >> /etc/ssh/sshd_config
-sed -i "s:KexAlgorithms .*:KexAlgorithms ecdh-sha2-nistp521,ecdh-sha2-nistp384,ecdh-sha2-nistp256,diffie-hellman-group-exchange-sha256,diffie-hellman-group16-sha512,diffie-hellman-group14-sha256:g" /etc/ssh/sshd_config
-
-# V-270709
-# Verify the SSH daemon prevents remote hosts from connecting to the proxy display.
-echo "X11UseLocalhost yes" >>/etc/ssh/sshd_config
-
-# V-270742
-# V-270741
-cp -a /etc/ssh/sshd_config /etc/ssh/sshd_config.new
-grep -vE "ClientAliveCountMax|UsePAM" < /etc/ssh/sshd_config.new > /etc/ssh/sshd_config
-echo 'ClientAliveCountMax 1' >> /etc/ssh/sshd_config
-echo 'UsePAM yes' >> /etc/ssh/sshd_config
-
-# Reload sshd daemon to enforce above changes
-systemctl reload ssh.service
-
 # V-270693
 # Verify the Ubuntu operating system displays the Standard Mandatory DoD Notice and
 # Consent Banner before granting access to the operating system via an SSH logon
@@ -292,12 +260,17 @@ find /var/log -perm /137 ! -name '*[bw]tmp' ! -name '*lastlog' -type f -exec chm
 rm /var/log/README
 
 # V-270670
-accepted_ciphers="    Ciphers aes256-gcm@openssh.com,aes128-gcm@openssh.com,aes256-ctr,aes128-ctr"
-sed -Ei "s/#\s{3,4}Ciphers.*$/${accepted_ciphers}/" /etc/ssh/ssh_config
+accepted_ciphers="Ciphers aes256-gcm@openssh.com,aes128-gcm@openssh.com,aes256-ctr,aes128-ctr"
 
 # V-270671
-accepted_macs="    MACs hmac-sha2-512-etm@openssh.com,hmac-sha2-256-etm@openssh.com,hmac-sha2-512,hmac-sha2-256"
-sed -Ei "s/#\s{3,4}MACs.*$/${accepted_macs}/" /etc/ssh/ssh_config
+accepted_macs="MACs hmac-sha2-512-etm@openssh.com,hmac-sha2-256-etm@openssh.com,hmac-sha2-512,hmac-sha2-256"
+
+# Replace existing ciphers / macs with accepted ones
+cp -a /etc/ssh/ssh_config /etc/ssh/ssh_config.new
+grep -vE "Ciphers|MACs" /etc/ssh/ssh_config.new >/etc/ssh/ssh_config
+echo "${accepted_ciphers}" >> /etc/ssh/ssh_config
+echo "${accepted_macs}" >> /etc/ssh/ssh_config
+rm /etc/ssh/ssh_config.new
 
 # V-270774
 cp /etc/lsb-release /etc/lsb-release.bak
