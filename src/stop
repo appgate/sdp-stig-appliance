@@ -1,7 +1,7 @@
 #!/bin/bash
 
 #load shared vars
-BASE_DIR="$(cd "$(dirname "$0")"; pwd)";
+BASE_DIR="/opt/customization"
 source "${BASE_DIR}/data/settings.config"
 
 os_ver=$(grep "^PRETTY_NAME=\"${expected_os}\"" /etc/os-release)
