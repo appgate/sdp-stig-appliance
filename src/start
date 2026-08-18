@@ -1,4 +1,5 @@
 #!/bin/bash
+export DEBIAN_FRONTEND="noninteractive"
 
 function is_offline() {
     [ -d "${BASE_DIR}/data/debian" ]
@@ -33,7 +34,17 @@ function offline_install() {
         return 1
     fi
 
-    if apt install -o DPkg::Options::="--force-confold" -y "${debs[@]}"; then
+    local deb pkg
+    local to_install=()
+    for deb in "${debs[@]}"; do
+        pkg=$(dpkg-deb -f "$deb" Package)
+        if dpkg-query -W -f='${Status}' "$pkg" 2>/dev/null | grep -q "install ok installed"; then
+            continue
+        fi
+        to_install+=("$deb")
+    done
+
+    if [ ${#to_install[@]} -eq 0 ] || apt-get install -o DPkg::Options::="--force-confold" -y "${to_install[@]}"; then
         touch "$flag"
     else
         return 1
@@ -44,7 +55,7 @@ function apt_install() {
     if is_offline; then
       offline_install
     else
-      apt install -o DPkg::Options::="--force-confold" -y "$1"
+      apt-get install -o DPkg::Options::="--force-confold" -y "$1"
     fi
 }
 
