@@ -24,8 +24,20 @@ function apt_update() {
 function offline_install() {
     local flag=/var/tmp/offline_stig_debs_installed
     [ -e "$flag" ] && return 0
-    apt install -o DPkg::Options::="--force-confold" -y "${BASE_DIR}/data/debian/"*.deb
-    touch "$flag"
+
+    shopt -s nullglob
+    local debs=("${BASE_DIR}/data/debian/"*.deb)
+    shopt -u nullglob
+    if [ ${#debs[@]} -eq 0 ]; then
+        echo "offline_install: No .deb packages found in ${BASE_DIR}/data/debian/" >&2
+        return 1
+    fi
+
+    if apt install -o DPkg::Options::="--force-confold" -y "${debs[@]}"; then
+        touch "$flag"
+    else
+        return 1
+    fi
 }
 
 function apt_install() {
