@@ -12,6 +12,10 @@ DOCKER_RUN = docker run --rm --platform ${DOCKER_PLATFORM} \
 
 CONTAINER_TARGETS = stig-customization stig-customization-offline debs upgrade-debs
 
+stig-customization.zip: clean
+	echo $@
+	cd src; zip ../$@ `find`
+
 .PHONY: docker-shell
 docker-shell:
 	$(DOCKER_RUN) -it -e IN_CONTAINER=1 ${DOCKER_IMAGE}:${DOCKER_TAG} /bin/bash -c \
