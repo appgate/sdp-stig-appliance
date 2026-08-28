@@ -1,9 +1,19 @@
 #!/bin/bash
+export DEBIAN_FRONTEND="noninteractive"
 
-function aptupdate() {
+function is_offline() {
+    [ -d "${BASE_DIR}/data/debian" ]
+}
+
+function apt_update() {
+    # If running offline, skip apt update.
+    if is_offline; then
+      return
+    fi
+
     # When called it runs apt update, but at most once every hour
     # otherwise it is skipped.
-    SENTINEL=/var/tmp/aptupdate
+    SENTINEL=/var/tmp/apt_update
     if [ -e $SENTINEL ] && [ 3600 -gt $(expr $(date +%s) - $(stat -c %Y $SENTINEL)) ]; then
         return
     fi
@@ -12,10 +22,44 @@ function aptupdate() {
     touch $SENTINEL
 }
 
-BASE_DIR="$(
-    cd "$(dirname "$0")"
-    pwd
-)"
+function offline_install() {
+    local flag=/var/tmp/offline_stig_debs_installed
+    [ -e "$flag" ] && return 0
+
+    shopt -s nullglob
+    local debs=("${BASE_DIR}/data/debian/"*.deb)
+    shopt -u nullglob
+    if [ ${#debs[@]} -eq 0 ]; then
+        echo "offline_install: No .deb packages found in ${BASE_DIR}/data/debian/" >&2
+        return 1
+    fi
+
+    local deb pkg
+    local to_install=()
+    for deb in "${debs[@]}"; do
+        pkg=$(dpkg-deb -f "$deb" Package)
+        if dpkg-query -W -f='${Status}' "$pkg" 2>/dev/null | grep -q "install ok installed"; then
+            continue
+        fi
+        to_install+=("$deb")
+    done
+
+    if [ ${#to_install[@]} -eq 0 ] || apt-get install -o DPkg::Options::="--force-confold" -y "${to_install[@]}"; then
+        touch "$flag"
+    else
+        return 1
+    fi
+}
+
+function apt_install() {
+    if is_offline; then
+      offline_install
+    else
+      apt-get install -o DPkg::Options::="--force-confold" -y "$1"
+    fi
+}
+
+BASE_DIR="/opt/customization"
 source "${BASE_DIR}/data/settings.config"
 
 os_ver=$(grep "^PRETTY_NAME=\"${expected_os}\"" /etc/os-release)
@@ -55,10 +99,10 @@ if dpkg -l | grep \ auditd\  >/dev/null; then
     # If auditd is installed it is disabled by default
     touch /etc/cz_stig
 else
-    aptupdate
+    apt_update
     # V-270657
     # Install auditd
-    apt install -o DPkg::Options::="--force-confold" -y auditd
+    apt_install auditd
 fi
 
 # V-270829
@@ -110,38 +154,6 @@ grep -v ^PASS_MIN_DAYS < /etc/login.defs > /etc/login.defs.tmp
 cat /etc/login.defs.tmp > /etc/login.defs
 echo "PASS_MIN_DAYS 1" >> /etc/login.defs
 
-# V-270742
-# Verify that all network connections associated with SSH traffic automatically terminate
-# after a period of inactivity.
-sed -i "s:ClientAliveCountMax 0:ClientAliveCountMax 1:g" /etc/ssh/sshd_config
-
-# V-270668
-# Verify the SSH daemon is configured to only use MACs that employ FIPS 140-3 approved ciphers
-sed -i "s:MACs .*:MACs hmac-sha2-512-etm@openssh.com,hmac-sha2-256-etm@openssh.com,hmac-sha2-512,hmac-sha2-256:g" /etc/ssh/sshd_config
-
-# V-270667
-# Verify the SSH daemon is configured to only implement FIPS-approved algorithms
-sed -i "s:Ciphers .*:Ciphers aes256-gcm@openssh.com,aes128-gcm@openssh.com,aes256-ctr,aes128-ctr:g" /etc/ssh/sshd_config
-
-# V-270669
-# Verify the SSH daemon is configured to use only FIPS 140-3 validated key exchange algorithms.
-grep -q '^KexAlgorithms ' /etc/ssh/sshd_config || echo 'KexAlgorithms ecdh-sha2-nistp521,ecdh-sha2-nistp384,ecdh-sha2-nistp256,diffie-hellman-group-exchange-sha256,diffie-hellman-group16-sha512,diffie-hellman-group14-sha256' >> /etc/ssh/sshd_config
-sed -i "s:KexAlgorithms .*:KexAlgorithms ecdh-sha2-nistp521,ecdh-sha2-nistp384,ecdh-sha2-nistp256,diffie-hellman-group-exchange-sha256,diffie-hellman-group16-sha512,diffie-hellman-group14-sha256:g" /etc/ssh/sshd_config
-
-# V-270709
-# Verify the SSH daemon prevents remote hosts from connecting to the proxy display.
-echo "X11UseLocalhost yes" >>/etc/ssh/sshd_config
-
-# V-270742
-# V-270741
-cp -a /etc/ssh/sshd_config /etc/ssh/sshd_config.new
-grep -vE "ClientAliveCountMax|UsePAM" < /etc/ssh/sshd_config.new > /etc/ssh/sshd_config
-echo 'ClientAliveCountMax 1' >> /etc/ssh/sshd_config
-echo 'UsePAM yes' >> /etc/ssh/sshd_config
-
-# Reload sshd daemon to enforce above changes
-systemctl reload ssh.service
-
 # V-270693
 # Verify the Ubuntu operating system displays the Standard Mandatory DoD Notice and
 # Consent Banner before granting access to the operating system via an SSH logon
@@ -186,15 +198,15 @@ rm /etc/pam.d/common-password.new
 # V-270705
 # Install libpam-pwquality
 if ! dpkg -l | grep libpam-pwquality >/dev/null; then
-    aptupdate
-    apt install -o DPkg::Options::="--force-confold" -y libpam-pwquality
+    apt_update
+    apt_install libpam-pwquality
 fi
 
 # V-270674
 # Install vlock
 if ! dpkg -l | grep vlock >/dev/null; then
-    aptupdate
-    apt install -o DPkg::Options::="--force-confold" -y vlock
+    apt_update
+    apt_install vlock
     # V-270697 except this file+symlink
     rm -f /usr/lib/vlock/modules/nosysrq.so
     rm -f /lib/vlock/modules/nosysrq.so
@@ -242,7 +254,7 @@ echo blacklist usb-storage >> /etc/modprobe.d/stig.conf
 passwd -l root
 
 # V-270649
-apt install -y aide
+apt_install aide
 
 # V-270831
 aide_str="# Audit Tools
@@ -292,12 +304,17 @@ find /var/log -perm /137 ! -name '*[bw]tmp' ! -name '*lastlog' -type f -exec chm
 rm /var/log/README
 
 # V-270670
-accepted_ciphers="    Ciphers aes256-gcm@openssh.com,aes128-gcm@openssh.com,aes256-ctr,aes128-ctr"
-sed -Ei "s/#\s{3,4}Ciphers.*$/${accepted_ciphers}/" /etc/ssh/ssh_config
+accepted_ciphers="Ciphers aes256-gcm@openssh.com,aes128-gcm@openssh.com,aes256-ctr,aes128-ctr"
 
 # V-270671
-accepted_macs="    MACs hmac-sha2-512-etm@openssh.com,hmac-sha2-256-etm@openssh.com,hmac-sha2-512,hmac-sha2-256"
-sed -Ei "s/#\s{3,4}MACs.*$/${accepted_macs}/" /etc/ssh/ssh_config
+accepted_macs="MACs hmac-sha2-512-etm@openssh.com,hmac-sha2-256-etm@openssh.com,hmac-sha2-512,hmac-sha2-256"
+
+# Replace existing ciphers / macs with accepted ones
+cp -a /etc/ssh/ssh_config /etc/ssh/ssh_config.new
+grep -vE "Ciphers|MACs" /etc/ssh/ssh_config.new >/etc/ssh/ssh_config
+echo "${accepted_ciphers}" >> /etc/ssh/ssh_config
+echo "${accepted_macs}" >> /etc/ssh/ssh_config
+rm /etc/ssh/ssh_config.new
 
 # V-270774
 cp /etc/lsb-release /etc/lsb-release.bak

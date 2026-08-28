@@ -1,4 +1,6 @@
 stig-customization.zip
+stig-customization-offline.zip
 changelog.md
 *.json
 .idea/*
+src/data/debian/
