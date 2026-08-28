@@ -4,3 +4,4 @@ changelog.md
 *.json
 .idea/*
 src/data/debian/
+debian-requirements.txt
