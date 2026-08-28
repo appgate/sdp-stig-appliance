@@ -35,15 +35,15 @@ stig-customization: clean-debs
 	cd src; zip ../$@ `find`
 
 .PHONY: debs
-debs: clean-debs
+debs: clean-debs generate-debs
 	mkdir -p src/data/debian
 	cd src/data/debian && apt-get download $$(cat $(CURDIR)/$(DEB_REQUIREMENTS))
 
 stig-customization-offline: debs
 	cd src; zip ../$@ `find`
 
-.PHONY: upgrade-debs
-upgrade-debs:
+.PHONY: generate-debs
+generate-debs:
 	pkgs=$$(for pkg in $(DEB_PACKAGES); do \
 		apt-cache depends --recurse \
 			--no-recommends \

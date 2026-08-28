@@ -12,6 +12,7 @@ To make an AppGate ZTNA appliance STIG compliant, complete the following steps:
 2. Download the customization zip from the release or create the customization zip by running `make stig-customization` in the repository root.
 You can also create the customization zip that can be used for offline environments by running `make stig-customization-offline`.
 This will include all debs required by the customization in the zip file and won't require a network connection when being installed.
+The dependecy tree will be saved in debian-requirements.txt if it needs to be inspected.
 If you configure the customization (see [Repository Customization Notes](https://github.com/appgate/sdp-stig-appliance?tab=readme-ov-file#repository-customization-notes)).
 3. Upload the STIG customization from this repository and enable it on the appliance(s) by following the steps below.
 
