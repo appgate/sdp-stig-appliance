@@ -130,7 +130,14 @@ echo "  # Certificate Common Name ( CN ) to getpwent() mapper
 
 
 # V-270710
-sed -i '1i session required pam_lastlog.so showfailed' /etc/pam.d/login
+# pam_lastlog.so was removed from PAM (>= 1.5.3) on newer bases. Inserting a
+# "required" line for a missing module makes pam_open_session fail, which
+# aborts every console/tty login (getty exits 1/FAILURE, back to login:).
+# Only add the line when the module is present, and don't add it twice.
+if find /usr/lib /lib -name 'pam_lastlog.so' 2>/dev/null | grep -q . \
+   && ! grep -q 'pam_lastlog.so' /etc/pam.d/login; then
+    sed -i '1i session required pam_lastlog.so showfailed' /etc/pam.d/login
+fi
 
 # V-270757
 chmod 750 /run/log/journal
